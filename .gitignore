@@ -4,3 +4,4 @@ composer.lock
 .well-known/
 assets/config.json
 .cache/
+tmp/
