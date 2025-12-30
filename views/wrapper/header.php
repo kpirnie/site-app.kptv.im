@@ -1,0 +1,60 @@
+<?php
+/**
+ * header.php
+ * 
+ * No direct access allowed!
+ * 
+ * @since 8.4
+ * @author Kevin Pirnie <me@kpirnie.com>
+ * @package KP Library
+ * 
+ */
+
+// define the primary app path if not already defined
+defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
+
+use KPT\KPT;
+use KPT\Router;
+
+// get the route we're in
+$current_route = Router::getCurrentRoute( );
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Kevin C. Pirnie" />
+        <title>KPTV Stream Manager - Dashboard</title>
+        <meta name="description" content="KPTV Stream Manager - Manage your IPTV providers and streams">
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/uikit@latest/dist/css/uikit.min.css" />
+        <link rel="dns-prefetch" href="//dev.kptv.im" />
+        <link rel="dns-prefetch" href="//vjs.zencdn.net" />
+        <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+        <link rel="preconnect" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/kptv.min.css" />
+        <link rel="stylesheet" href="/assets/css/custom.css?_=<?php echo time(); ?>" />        
+        <link rel="icon" type="image/png" href="/assets/images/kptv-icon.png" />
+    </head>
+    <body uk-height-viewport="offset-top: true">
+        <?php
+        // main navigation
+        include KPTV_PATH . 'views/wrapper/nav-main.php';
+
+        // mobile nav
+        include KPTV_PATH . 'views/wrapper/nav-mobile.php';
+
+        // if there is a message to be shown
+        if( isset( $_SESSION ) && isset( $_SESSION['page_msg'] ) ) {
+
+            // show the message
+            KPT::show_message( $_SESSION['page_msg']['type'], $_SESSION['page_msg']['msg'] );
+
+            // remove it from the session
+            unset( $_SESSION['page_msg'] );
+
+        }
+        

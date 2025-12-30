@@ -1,0 +1,353 @@
+{
+    "packages": [
+        {
+            "name": "kevinpirnie/kpt-cache",
+            "version": "v1.0.33",
+            "version_normalized": "1.0.33.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kpirnie/kp-cache.git",
+                "reference": "07550887595cdadcdd10fe7c901866000e1127aa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kpirnie/kp-cache/zipball/07550887595cdadcdd10fe7c901866000e1127aa",
+                "reference": "07550887595cdadcdd10fe7c901866000e1127aa",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "kevinpirnie/kpt-logger": "^1.0",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10",
+                "squizlabs/php_codesniffer": "^3.7"
+            },
+            "suggest": {
+                "ext-apcu": "For APCu cache support",
+                "ext-memcached": "For Memcached cache support",
+                "ext-redis": "For Redis cache support",
+                "ext-yac": "For YAC cache support"
+            },
+            "time": "2025-09-12T17:19:47+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "KPT\\": "src/"
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Pirnie",
+                    "email": "me@kpirnie.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Modern Multi-Tier PHP Caching System with automatic tier discovery, connection pooling, and failover support",
+            "homepage": "https://github.com/kpirnie/kp-cache",
+            "keywords": [
+                "Opcache",
+                "apcu",
+                "cache",
+                "caching",
+                "memcached",
+                "multi-tier",
+                "performance",
+                "php",
+                "redis"
+            ],
+            "support": {
+                "issues": "https://github.com/kpirnie/kp-cache/issues",
+                "source": "https://github.com/kpirnie/kp-cache/tree/v1.0.33"
+            },
+            "install-path": "../kevinpirnie/kpt-cache"
+        },
+        {
+            "name": "kevinpirnie/kpt-database",
+            "version": "v1.0.04",
+            "version_normalized": "1.0.04.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kpirnie/kp-database.git",
+                "reference": "00f1dfff932e797efdfc0451d9563a274d50baa9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kpirnie/kp-database/zipball/00f1dfff932e797efdfc0451d9563a274d50baa9",
+                "reference": "00f1dfff932e797efdfc0451d9563a274d50baa9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "kevinpirnie/kpt-logger": "^1.0",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.0 || ^11.0",
+                "squizlabs/php_codesniffer": "^3.7"
+            },
+            "time": "2025-10-27T11:44:53+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "KPT\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Pirnie",
+                    "email": "me@kpirnie.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A modern, fluent PHP database wrapper built on top of PDO, providing an elegant and secure way to interact with MySQL databases",
+            "homepage": "https://github.com/kpirnie/kp-database",
+            "keywords": [
+                "database",
+                "fluent",
+                "mysql",
+                "orm",
+                "pdo",
+                "query-builder",
+                "sql"
+            ],
+            "support": {
+                "issues": "https://github.com/kpirnie/kp-database/issues",
+                "source": "https://github.com/kpirnie/kp-database"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/kpirnie",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../kevinpirnie/kpt-database"
+        },
+        {
+            "name": "kevinpirnie/kpt-datatables",
+            "version": "v1.3.24",
+            "version_normalized": "1.3.24.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kpirnie/kp-datatables.git",
+                "reference": "59cad838f6cdad2f28fed53b438805519c5d6bb7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kpirnie/kp-datatables/zipball/59cad838f6cdad2f28fed53b438805519c5d6bb7",
+                "reference": "59cad838f6cdad2f28fed53b438805519c5d6bb7",
+                "shasum": ""
+            },
+            "require": {
+                "kevinpirnie/kpt-database": "^1.0",
+                "kevinpirnie/kpt-logger": "^1.0",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.0 || ^11.0",
+                "squizlabs/php_codesniffer": "^3.7"
+            },
+            "time": "2025-11-12T12:33:17+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "KPT\\DataTables\\": "src/class/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Pirnie",
+                    "email": "me@kpirnie.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Advanced PHP DataTables library with CRUD operations, search, sorting, pagination, bulk actions, and UIKit3 integration",
+            "homepage": "https://github.com/kpirnie/kp-datatables",
+            "keywords": [
+                "datatables",
+                "fluent",
+                "mysql",
+                "orm",
+                "pdo",
+                "query-builder",
+                "sql"
+            ],
+            "support": {
+                "issues": "https://github.com/kpirnie/kp-datatables/issues",
+                "source": "https://github.com/kpirnie/kp-datatables"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/kpirnie",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../kevinpirnie/kpt-datatables"
+        },
+        {
+            "name": "kevinpirnie/kpt-logger",
+            "version": "v1.0.02",
+            "version_normalized": "1.0.02.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kpirnie/kp-logger.git",
+                "reference": "d3308dd181b0fd80543f62c8dbd7d2d64f2cefcc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kpirnie/kp-logger/zipball/d3308dd181b0fd80543f62c8dbd7d2d64f2cefcc",
+                "reference": "d3308dd181b0fd80543f62c8dbd7d2d64f2cefcc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.0 || ^11.0",
+                "squizlabs/php_codesniffer": "^3.9"
+            },
+            "time": "2025-08-18T11:52:51+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "KPT\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Pirnie",
+                    "email": "me@kpirnie.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple Universal Application Logger for PHP with configurable output destinations and four standard log levels",
+            "homepage": "https://github.com/kpirnie/kpt-logger",
+            "keywords": [
+                "debug",
+                "error",
+                "file-logging",
+                "info",
+                "logger",
+                "logging",
+                "stack-trace",
+                "system-log",
+                "warning"
+            ],
+            "support": {
+                "issues": "https://github.com/kpirnie/kpt-logger/issues",
+                "source": "https://github.com/kpirnie/kpt-logger"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/kpirnie",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../kevinpirnie/kpt-logger"
+        },
+        {
+            "name": "kevinpirnie/kpt-router",
+            "version": "v1.0.06",
+            "version_normalized": "1.0.06.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kpirnie/kp-router.git",
+                "reference": "917e66bb665245fb09737b51d10697e3a93bd59e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kpirnie/kp-router/zipball/917e66bb665245fb09737b51d10697e3a93bd59e",
+                "reference": "917e66bb665245fb09737b51d10697e3a93bd59e",
+                "shasum": ""
+            },
+            "require": {
+                "kevinpirnie/kpt-cache": "^1.0",
+                "kevinpirnie/kpt-logger": "^1.0",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0|^10.0",
+                "squizlabs/php_codesniffer": "^3.6"
+            },
+            "suggest": {
+                "ext-redis": "Required for Redis-based rate limiting and caching",
+                "predis/predis": "Alternative Redis client if ext-redis is not available"
+            },
+            "time": "2025-08-18T17:32:45+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "KPT\\": "src/"
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Pirnie",
+                    "email": "me@kpirnie.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A comprehensive PHP routing library with middleware support, rate limiting, view rendering, and controller resolution capabilities",
+            "homepage": "https://github.com/kpirnie/kpt-router",
+            "keywords": [
+                "api",
+                "caching",
+                "controllers",
+                "framework",
+                "http",
+                "middleware",
+                "mvc",
+                "php",
+                "rate-limiting",
+                "rest",
+                "router",
+                "routing",
+                "views",
+                "web"
+            ],
+            "support": {
+                "docs": "https://github.com/kpirnie/kpt-router/blob/main/README.md",
+                "issues": "https://github.com/kpirnie/kpt-router/issues",
+                "source": "https://github.com/kpirnie/kpt-router"
+            },
+            "install-path": "../kevinpirnie/kpt-router"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
