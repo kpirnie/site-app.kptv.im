@@ -40,21 +40,32 @@ $current_route = Router::getCurrentRoute( );
         <link rel="icon" type="image/png" href="/assets/images/kptv-icon.png" />
     </head>
     <body uk-height-viewport="offset-top: true">
+
         <?php
         // main navigation
         include KPTV_PATH . 'views/wrapper/nav-main.php';
 
         // mobile nav
         include KPTV_PATH . 'views/wrapper/nav-mobile.php';
+        ?>
 
-        // if there is a message to be shown
-        if( isset( $_SESSION ) && isset( $_SESSION['page_msg'] ) ) {
+        <div uk-grid class="uk-grid-collapse uk-flex-1" uk-height-viewport="expand: true">
 
-            // show the message
-            KPT::show_message( $_SESSION['page_msg']['type'], $_SESSION['page_msg']['msg'] );
+            <?php
+            // include the sidebar
+            include KPTV_PATH . 'views/wrapper/sidebar.php';
+            ?>
+            <div class="uk-width-expand">
+                <main class="kptv-main">
+                <?php
+                // if there is a message to be shown
+                if( isset( $_SESSION ) && isset( $_SESSION['page_msg'] ) ) {
 
-            // remove it from the session
-            unset( $_SESSION['page_msg'] );
+                    // show the message
+                    KPTV::show_message( $_SESSION['page_msg']['type'], $_SESSION['page_msg']['msg'] );
 
-        }
-        
+                    // remove it from the session
+                    unset( $_SESSION['page_msg'] );
+
+                }
+                

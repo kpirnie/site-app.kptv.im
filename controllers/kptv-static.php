@@ -147,7 +147,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
             $_SESSION['page_msg']['msg'] = sprintf( '<p>%s</p>', $_msg );
 
             // redirect
-            KPT::try_redirect( $_location );
+            KPTV::try_redirect( $_location );
 
         }
 

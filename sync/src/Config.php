@@ -40,7 +40,7 @@ class Config
         // Use the main app's configuration via KPT class
         use KPT\KPT;
 
-        $dbConfig = KPT::get_setting('database');
+        $dbConfig = KPTV::get_setting('database');
 
         if (!$dbConfig) {
             throw new RuntimeException('Database configuration not found in main app config');

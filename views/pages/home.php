@@ -1,3 +1,26 @@
+<?php
+/**
+ * views/home.php
+ * 
+ * No direct access allowed!
+ * 
+ * @since 8.3
+ * @author Kevin Pirnie <me@kpirnie.com>
+ * @package KP Library
+ * 
+ */
+
+// define the primary app path if not already defined
+defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
+
+use KPT\KPT;
+use KPT\Cache;
+
+// pull in the header
+KPTV::pull_header( );
+
+?>
+
 <!-- Page Header -->
 <div class="uk-margin-bottom">
     <h1 class="kptv-heading kptv-page-title-lg"><span uk-icon="icon: thumbnails; ratio: 1.25"></span> Dashboard</h1>
@@ -485,3 +508,7 @@
     </div>
 </div>
 
+<?php
+
+// pull in the footer
+KPTV::pull_footer( );

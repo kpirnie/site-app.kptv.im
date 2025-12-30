@@ -47,10 +47,10 @@ if( ! class_exists( 'KPTV' ) ) {
 $_db = KPTV::get_setting( 'database' );
 
 // configure the cache
-Cache::configure( [
+\KPT\Cache::configure( [
     'path' => KPTV_PATH . '.cache/',
     'prefix' => KPTV::get_cache_prefix( ),
-    'allowed_backends' => [ 'array', 'redis', 'memcached', 'opcache', 'shmop', 'file' ], // also: apcu, yac, mysql, sqlite
+    'allowed_backends' => [ 'array', 'redis', 'memcached', 'opcache', ], // also: apcu, yac, mysql, sqlite, shmop, file
 ] );
 
 // define the app URI
@@ -83,7 +83,7 @@ if( $_debug ) {
 }
 
 // initialize the logger
-new Logger( KPTV_DEBUG );
+new \KPT\Logger( KPTV_DEBUG );
 
 // hold our constant definitions
 defined( 'DB_SERVER' ) || define( 'DB_SERVER', $_db -> server );
@@ -110,7 +110,7 @@ if ( php_sapi_name( ) !== 'cli' &&
         $routes_path = KPTV_PATH . 'views/routes.php';
 
         // Initialize the router with explicit base path
-        $router = new KPT\Router( '' );
+        $router = new \KPT\Router( '' );
 
         // enable the redis rate limiter
         $router -> enableRateLimiter( );
@@ -128,7 +128,7 @@ if ( php_sapi_name( ) !== 'cli' &&
         } catch ( Throwable $e ) {
             
             // log the error then throw a json response
-            Logger::error( "Router error: " . $e -> getMessage( ) );
+            \KPT\Logger::error( "Router error: " . $e -> getMessage( ) );
             header( 'Content-Type: application/json');
             http_response_code( $e -> getCode( ) >= 400 ? $e -> getCode( ) : 500 );
             echo json_encode( [

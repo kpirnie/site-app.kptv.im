@@ -74,7 +74,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * Initializes parent database class
          */
         public function __construct( ) {
-            parent::__construct( KPT::get_setting( 'database' ) );
+            parent::__construct( KPTV::get_setting( 'database' ) );
         }
 
         /**
@@ -112,7 +112,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
                 $this -> createUserAccount( $input );
                 
                 // if no exceptions occurred, redirect with a message
-                KPT::message_with_redirect(
+                KPTV::message_with_redirect(
                     '/', 
                     'success', 
                     'Your account has been created, but there is one more step. Please check your email for your activation link.'
@@ -138,13 +138,13 @@ if( ! class_exists( 'KPTV_User' ) ) {
             if ( empty( $_GET['v'] ) || empty( $_GET['e'] ) ) {
                 
                 // show a message and go no further
-                KPT::show_message( 'danger', '<p>Please make sure you are clicking the link in the email you received.</p>' );
+                KPTV::show_message( 'danger', '<p>Please make sure you are clicking the link in the email you received.</p>' );
                 return;
             }
             
             // make sure the strings are sanitized
-            $hash = KPT::sanitize_string( $_GET['v'] );
-            $email = KPT::sanitize_string( $_GET['e'] );
+            $hash = KPTV::sanitize_string( $_GET['v'] );
+            $email = KPTV::sanitize_string( $_GET['e'] );
             
             // try to validate the user
             try {
@@ -172,7 +172,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
                     $this -> sendWelcomeEmail( $email );
                     
                     // show a message and redirect
-                    KPT::message_with_redirect(
+                    KPTV::message_with_redirect(
                         '/users/login', 
                         'success', 
                         'Your account is now active, feel free to login.'
@@ -207,10 +207,10 @@ if( ! class_exists( 'KPTV_User' ) ) {
             $password = $_POST['frmPassword'] ?? '';
 
             // make sure the username and password are both valid
-            if ( ! KPT::validate_username( $username ) ) {
+            if ( ! KPTV::validate_username( $username ) ) {
                 $errors[] = 'The username you have typed in is not valid.';
             }
-            if ( ! KPT::validate_password( $password ) ) {
+            if ( ! KPTV::validate_password( $password ) ) {
                 $errors[] = 'The password you typed is not valid.';
             }
             
@@ -229,7 +229,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
                 $this -> authenticateUser( $username, $password );
 
                 // throw a message with the redirect
-                KPT::message_with_redirect(
+                KPTV::message_with_redirect(
                     '/', 
                     'success', 
                     'Thanks for logging in. You are all set to proceed.'
@@ -259,7 +259,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
             $this -> destroyCookie( );
             
             // redirect with a message
-            KPT::message_with_redirect(
+            KPTV::message_with_redirect(
                 '/', 
                 'success', 
                 'Thanks for logging out. To fully secure your account, please close your web browser.'
@@ -282,11 +282,11 @@ if( ! class_exists( 'KPTV_User' ) ) {
             $email = $_POST['frmEmail'] ?? '';
             
             // check if the username and email validate
-            if (!KPT::validate_username($username)) {
+            if (!KPTV::validate_username($username)) {
                 $errors[] = 'The username you typed is not valid.';
             }
             
-            if (!KPT::validate_email($email)) {
+            if (!KPTV::validate_email($email)) {
                 $errors[] = 'The email address you typed is not valid.';
             }
             
@@ -298,7 +298,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
             try {
                 $this->processPasswordReset($username, $email);
                 
-                KPT::message_with_redirect(
+                KPTV::message_with_redirect(
                     '/', 
                     'success', 
                     'Your password has been reset and emailed to you. Please change your password as soon as you can.'
@@ -327,7 +327,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
             $user = self::get_current_user();
 
             if (!$user) {
-                KPT::show_message('danger', '<p>You must be logged in to change your password.</p>');
+                KPTV::show_message('danger', '<p>You must be logged in to change your password.</p>');
                 return;
             }
             
@@ -336,14 +336,14 @@ if( ! class_exists( 'KPTV_User' ) ) {
             $newPass2 = $_POST['frmNewPassword2'] ?? '';
             
             // Validate current password matches stored hash
-            if (!KPT::validate_password($currentPass)) {
+            if (!KPTV::validate_password($currentPass)) {
                 $errors[] = 'The current password you typed is not valid.';
             } elseif (!$this->verifyCurrentPassword($user->id, $currentPass)) {
                 $errors[] = 'Your current password does not match what we have in our system.';
             }
             
             // Validate new password meets requirements and matches confirmation
-            if (!KPT::validate_password($newPass1)) {
+            if (!KPTV::validate_password($newPass1)) {
                 $errors[] = 'The new password you typed is not valid.';
             } elseif ($newPass1 !== $newPass2) {
                 $errors[] = 'Your new passwords do not match each other.';
@@ -358,7 +358,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
                 $this->updatePassword($user->id, $newPass1);
                 $this->sendPasswordChangeNotification($user->email);
                 
-                KPT::message_with_redirect(
+                KPTV::message_with_redirect(
                     '/', 
                     'success', 
                     'Your password has successfully been changed.'
@@ -388,7 +388,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
             try {
                 // Decrypt user ID from cookie
                 $encryptedUserId = base64_decode($_COOKIE[self::COOKIE_NAME]);
-                $userId = KPT::decrypt($encryptedUserId, KPT::get_setting('mainkey'));
+                $userId = KPTV::decrypt($encryptedUserId, KPTV::get_setting('mainkey'));
                 
                 if (!$userId || !is_numeric($userId)) {
                     return false;
@@ -426,7 +426,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
             try {
                 // Decrypt user ID from cookie
                 $encryptedUserId = base64_decode($_COOKIE[self::COOKIE_NAME]);
-                $userId = KPT::decrypt($encryptedUserId, KPT::get_setting('mainkey'));
+                $userId = KPTV::decrypt($encryptedUserId, KPTV::get_setting('mainkey'));
                 
                 if (!$userId || !is_numeric($userId)) {
                     return false;
@@ -471,10 +471,10 @@ if( ! class_exists( 'KPTV_User' ) ) {
          */
         private function sanitizeRegistrationInput(array $input) : array {
             return [
-                'firstName' => KPT::sanitize_string($input['frmFirstName'] ?? ''),
-                'lastName'  => KPT::sanitize_string($input['frmLastName'] ?? ''),
-                'username'  => KPT::sanitize_string($input['frmUsername'] ?? ''),
-                'email'     => KPT::sanitize_string($input['frmMainEmail'] ?? ''),
+                'firstName' => KPTV::sanitize_string($input['frmFirstName'] ?? ''),
+                'lastName'  => KPTV::sanitize_string($input['frmLastName'] ?? ''),
+                'username'  => KPTV::sanitize_string($input['frmUsername'] ?? ''),
+                'email'     => KPTV::sanitize_string($input['frmMainEmail'] ?? ''),
                 'password1' => $input['frmPassword1'] ?? '',
                 'password2' => $input['frmPassword2'] ?? ''
             ];
@@ -492,7 +492,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          */
         private function validateNameFields(array $input, array &$errors) : void {
-            if (!KPT::validate_name($input['firstName']) || !KPT::validate_name($input['lastName'])) {
+            if (!KPTV::validate_name($input['firstName']) || !KPTV::validate_name($input['lastName'])) {
                 $errors[] = 'Are you sure your first and last name is correct?';
             }
         }
@@ -509,7 +509,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          */
         private function validateUsername(array $input, array &$errors) : void {
-            if (!KPT::validate_username($input['username'])) {
+            if (!KPTV::validate_username($input['username'])) {
                 $errors[] = 'The username you have typed in is not valid.';
             } elseif ($this->check_username_exists($input['username'])) {
                 $errors[] = 'The username you have typed in already exists.';
@@ -528,7 +528,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          */
         private function validateEmail(array $input, array &$errors) : void {
-            if (!KPT::validate_email($input['email'])) {
+            if (!KPTV::validate_email($input['email'])) {
                 $errors[] = 'The email address you have typed in is not valid.';
             } elseif ($this->check_email_exists($input['email'])) {
                 $errors[] = 'The email address you have typed in already exists.';
@@ -547,7 +547,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          */
         private function validatePasswords(array $input, array &$errors) : void {
-            if (!KPT::validate_password($input['password1'])) {
+            if (!KPTV::validate_password($input['password1'])) {
                 $errors[] = 'The password you typed is not valid.';
             } elseif ($input['password1'] !== $input['password2']) {
                 $errors[] = 'Your passwords do not match each other.';
@@ -648,7 +648,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
                 $activationLink
             );
             
-            KPT::send_email([$email, $name], 'There\'s One Last Step', $message);
+            KPTV::send_email([$email, $name], 'There\'s One Last Step', $message);
         }
 
         /**
@@ -658,7 +658,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          */
         private function sendWelcomeEmail(string $email) : void {
-            KPT::send_email(
+            KPTV::send_email(
                 [$email, ''], 
                 'Welcome', 
                 '<h1>Welcome</h1><p>Your account is now active. Thanks for joining us.</p>'
@@ -683,7 +683,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
                 htmlspecialchars($newPassword)
             );
             
-            KPT::send_email([$email, ''], 'Password Reset', $message);
+            KPTV::send_email([$email, ''], 'Password Reset', $message);
         }
 
         /**
@@ -693,7 +693,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          */
         private function sendPasswordChangeNotification(string $email) : void {
-            KPT::send_email(
+            KPTV::send_email(
                 [$email, ''], 
                 'Password Changed', 
                 '<p>This message is to notify you that your password has been changed. If you did not initiate this, please go to the site and hit the "Forgot My Password" button.</p>'
@@ -745,7 +745,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
             $this->rehash_password($user->id, $password);
             
             // Encrypt user ID and set cookie
-            $encryptedUserId = base64_encode(KPT::encrypt($user->id, KPT::get_setting('mainkey')));
+            $encryptedUserId = base64_encode(KPTV::encrypt($user->id, KPTV::get_setting('mainkey')));
             
             setcookie(
                 self::COOKIE_NAME,
@@ -797,7 +797,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @throws Exception On reset failure
          */
         private function processPasswordReset(string $username, string $email) : void {
-            $newPassword = KPT::generate_password();
+            $newPassword = KPTV::generate_password();
             
             // Hash password directly - NO ENCRYPTION
             $passwordHash = password_hash($newPassword, self::HASH_ALGO, self::HASH_OPTIONS);
@@ -886,7 +886,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          */
         private function processErrors(array $errors) : void {
-            $referrer = KPT::get_user_referer();
+            $referrer = KPTV::get_user_referer();
             $message = '<ul class="uk-list uk-list-disc">';
 
             foreach ($errors as $error) {
@@ -894,7 +894,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
             }
             $message .= '</ul>';
             
-            KPT::message_with_redirect(
+            KPTV::message_with_redirect(
                 $referrer ?? '/', 
                 'danger', 
                 $message        
@@ -1052,7 +1052,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
          */
         private function update_user(array $data, int $currentUserId) : void {
             // Validate email format
-            if (!KPT::validate_email($data['u_email'])) {
+            if (!KPTV::validate_email($data['u_email'])) {
                 throw new Exception('Invalid email address');
             }
             
@@ -1084,7 +1084,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
             // grab the "global" items we'll need in here
             $action = $_POST['action'] ?? '';
             $userId = ( int )( $_POST['user_id'] ) ?? 0;
-            $currentUser = KPT_User::get_current_user( );
+            $currentUser = KPTV_User::get_current_user( );
 
             // Get pagination parameters from request
             $currentPage = $_GET['page'] ?? 1;
@@ -1095,36 +1095,36 @@ if( ! class_exists( 'KPTV_User' ) ) {
                 case 'toggle_active':
                     // toggle the user active status
                     $this -> toggle_user_active_status( $userId, $currentUser -> id );
-                    KPT::message_with_redirect( '/admin/users?page=' . $currentPage . '&per_page=' . $perPage, 
+                    KPTV::message_with_redirect( '/admin/users?page=' . $currentPage . '&per_page=' . $perPage, 
                         'success', 'User status updated successfully.');
                     break;
                     
                 case 'unlock':
                     // unlock/lock the user account
                     $this -> unlock_user_account( $userId );
-                    KPT::message_with_redirect( '/admin/users?page=' . $currentPage . '&per_page=' . $perPage, 
+                    KPTV::message_with_redirect( '/admin/users?page=' . $currentPage . '&per_page=' . $perPage, 
                         'success', 'User account unlocked successfully.');
                     break;
                     
                 case 'delete':
                     // delete a user
                     $this -> delete_user( $userId, $currentUser -> id );
-                    KPT::message_with_redirect( '/admin/users?page=' . $currentPage . '&per_page=' . $perPage, 
+                    KPTV::message_with_redirect( '/admin/users?page=' . $currentPage . '&per_page=' . $perPage, 
                         'success', 'User deleted successfully.');
                     break;
                     
                 case 'update':
                     // hold the data to update the user
                     $data = [
-                        'u_fname' => KPT::sanitize_string( $_POST['u_fname'] ?? '' ),
-                        'u_lname' => KPT::sanitize_string( $_POST['u_lname'] ?? '' ),
-                        'u_email' => KPT::sanitize_string( $_POST['u_email'] ?? '' ),
+                        'u_fname' => KPTV::sanitize_string( $_POST['u_fname'] ?? '' ),
+                        'u_lname' => KPTV::sanitize_string( $_POST['u_lname'] ?? '' ),
+                        'u_email' => KPTV::sanitize_string( $_POST['u_email'] ?? '' ),
                         'u_role' => ( int ) ( $_POST['u_role'] ?? 0 ),
                         'id' => $userId
                     ];
                     // update the user
                     $this -> update_user( $data, $currentUser -> id );
-                    KPT::message_with_redirect( '/admin/users?page=' . $currentPage . '&per_page=' . $perPage, 
+                    KPTV::message_with_redirect( '/admin/users?page=' . $currentPage . '&per_page=' . $perPage, 
                         'success', 'User updated successfully.');
                     break;
             }

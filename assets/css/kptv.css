@@ -103,6 +103,71 @@ a:focus {
 }
 
 /* ============================================
+   UIKIT OVERRIDES - ALERTS
+   ============================================ */
+.uk-alert {
+    background: var(--kptv-navy);
+    color: var(--kptv-white);
+    border: 1px solid var(--kptv-cyan);
+    border-radius: 4px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.uk-alert-close {
+    color: var(--kptv-white) !important;
+    opacity: 0.7;
+}
+
+.uk-alert-close:hover {
+    opacity: 1;
+}
+
+.uk-alert-primary,
+.uk-alert-info {
+    background: rgba(61, 139, 189, 0.15);
+    border-color: var(--kptv-cyan);
+    color: var(--kptv-cyan-light);
+}
+
+.uk-alert-success {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: var(--kptv-success);
+    color: var(--kptv-success);
+}
+
+.uk-alert-warning {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: var(--kptv-warning);
+    color: var(--kptv-warning);
+}
+
+.uk-alert-danger {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: var(--kptv-danger);
+    color: var(--kptv-danger);
+}
+
+.uk-alert a {
+    color: inherit !important;
+    text-decoration: underline;
+}
+
+.uk-alert a:hover {
+    opacity: 0.8;
+}
+
+.uk-alert h1,
+.uk-alert h2,
+.uk-alert h3,
+.uk-alert h4,
+.uk-alert h5,
+.uk-alert h6 {
+    color: inherit;
+}
+
+/* ============================================
    NAVBAR
    ============================================ */
 .kptv-navbar {
@@ -969,4 +1034,10 @@ a:focus {
     .kptv-main {
         padding: 40px;
     }
+}
+
+.uk-heading-bullet::before,
+.uk-divider-icon::before,
+.uk-divider-icon::after {
+    border-color: var(--kptv-cyan) !important;
 }

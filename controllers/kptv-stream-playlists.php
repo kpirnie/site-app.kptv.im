@@ -31,7 +31,7 @@ if( ! class_exists( 'KPTV_Stream_Playlists' ) ) {
     class KPTV_Stream_Playlists extends Database {
         
         public function __construct( ) {
-            parent::__construct( KPT::get_setting( 'database' ) );
+            parent::__construct( KPTV::get_setting( 'database' ) );
         }
 
         /**
@@ -107,7 +107,7 @@ if( ! class_exists( 'KPTV_Stream_Playlists' ) ) {
         private function getGetProviderPlaylist( string $user, int $provider, int $which ) : array|bool {
 
             // setup the provider and user
-            $user = KPT::decrypt( $user );
+            $user = KPTV::decrypt( $user );
 
             // setup the query to run
             $sql = 'SELECT
@@ -145,7 +145,7 @@ if( ! class_exists( 'KPTV_Stream_Playlists' ) ) {
         private function getUserPlaylist( string $user, int $which ) : array|bool {
 
             // setup the user
-            $user = KPT::decrypt( $user );
+            $user = KPTV::decrypt( $user );
 
             // setup the query to run
             $sql = 'SELECT
@@ -186,15 +186,15 @@ if( ! class_exists( 'KPTV_Stream_Playlists' ) ) {
             if( $records ) {
 
                  // hold the user
-                $user = KPT::decrypt( $user );
+                $user = KPTV::decrypt( $user );
 
                 // set the mimetype and filename to download
                 header( 'Content-Type: application/mpegurl' );
                 header( 'Content-Disposition: attachment; filename="' . $which . '.m3u8"' );
 
                 // set the expires and caching headers
-                header( 'Expires: ' . gmdate( "D, d M Y H:i:s", time( ) + KPT::DAY_IN_SECONDS ) . " GMT", true );
-                header( 'Cache-Control: public, max-age=' . KPT::DAY_IN_SECONDS, true );
+                header( 'Expires: ' . gmdate( "D, d M Y H:i:s", time( ) + KPTV::DAY_IN_SECONDS ) . " GMT", true );
+                header( 'Cache-Control: public, max-age=' . KPTV::DAY_IN_SECONDS, true );
                 header_remove( 'set-cookie' );
 
                 // start the M3U no matter what

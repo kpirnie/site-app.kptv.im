@@ -552,7 +552,7 @@ if (! class_exists('Cache')) {
          * @param int $ttl Time to live in seconds (default: 1 hour)
          * @return bool Returns true if stored in at least one tier, false otherwise
          */
-        public static function set(string $key, mixed $data, int $ttl = KPT::HOUR_IN_SECONDS): bool
+        public static function set(string $key, mixed $data, int $ttl = KPTV::HOUR_IN_SECONDS): bool
         {
 
             // make sure we're initialized
@@ -1281,7 +1281,7 @@ if (! class_exists('Cache')) {
                             'count' => count($filtered_scripts),
                             'scripts' => $filtered_scripts,
                             'memory_usage' => $app_memory_usage,
-                            'memory_usage_human' => KPT::format_bytes($app_memory_usage),
+                            'memory_usage_human' => KPTV::format_bytes($app_memory_usage),
                             'total_hits' => $app_hits,
                             'base_path' => $app_base_path
                         ],
@@ -1347,7 +1347,7 @@ if (! class_exists('Cache')) {
                     'our_prefix' => $prefix,
                     'our_entries' => $our_entries,
                     'our_memory_usage' => $our_size,
-                    'our_memory_usage_human' => KPT::format_bytes($our_size)
+                    'our_memory_usage_human' => KPTV::format_bytes($our_size)
                 ];
             }
 

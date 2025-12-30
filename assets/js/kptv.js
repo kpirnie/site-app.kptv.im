@@ -2,6 +2,20 @@
  * KPTV Stream Manager - Main JavaScript
  * Mobile-First UIKit3 Dashboard
  */
+// actual dom ready
+var DOMReady = function (callback) {
+    if (document.readyState === "interactive" || document.readyState === "complete") {
+        callback();
+    } else if (document.addEventListener) {
+        document.addEventListener("DOMContentLoaded", callback);
+    } else if (document.attachEvent) {
+        document.attachEvent("onreadystatechange", function () {
+            if (document.readyState != "loading") {
+                callback();
+            }
+        });
+    }
+};
 
 (function () {
     'use strict';
@@ -256,13 +270,10 @@
     // ============================================
     // Initialize on DOM Ready
     // ============================================
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function () {
-            KPTV.init();
-        });
-    } else {
+    DOMReady(function () {
+        console.debug('DOM is ready. All libraries are loaded.');
         KPTV.init();
-    }
+    });
 
     // Expose KPTV globally for external access
     window.KPTV = KPTV;

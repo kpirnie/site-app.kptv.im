@@ -28,7 +28,7 @@ if( ! class_exists( 'KPTV_Xtream_API' ) ) {
         private ?object $userRecord = null;
         
         public function __construct( ) {
-            parent::__construct( KPT::get_setting( 'database' ) );
+            parent::__construct( KPTV::get_setting( 'database' ) );
         }
 
         /**
@@ -124,7 +124,7 @@ if( ! class_exists( 'KPTV_Xtream_API' ) ) {
             
             // Method 1: Encrypted user ID (legacy/direct)
             if ( !empty($userParam) ) {
-                $decrypted = KPT::decrypt($userParam);
+                $decrypted = KPTV::decrypt($userParam);
                 if ( $decrypted && is_numeric($decrypted) ) {
                     $this->userId = (int)$decrypted;
                     // Use GET provider param for legacy URLs
@@ -137,7 +137,7 @@ if( ! class_exists( 'KPTV_Xtream_API' ) ) {
             
             // Method 2: Username is provider ID, password is encrypted user ID
             if ( !empty($password) ) {
-                $decrypted = KPT::decrypt($password);
+                $decrypted = KPTV::decrypt($password);
                 if ( $decrypted && is_numeric($decrypted) ) {
                     $this->userId = (int)$decrypted;
                     

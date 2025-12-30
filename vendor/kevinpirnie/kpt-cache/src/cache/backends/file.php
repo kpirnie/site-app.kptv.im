@@ -630,7 +630,7 @@ if (! trait_exists('CacheFile')) {
             }
 
             // format human readable size and dates
-            $stats['total_size_human'] = KPT::format_bytes($stats['total_size']);
+            $stats['total_size_human'] = KPTV::format_bytes($stats['total_size']);
             $stats['oldest_file'] = $oldest ? date('Y-m-d H:i:s', $oldest) : null;
             $stats['newest_file'] = $newest ? date('Y-m-d H:i:s', $newest) : null;
 
@@ -741,7 +741,7 @@ if (! trait_exists('CacheFile')) {
                     'filename' => basename($file),
                     'full_path' => $file,
                     'size' => filesize($file),
-                    'size_human' => KPT::format_bytes(filesize($file)),
+                    'size_human' => KPTV::format_bytes(filesize($file)),
                     'created' => filectime($file),
                     'modified' => filemtime($file),
                     'expires' => null,

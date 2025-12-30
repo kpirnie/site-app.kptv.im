@@ -57,7 +57,7 @@ class KpDb
 
         require_once $appPath . '/vendor/autoload.php';
 
-        $dbConfig = \KPT\KPT::get_setting('database');
+        $dbConfig = \KPT\KPTV::get_setting('database');
 
         if (!$dbConfig) {
             throw new \RuntimeException('Database configuration not found');

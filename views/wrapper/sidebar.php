@@ -20,7 +20,7 @@ use KPT\Router;
 $_route = Router::getCurrentRoute( );
 
 // get ther user id for the export
-$user_for_export = KPT::encrypt( ( KPT_User::get_current_user( ) -> id ) ?? 0 );
+$user_for_export = KPTV::encrypt( ( KPTV_User::get_current_user( ) -> id ) ?? 0 );
 */
 ?>
 <div class="uk-width-auto uk-visible@m uk-flex uk-flex-column">
