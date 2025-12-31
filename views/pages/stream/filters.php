@@ -63,6 +63,7 @@ $formFields = [
 
 // configure the datatable
 $dt -> table( 'kptv_stream_filters' )
+    -> theme( 'uikit', true )
     -> tableClass( 'uk-table uk-table-divider uk-table-small uk-margin-bottom' )
     -> where( [
         [ // unless specified as OR, it should always be AND
@@ -116,7 +117,7 @@ KPTV::pull_header( );
     KPTV::include_view( 'common/control-panel', [ 'dt' => $dt ] );
     ?>
 </div>
-<div class="">
+<div class="uk-margin">
     <?php
 
     // write out the datatable component

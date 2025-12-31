@@ -23,7 +23,7 @@
         "ext-mbstring": "*",
         "ext-pdo": "*",
         "ext-openssl": "*",
-        "kevinpirnie/kpt-datatables": "^1.0",
+        "kevinpirnie/kpt-datatables": "^2.0",
         "kevinpirnie/kpt-router": "^1.0"
     },
     "config": {

@@ -69,6 +69,7 @@ class ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7
         'KPT\\DataTables\\DataTables' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/DataTables.php',
         'KPT\\DataTables\\DataTablesBase' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/DataTablesBase.php',
         'KPT\\DataTables\\Renderer' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/Renderer.php',
+        'KPT\\DataTables\\ThemeManager' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/ThemeManager.php',
         'KPT\\Database' => __DIR__ . '/..' . '/kevinpirnie/kpt-database/src/Database.php',
         'KPT\\Logger' => __DIR__ . '/..' . '/kevinpirnie/kpt-logger/src/Logger.php',
         'KPT\\Router' => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src/router.php',

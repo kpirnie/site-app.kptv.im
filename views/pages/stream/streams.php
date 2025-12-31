@@ -29,9 +29,11 @@ $userId = KPTV_User::get_current_user( ) -> id;
 // setup the actions
 $actionGroups = [
     'live' => [
+        ['html' => '<br class="action-nl" />',], 
         'moveseries' => [
             'icon' => 'album',
             'title' => 'Move This Stream to Series Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -44,6 +46,7 @@ $actionGroups = [
         'movevod' => [
             'icon' => 'video-camera',
             'title' => 'Move This Stream to VOD Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -56,6 +59,7 @@ $actionGroups = [
         'moveother' => [
             'icon' => 'nut',
             'title' => 'Move This Stream to Other Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -67,9 +71,11 @@ $actionGroups = [
         ],
     ],
     'series' => [
+        ['html' => '<br class="action-nl" />',], 
         'movelive' => [
             'icon' => 'tv',
             'title' => 'Move This Stream to Live Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -82,6 +88,7 @@ $actionGroups = [
         'movevod' => [
             'icon' => 'video-camera',
             'title' => 'Move This Stream to VOD Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -94,6 +101,7 @@ $actionGroups = [
         'moveother' => [
             'icon' => 'nut',
             'title' => 'Move This Stream to Other Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -105,9 +113,11 @@ $actionGroups = [
         ],
     ],
     'vod' => [
+        ['html' => '<br class="action-nl" />',], 
         'movelive' => [
             'icon' => 'tv',
             'title' => 'Move This Stream to Live Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -120,6 +130,7 @@ $actionGroups = [
         'moveseries' => [
             'icon' => 'album',
             'title' => 'Move This Stream to Series Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -132,6 +143,7 @@ $actionGroups = [
         'movevod' => [
             'icon' => 'video-camera',
             'title' => 'Move This Stream to VOD Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -144,6 +156,7 @@ $actionGroups = [
         'moveother' => [
             'icon' => 'nut',
             'title' => 'Move This Stream to Other Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -155,9 +168,11 @@ $actionGroups = [
         ],
     ],
     'other' => [
+        ['html' => '<br class="action-nl" />',], 
         'movelive' => [
             'icon' => 'tv',
             'title' => 'Move This Stream to Live Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -170,6 +185,7 @@ $actionGroups = [
         'moveseries' => [
             'icon' => 'album',
             'title' => 'Move This Stream to Series Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -182,6 +198,7 @@ $actionGroups = [
         'movevod' => [
             'icon' => 'video-camera',
             'title' => 'Move This Stream to VOD Streams',
+            'class' => ' uk-margin-tiny-full',
             'callback' => function($rowId, $rowData, $database, $tableName) {
 
                 // move the stream
@@ -200,6 +217,7 @@ $bulkActions = [
         'livestreamact' => [
             'label' => '(De)Activate Streams',
             'icon' => 'crosshairs',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Are you sure you want to (de)activate these streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
 
@@ -222,6 +240,7 @@ $bulkActions = [
         'movetoseries' => [
             'label' => 'Move to Series Streams',
             'icon' => 'album',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to series streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
 
@@ -263,6 +282,7 @@ $bulkActions = [
         'movetovod' => [
             'label' => 'Move to VOD Streams',
             'icon' => 'video-camera',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to vod streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
 
@@ -304,6 +324,7 @@ $bulkActions = [
         'movetoother' => [
             'label' => 'Move to Other Streams',
             'icon' => 'nut',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to other streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
                 // make sure we have selected items
@@ -342,6 +363,7 @@ $bulkActions = [
         'seriesstreamact' => [
             'label' => '(De)Activate Streams',
             'icon' => 'crosshairs',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Are you sure you want to (de)activate these streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
 
@@ -364,6 +386,7 @@ $bulkActions = [
         'movetolive' => [
             'label' => 'Move to Live Streams',
             'icon' => 'tv',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to live streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
 
@@ -402,6 +425,7 @@ $bulkActions = [
         'movetovod' => [
             'label' => 'Move to VOD Streams',
             'icon' => 'video-camera',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to vod streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
 
@@ -443,6 +467,7 @@ $bulkActions = [
         'movetoother' => [
             'label' => 'Move to Other Streams',
             'icon' => 'nut',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to other streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
                 // make sure we have selected items
@@ -481,6 +506,7 @@ $bulkActions = [
         'movetolive' => [
             'label' => 'Move to Live Streams',
             'icon' => 'tv',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to live streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
 
@@ -519,6 +545,7 @@ $bulkActions = [
         'movetoseries' => [
             'label' => 'Move to Series Streams',
             'icon' => 'album',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to series streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
 
@@ -560,6 +587,7 @@ $bulkActions = [
         'movetovod' => [
             'label' => 'Move to VOD Streams',
             'icon' => 'video-camera',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to vod streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
 
@@ -601,6 +629,7 @@ $bulkActions = [
         'movetoother' => [
             'label' => 'Move to Other Streams',
             'icon' => 'nut',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to other streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
                 // make sure we have selected items
@@ -639,6 +668,7 @@ $bulkActions = [
         'movetolive' => [
             'label' => 'Move to Live Streams',
             'icon' => 'tv',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to live streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
 
@@ -677,6 +707,7 @@ $bulkActions = [
         'movetoseries' => [
             'label' => 'Move to Series Streams',
             'icon' => 'album',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to series streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
 
@@ -718,6 +749,7 @@ $bulkActions = [
         'movetovod' => [
             'label' => 'Move to VOD Streams',
             'icon' => 'video-camera',
+            'class' => ' uk-margin-tiny-full',
             'confirm' => 'Move the selected records to vod streams?',
             'callback' => function( $selectedIds, $database, $tableName ) {
 
@@ -881,6 +913,7 @@ $dt -> table( 'kptv_streams s' )
     ] )
     -> columnClasses( [
         's.id' => 'hide-col',
+        's_channel' => 'uk-min-width',
         's_tvg_id' => 'txt-truncate',
         'p.sp_name' => 'txt-truncate',
     ] )
@@ -897,7 +930,7 @@ $dt -> table( 'kptv_streams s' )
             'playstream' => [
                 'icon' => 'play',
                 'title' => 'Try to Play Stream',
-                'class' => 'play-stream',
+                'class' => 'play-stream uk-margin-tiny-full',
                 'href' => '#{s_orig_name}',
                 'attributes' => [
                     'data-stream-url' => '{s_stream_uri}',
@@ -907,7 +940,7 @@ $dt -> table( 'kptv_streams s' )
             'copystream' => [
                 'icon' => 'link', 
                 'title' => 'Copy Stream Link',
-                'class' => 'copy-link',
+                'class' => 'copy-link uk-margin-tiny-full',
                 'href' => '{s_stream_uri}',
             ]
         ],
@@ -923,7 +956,7 @@ if ( isset( $_POST['action'] ) || isset( $_GET['action'] ) ) {
 // pull in the header
 KPTV::pull_header( );
 ?>
-<h2 class="kptv-heading uk-heading-bullet"><?php echo ucfirst( $type ); ?> <?php echo ucfirst( $which ); ?> Streams</h2>
+<h2 class="kptv-heading uk-heading-bullet"><?php echo ( isset($type) ) ? ucfirst( $type ) : ''; ?> <?php echo ucfirst( $which ); ?> Streams</h2>
 <div class="">
     <?php
 
@@ -931,7 +964,7 @@ KPTV::pull_header( );
     KPTV::include_view( 'common/control-panel', [ 'dt' => $dt ] );
     ?>
 </div>
-<div class="">
+<div class="uk-margin">
     <?php
 
     // write out the datatable component

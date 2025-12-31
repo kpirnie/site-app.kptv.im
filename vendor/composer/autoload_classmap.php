@@ -41,6 +41,7 @@ return array(
     'KPT\\DataTables\\DataTables' => $vendorDir . '/kevinpirnie/kpt-datatables/src/class/DataTables.php',
     'KPT\\DataTables\\DataTablesBase' => $vendorDir . '/kevinpirnie/kpt-datatables/src/class/DataTablesBase.php',
     'KPT\\DataTables\\Renderer' => $vendorDir . '/kevinpirnie/kpt-datatables/src/class/Renderer.php',
+    'KPT\\DataTables\\ThemeManager' => $vendorDir . '/kevinpirnie/kpt-datatables/src/class/ThemeManager.php',
     'KPT\\Database' => $vendorDir . '/kevinpirnie/kpt-database/src/Database.php',
     'KPT\\Logger' => $vendorDir . '/kevinpirnie/kpt-logger/src/Logger.php',
     'KPT\\Router' => $vendorDir . '/kevinpirnie/kpt-router/src/router.php',

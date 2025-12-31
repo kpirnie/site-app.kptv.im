@@ -197,7 +197,7 @@ KPTV::pull_header( );
     KPTV::include_view( 'common/control-panel', [ 'dt' => $dt ] );
     ?>
 </div>
-<div class="">
+<div class="uk-margin">
     <?php
 
     // write out the datatable component

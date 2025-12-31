@@ -55,10 +55,7 @@ defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
             </div>
         </div>
 
-        <!-- UIKit JS -->
-        <script src="//cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit.min.js" defer></script>
-        <script src="//cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit-icons.min.js" defer></script>
-        <?php echo DataTables::getJsIncludes(); ?>
+        <?php echo DataTables::getJsIncludes( 'uikit', true ); ?>
         <script src="/assets/js/kptv.min.js" defer></script>
         <script type="text/javascript" src="/assets/js/custom.js?_=<?php echo time( ); ?>" defer><script>
     </body>

@@ -50,7 +50,7 @@ if( KPTV_User::is_user_logged_in( ) ) {
             </div>
         </div>
         <div class="uk-margin uk-grid uk-grid-small">
-            <div class="uk-width-1-1">
+            <div class="uk-width-1-1 recapt">
                 <button class="uk-button uk-button-primary uk-border-rounded contact-button uk-align-right g-recaptcha" data-badge="inline" data-sitekey="<?php echo KPTV::get_setting( 'recaptcha' ) -> sitekey; ?>" data-callback='onSubmit' data-action='submit'>
                     Reset Your Password <span uk-icon="sign-in"></span>
                 </button>

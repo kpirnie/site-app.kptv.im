@@ -621,7 +621,7 @@ if (! class_exists('CacheConfig')) {
             // reset global config to defaults
             self::$global_config = [
                 'path' => sys_get_temp_dir() . '/kpt_cache/',
-                'prefix' => 'KPT_APP:',
+                'prefix' => 'KPTV_APP:',
             ];
         }
 

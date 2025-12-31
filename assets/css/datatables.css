@@ -31,12 +31,12 @@
     gap: 4px;
 }
 
-.uk-pagination > li {
+.uk-pagination>li {
     padding: 0;
 }
 
-.uk-pagination > li > a,
-.uk-pagination > li > span {
+.uk-pagination>li>a,
+.uk-pagination>li>span {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -55,7 +55,7 @@
     cursor: pointer;
 }
 
-.uk-pagination > li > a:hover {
+.uk-pagination>li>a:hover {
     background: var(--kptv-cyan);
     border-color: var(--kptv-cyan-light);
     color: var(--kptv-white);
@@ -63,8 +63,8 @@
 }
 
 /* Active page */
-.uk-pagination > li.uk-active > a,
-.uk-pagination > li.uk-active > span {
+.uk-pagination>li.uk-active>a,
+.uk-pagination>li.uk-active>span {
     background: var(--kptv-orange);
     border-color: var(--kptv-orange);
     color: var(--kptv-white) !important;
@@ -72,8 +72,8 @@
 }
 
 /* Disabled state */
-.uk-pagination > li.uk-disabled > a,
-.uk-pagination > li.uk-disabled > span {
+.uk-pagination>li.uk-disabled>a,
+.uk-pagination>li.uk-disabled>span {
     background: rgba(13, 31, 60, 0.5);
     border-color: rgba(61, 139, 189, 0.3);
     color: rgba(91, 163, 208, 0.4);
@@ -82,17 +82,17 @@
 }
 
 /* Pagination arrows/icons */
-.uk-pagination > li > a [uk-icon],
-.uk-pagination > li > a [uk-pagination-previous],
-.uk-pagination > li > a [uk-pagination-next],
-.uk-pagination > li > span [uk-icon],
-.uk-pagination > li > span [uk-pagination-previous],
-.uk-pagination > li > span [uk-pagination-next] {
+.uk-pagination>li>a [uk-icon],
+.uk-pagination>li>a [uk-pagination-previous],
+.uk-pagination>li>a [uk-pagination-next],
+.uk-pagination>li>span [uk-icon],
+.uk-pagination>li>span [uk-pagination-previous],
+.uk-pagination>li>span [uk-pagination-next] {
     color: inherit;
 }
 
 /* Ellipsis dots */
-.uk-pagination > li.uk-disabled > span:not([uk-icon]):not([uk-pagination-previous]):not([uk-pagination-next]) {
+.uk-pagination>li.uk-disabled>span:not([uk-icon]):not([uk-pagination-previous]):not([uk-pagination-next]) {
     background: transparent;
     border-color: transparent;
     color: var(--kptv-cyan);
@@ -116,7 +116,7 @@
     background: transparent;
     color: var(--kptv-cyan);
     transition: all 0.2s ease;
-    margin: 2px;
+    margin: 2px 0px;
 }
 
 .uk-icon-link:hover,
@@ -281,7 +281,6 @@
 
 .datatables-bulk-action-btn[disabled] {
     color: rgba(91, 163, 208, 0.3);
-    cursor: not-allowed;
 }
 
 /* Add new record button */
@@ -376,11 +375,11 @@ a.uk-icon-link[uk-icon="plus"]:hover {
     background: transparent;
     border: 1px solid var(--kptv-cyan);
     color: var(--kptv-orange);
-    padding:9px 10px 10px !important;
+    padding: 9px 10px 10px !important;
     min-width: auto;
     transition: all 0.2s ease;
     border-radius: 4px;
-    margin-left:4px;
+    margin-left: 4px;
 }
 
 .refreshbutton.uk-button-default:hover {

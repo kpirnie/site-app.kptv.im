@@ -304,7 +304,7 @@ if (! trait_exists('CacheAPCU')) {
                     'prefix' => $prefix,
                     'our_keys' => $our_keys,
                     'our_memory_usage' => $our_size,
-                    'our_memory_usage_human' => KPTV::format_bytes($our_size)
+                    'our_memory_usage_human' => KPT::format_bytes($our_size)
                 ];
 
                 // return the stats

@@ -86,7 +86,7 @@ if( KPTV_User::is_user_logged_in( ) ) {
                 </div>
             </div>
             <div class="uk-width-1-1">
-                <div class="uk-width-1-1">
+                <div class="uk-width-1-1 recapt">
                     <button class="uk-button uk-button-primary uk-border-rounded contact-button uk-align-right g-recaptcha" data-badge="inline" data-sitekey="<?php echo KPTV::get_setting( 'recaptcha' ) -> sitekey; ?>" data-callback='onSubmit' data-action='submit'>
                         Register Now <span uk-icon="cog"></span>
                     </button>

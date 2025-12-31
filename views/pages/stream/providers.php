@@ -147,26 +147,29 @@ $dt -> table( 'kptv_stream_providers' )
     -> editForm( 'Update a Provider', $formFields, class: 'uk-grid-small uk-grid' )
     -> actionGroups( [
         [
-            //[
-            //    'html' => '<strong>XC:</strong> ',
-            //],
+            /*[
+                'html' => [
+                    'position' => 'after', // before, after, both
+                    'content' => '<strong>XC:</strong> ',
+                ],
+            ],*/
             'exportlivexc' => [
                 'icon' => 'link-external',
                 'title' => 'Copy Domain',
-                'class' => 'copy-link',
+                'class' => 'copy-link uk-margin-tiny-full',
                 'href' => KPTV_URI . 'xc',
             ],
 
             'exportseriesxc' => [
                 'icon' => 'users', 
                 'title' => 'Copy Username',
-                'class' => 'copy-link',
+                'class' => 'copy-link uk-margin-tiny-full',
                 'href' => '{id}',
             ],
             'exportvodxc' => [
                 'icon' => 'server', 
                 'title' => 'Copy Password',
-                'class' => 'copy-link',
+                'class' => 'copy-link uk-margin-tiny-full',
                 'href' => $userForExport,
             ],
         ],
@@ -178,19 +181,19 @@ $dt -> table( 'kptv_stream_providers' )
             'exportlive' => [
                 'icon' => 'tv',
                 'title' => 'Export Live M3U',
-                'class' => 'copy-link',
+                'class' => 'copy-link uk-margin-tiny-full',
                 'href' => '' . KPTV_URI . 'playlist/' . $userForExport . '/{id}/live',
             ],
             'exportseries' => [
                 'icon' => 'album', 
                 'title' => 'Export Series M3U',
-                'class' => 'copy-link',
+                'class' => 'copy-link uk-margin-tiny-full',
                 'href' => '' . KPTV_URI . 'playlist/' . $userForExport . '/{id}/series',
             ],
             'exportvod' => [
                 'icon' => 'video-camera', 
                 'title' => 'Export VOD M3U',
-                'class' => 'copy-link',
+                'class' => 'copy-link uk-margin-tiny-full',
                 'href' => '' . KPTV_URI . 'playlist/' . $userForExport . '/{id}/vod',
             ],            
         ],
@@ -199,7 +202,7 @@ $dt -> table( 'kptv_stream_providers' )
             'delprovider' => [
                 'icon' => 'trash',
                 'title' => 'Delete this Provider',
-                'class' => '',
+                'class' => ' uk-margin-tiny-full',
                 'success_message' => 'Provider and all it\'s streams have been deleted.',
                 'error_message' => 'Failed to delete the provider.',
                 'confirm' => 'Are you want to remove this provider and all it\'s streams?',
@@ -238,7 +241,7 @@ KPTV::pull_header( );
     KPTV::include_view( 'common/control-panel', [ 'dt' => $dt ] );
     ?>
 </div>
-<div class="">
+<div class="uk-margin">
     <?php
 
     // write out the datatable component

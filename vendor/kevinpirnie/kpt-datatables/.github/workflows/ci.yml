@@ -12,7 +12,7 @@ jobs:
     
     strategy:
       matrix:
-        php-version: [8.1, 8.2, 8.3]
+        php-version: [8.2, 8.3, 8.4]
         dependencies: [lowest, highest]
     
     services:
@@ -60,9 +60,6 @@ jobs:
         else
           composer install --no-interaction --no-progress
         fi
-
-    - name: Run PHPStan
-      run: composer run phpstan
 
     - name: Run CodeSniffer
       run: composer run cs-check

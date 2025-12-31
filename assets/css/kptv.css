@@ -1242,6 +1242,7 @@ a:focus {
     background: var(--kptv-danger) !important;
     color: var(--kptv-white) !important;
 }
+
 /* ============================================
    UIKIT OVERRIDES - FORM FIELDS
    ============================================ */
@@ -1442,9 +1443,10 @@ a:focus {
     background: var(--kptv-orange) !important;
     border-color: var(--kptv-orange) !important;
 }
+
 .uk-button {
     font-size: 1.1rem !important;
-    padding:3px 20px 1px !important;
+    padding: 3px 20px 1px !important;
 }
 
 /* ============================================
@@ -1477,12 +1479,94 @@ a:focus {
     flex-shrink: 0;
     margin: 0;
 }
+
 .uk-form-icon {
-  color: var(--kptv-gray) !important;
+    color: var(--kptv-gray) !important;
 }
 
 .kptv-badge-primary {
     background: rgba(122, 181, 205, 0.15);
     color: #7ab5cd;
     border: 1px solid #7ab5cd;
+}
+
+/* ============================================
+   CODE & PRE ELEMENTS
+   ============================================ */
+code {
+    background: rgba(61, 139, 189, 0.15) !important;
+    border: 1px solid rgba(61, 139, 189, 0.3) !important;
+    border-radius: 4px !important;
+    padding: 2px 6px !important;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+    font-size: 0.875em !important;
+    color: var(--kptv-cyan-light) !important;
+}
+
+pre {
+    background: var(--kptv-dark-navy) !important;
+    border: 1px solid var(--kptv-cyan) !important;
+    border-radius: 4px !important;
+    padding: 16px !important;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+    font-size: 0.875rem !important;
+    color: var(--kptv-cyan-light) !important;
+    overflow-x: auto !important;
+    margin: 16px 0 !important;
+}
+
+pre code {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    font-size: inherit !important;
+    color: inherit !important;
+}
+
+.recapt>*:first-child {
+    display: none !important
+}
+
+.hide-col {
+    width: 0px !important;
+    display: none !important;
+}
+
+span.uk-text-muted:has(+ br.action-nl) {
+    display: none;
+}
+
+/* Keep action column from wrapping */
+.datatables-table .row-action {
+    white-space: nowrap !important;
+}
+
+.uk-min-width {
+    width: 5px !important;
+    white-space: nowrap !important;
+}
+
+.url-truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 350px;
+    /* or whatever width you need */
+}
+
+.txt-truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    /* or whatever width you need */
+}
+
+.uk-grid-column-small>*,
+.uk-grid-small>* {
+    padding-left: 3px !important;
+}
+
+.bulk-action-bar>div>.uk-text-muted {
+    display: none;
 }

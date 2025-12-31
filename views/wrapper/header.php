@@ -36,13 +36,13 @@ $route_path = $current_route -> path;
         <meta name="author" content="Kevin C. Pirnie" />
         <title>KPTV Stream Manager - Dashboard</title>
         <meta name="description" content="KPTV Stream Manager - Manage your IPTV providers and streams">
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/uikit@latest/dist/css/uikit.min.css" />
         <link rel="dns-prefetch" href="//dev.kptv.im" />
         <link rel="dns-prefetch" href="//vjs.zencdn.net" />
         <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
         <link rel="preconnect" href="//fonts.googleapis.com">
         <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+        <?php echo \KPT\DataTables\DataTables::getCssIncludes( 'uikit', true ); ?>
         <link rel="stylesheet" href="/assets/css/kptv.min.css" />
         <link rel="stylesheet" href="/assets/css/custom.css?_=<?php echo time(); ?>" />        
         <link rel="icon" type="image/png" href="/assets/images/kptv-icon.png" />
