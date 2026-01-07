@@ -244,7 +244,6 @@ var DOMReady = function (callback) {
     // Initialize on DOM Ready
     // ============================================
     DOMReady(function () {
-        console.debug('DOM is ready. All libraries are loaded.');
         KPTV.init();
         MyInit();
     });
@@ -381,7 +380,7 @@ function MyInit() {
         }
     });
 
-    // Add this with your other event listeners in the MyInit function
+    // Activate stream clicker
     document.querySelectorAll('.activate-streams').forEach(button => {
         button.addEventListener('click', function (e) {
             e.preventDefault();
@@ -551,8 +550,9 @@ function MyInit() {
     });
 
     // move streams handler
-    document.querySelectorAll('.move-to-live, .move-to-series, .move-to-other').forEach(button => {
+    document.querySelectorAll('.move-to-live, .move-to-series, .move-to-other, .move-to-vod').forEach(button => {
         button.addEventListener('click', function (e) {
+            alert('clicked');
             e.preventDefault();
 
             // Determine if this is a single item move or bulk move

@@ -369,44 +369,32 @@ if( ! class_exists( 'KPTV_Static' ) ) {
         */
         public static function get_full_config( ) : object {
 
-            // hold the returnable object
-            $_ret = new \stdClass( );
-
-            // hold hte cache key
-            $_cache_key = 'My_KPTV_config';
-
-            // check the cache
-            $_cached = \KPT\Cache::get( $_cache_key );
-
-            // if we do have this object
-            if( $_cached ) {
-                
-                // just return it
-                return $_cached;
-
+            static $config = null;
+    
+            if ($config !== null) {
+                return $config;
             }
-
-            // read the file
-            $_conf = file_get_contents( KPTV_PATH . 'assets/config.json' );
-
-            // if there is nothing here, return an error object
-            if( $_conf ) {
-
-                // otherwise parse the json
-                $_ret = json_decode( $_conf );
-
-            }
-            /*
-            try{
-                // set the config to cache, for 1 week
-                @\KPT\Cache::set( $_cache_key, $_ret, self::WEEK_IN_SECONDS );
-            } catch (Exception $e) {
-                var_dump($e);exit;
-                // Do nothing - just swallow the exception
-            }*/
             
-            // return the object
-            return $_ret;
+            // Use OPcache if available
+            $configPath = KPTV_PATH . 'assets/config.json';
+            
+            if (function_exists('opcache_is_script_cached') && 
+                opcache_is_script_cached($configPath)) {
+                $content = file_get_contents($configPath);
+            } else {
+                $content = file_get_contents($configPath);
+                if (function_exists('opcache_compile_file')) {
+                    opcache_compile_file($configPath);
+                }
+            }
+            
+            $config = json_decode($content);
+            
+            if (!$config) {
+                $config = new \stdClass();
+            }
+            
+            return $config;
 
         }
 

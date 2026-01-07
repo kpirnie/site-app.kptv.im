@@ -27,7 +27,6 @@ $active_value = $valid_active[$active_filter] ?? null;
 $userId = KPTV_User::get_current_user( ) -> id;
 
 // setup the actions
-// setup the actions
 $actionGroups = [
     'live' => [
         'html' => [
@@ -59,7 +58,7 @@ $actionGroups = [
         'moveother' => [
             'icon' => 'nut',
             'title' => 'Move This Stream to Other Streams',
-            'class' => 'uk-margin-tiny-full',
+            'class' => 'uk-margin-tiny-full move-to-other',
             'callback' => function($rowId, $rowData, $database, $tableName) {
                 return KPTV::moveToType( $database, $rowId, 99, 'toother' );
             },
