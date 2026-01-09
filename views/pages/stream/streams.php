@@ -36,7 +36,7 @@ $actionGroups = [
         'moveseries' => [
             'icon' => 'album',
             'title' => 'Move This Stream to Series Streams',
-            'class' => 'uk-margin-tiny-full',
+            'class' => 'uk-margin-tiny-full move-to-series single-move',
             'callback' => function($rowId, $rowData, $database, $tableName) {
                 return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
             },
@@ -47,7 +47,7 @@ $actionGroups = [
         'movevod' => [
             'icon' => 'video-camera',
             'title' => 'Move This Stream to VOD Streams',
-            'class' => 'uk-margin-tiny-full',
+            'class' => 'uk-margin-tiny-full move-to-vod single-move',
             'callback' => function($rowId, $rowData, $database, $tableName) {
                 return KPTV::moveToType( $database, $rowId, 4, 'liveorseries' );
             },
@@ -58,7 +58,7 @@ $actionGroups = [
         'moveother' => [
             'icon' => 'nut',
             'title' => 'Move This Stream to Other Streams',
-            'class' => 'uk-margin-tiny-full move-to-other',
+            'class' => 'uk-margin-tiny-full move-to-other single-move',
             'callback' => function($rowId, $rowData, $database, $tableName) {
                 return KPTV::moveToType( $database, $rowId, 99, 'toother' );
             },
@@ -939,7 +939,7 @@ KPTV::pull_header( );
     KPTV::include_view( 'common/control-panel', [ 'dt' => $dt ] );
     ?>
 </div>
-<div class="uk-margin">
+<div class="uk-margin the-datatable">
     <?php
 
     // write out the datatable component

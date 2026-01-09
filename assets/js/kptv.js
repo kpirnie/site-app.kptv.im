@@ -17,243 +17,251 @@ var DOMReady = function (callback) {
     }
 };
 
-(function () {
-    'use strict';
+// ============================================
+// KPTV Namespace
+// ============================================
+const KPTV = {
+    init: function () {
+        this.initScrollToTop();
+        this.initMobileMenu();
+        this.initTableSort();
+        this.initSearch();
+        this.initPerPage();
+        console.log('KPTV Stream Manager initialized');
+    },
 
     // ============================================
-    // KPTV Namespace
+    // Scroll to Top Button
     // ============================================
-    const KPTV = {
-        init: function () {
-            this.initScrollToTop();
-            this.initMobileMenu();
-            this.initTableSort();
-            this.initSearch();
-            this.initPerPage();
-            console.log('KPTV Stream Manager initialized');
-        },
+    initScrollToTop: function () {
+        const scrollBtn = document.getElementById('kptv-scroll-top');
+        if (!scrollBtn) return;
 
-        // ============================================
-        // Scroll to Top Button
-        // ============================================
-        initScrollToTop: function () {
-            const scrollBtn = document.getElementById('kptv-scroll-top');
-            if (!scrollBtn) return;
+        const showScrollBtn = function () {
+            if (window.scrollY > 150) {
+                scrollBtn.classList.add('visible');
+            } else {
+                scrollBtn.classList.remove('visible');
+            }
+        };
 
-            const showScrollBtn = function () {
-                if (window.scrollY > 150) {
-                    scrollBtn.classList.add('visible');
-                } else {
-                    scrollBtn.classList.remove('visible');
+        window.addEventListener('scroll', showScrollBtn, { passive: true });
+
+        scrollBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    },
+
+    // ============================================
+    // Mobile Menu Handling
+    // ============================================
+    initMobileMenu: function () {
+        // Close offcanvas when clicking a link (for SPAs)
+        const offcanvasLinks = document.querySelectorAll('.kptv-offcanvas-nav a:not(.uk-parent > a)');
+        offcanvasLinks.forEach(function (link) {
+            link.addEventListener('click', function () {
+                const offcanvas = document.getElementById('kptv-mobile-nav');
+                if (offcanvas && typeof UIkit !== 'undefined') {
+                    UIkit.offcanvas(offcanvas).hide();
                 }
-            };
-
-            window.addEventListener('scroll', showScrollBtn, { passive: true });
-
-            scrollBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
             });
-        },
+        });
 
-        // ============================================
-        // Mobile Menu Handling
-        // ============================================
-        initMobileMenu: function () {
-            // Close offcanvas when clicking a link (for SPAs)
-            const offcanvasLinks = document.querySelectorAll('.kptv-offcanvas-nav a:not(.uk-parent > a)');
-            offcanvasLinks.forEach(function (link) {
-                link.addEventListener('click', function () {
-                    const offcanvas = document.getElementById('kptv-mobile-nav');
-                    if (offcanvas && typeof UIkit !== 'undefined') {
-                        UIkit.offcanvas(offcanvas).hide();
+        // Handle parent items in mobile nav
+        const parentItems = document.querySelectorAll('.kptv-offcanvas-nav .uk-parent > a');
+        parentItems.forEach(function (item) {
+            item.addEventListener('click', function (e) {
+                // Let UIkit handle the accordion behavior
+            });
+        });
+    },
+
+    // ============================================
+    // Table Sorting
+    // ============================================
+    initTableSort: function () {
+        const sortableHeaders = document.querySelectorAll('.kptv-table th[data-sort]');
+
+        sortableHeaders.forEach(function (header) {
+            header.style.cursor = 'pointer';
+            header.addEventListener('click', function () {
+                const table = this.closest('table');
+                const tbody = table.querySelector('tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                const column = this.dataset.sort;
+                const columnIndex = Array.from(this.parentElement.children).indexOf(this);
+                const isAsc = this.classList.contains('asc');
+
+                // Reset all headers
+                sortableHeaders.forEach(function (h) {
+                    h.classList.remove('asc', 'desc');
+                });
+
+                // Sort rows
+                rows.sort(function (a, b) {
+                    const aVal = a.children[columnIndex].textContent.trim();
+                    const bVal = b.children[columnIndex].textContent.trim();
+
+                    // Check if numeric
+                    const aNum = parseFloat(aVal);
+                    const bNum = parseFloat(bVal);
+
+                    if (!isNaN(aNum) && !isNaN(bNum)) {
+                        return isAsc ? bNum - aNum : aNum - bNum;
                     }
+
+                    return isAsc
+                        ? bVal.localeCompare(aVal)
+                        : aVal.localeCompare(bVal);
+                });
+
+                // Update class
+                this.classList.add(isAsc ? 'desc' : 'asc');
+
+                // Re-append rows
+                rows.forEach(function (row) {
+                    tbody.appendChild(row);
                 });
             });
+        });
+    },
 
-            // Handle parent items in mobile nav
-            const parentItems = document.querySelectorAll('.kptv-offcanvas-nav .uk-parent > a');
-            parentItems.forEach(function (item) {
-                item.addEventListener('click', function (e) {
-                    // Let UIkit handle the accordion behavior
-                });
-            });
-        },
+    // ============================================
+    // Live Search
+    // ============================================
+    initSearch: function () {
+        const searchInputs = document.querySelectorAll('.kptv-search input');
 
-        // ============================================
-        // Table Sorting
-        // ============================================
-        initTableSort: function () {
-            const sortableHeaders = document.querySelectorAll('.kptv-table th[data-sort]');
+        searchInputs.forEach(function (input) {
+            let debounceTimer;
 
-            sortableHeaders.forEach(function (header) {
-                header.style.cursor = 'pointer';
-                header.addEventListener('click', function () {
-                    const table = this.closest('table');
-                    const tbody = table.querySelector('tbody');
-                    const rows = Array.from(tbody.querySelectorAll('tr'));
-                    const column = this.dataset.sort;
-                    const columnIndex = Array.from(this.parentElement.children).indexOf(this);
-                    const isAsc = this.classList.contains('asc');
+            input.addEventListener('input', function () {
+                clearTimeout(debounceTimer);
+                const searchValue = this.value.toLowerCase();
+                const targetTable = document.querySelector(this.dataset.target || '.kptv-table');
 
-                    // Reset all headers
-                    sortableHeaders.forEach(function (h) {
-                        h.classList.remove('asc', 'desc');
-                    });
-
-                    // Sort rows
-                    rows.sort(function (a, b) {
-                        const aVal = a.children[columnIndex].textContent.trim();
-                        const bVal = b.children[columnIndex].textContent.trim();
-
-                        // Check if numeric
-                        const aNum = parseFloat(aVal);
-                        const bNum = parseFloat(bVal);
-
-                        if (!isNaN(aNum) && !isNaN(bNum)) {
-                            return isAsc ? bNum - aNum : aNum - bNum;
-                        }
-
-                        return isAsc
-                            ? bVal.localeCompare(aVal)
-                            : aVal.localeCompare(bVal);
-                    });
-
-                    // Update class
-                    this.classList.add(isAsc ? 'desc' : 'asc');
-
-                    // Re-append rows
-                    rows.forEach(function (row) {
-                        tbody.appendChild(row);
-                    });
-                });
-            });
-        },
-
-        // ============================================
-        // Live Search
-        // ============================================
-        initSearch: function () {
-            const searchInputs = document.querySelectorAll('.kptv-search input');
-
-            searchInputs.forEach(function (input) {
-                let debounceTimer;
-
-                input.addEventListener('input', function () {
-                    clearTimeout(debounceTimer);
-                    const searchValue = this.value.toLowerCase();
-                    const targetTable = document.querySelector(this.dataset.target || '.kptv-table');
-
-                    debounceTimer = setTimeout(function () {
-                        if (!targetTable) return;
-
-                        const rows = targetTable.querySelectorAll('tbody tr');
-
-                        rows.forEach(function (row) {
-                            const text = row.textContent.toLowerCase();
-                            row.style.display = text.includes(searchValue) ? '' : 'none';
-                        });
-
-                        // Update visible count if exists
-                        KPTV.updateVisibleCount(targetTable);
-                    }, 300);
-                });
-            });
-        },
-
-        // ============================================
-        // Per Page Selector
-        // ============================================
-        initPerPage: function () {
-            const perPageBtns = document.querySelectorAll('.kptv-per-page-btn');
-
-            perPageBtns.forEach(function (btn) {
-                btn.addEventListener('click', function (e) {
-                    e.preventDefault();
-
-                    // Update active state
-                    perPageBtns.forEach(function (b) {
-                        b.classList.remove('active');
-                    });
-                    this.classList.add('active');
-
-                    const perPage = this.dataset.perpage;
-                    const targetTable = document.querySelector(this.dataset.target || '.kptv-table');
-
+                debounceTimer = setTimeout(function () {
                     if (!targetTable) return;
 
                     const rows = targetTable.querySelectorAll('tbody tr');
-                    const showAll = perPage === 'all';
-                    const limit = parseInt(perPage, 10);
 
-                    rows.forEach(function (row, index) {
-                        if (showAll || index < limit) {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
-                        }
+                    rows.forEach(function (row) {
+                        const text = row.textContent.toLowerCase();
+                        row.style.display = text.includes(searchValue) ? '' : 'none';
                     });
 
+                    // Update visible count if exists
                     KPTV.updateVisibleCount(targetTable);
-                });
+                }, 300);
             });
-        },
+        });
+    },
 
-        // ============================================
-        // Update Visible Count Display
-        // ============================================
-        updateVisibleCount: function (table) {
-            const countDisplay = document.querySelector('.kptv-record-count');
-            if (!countDisplay || !table) return;
+    // ============================================
+    // Per Page Selector
+    // ============================================
+    initPerPage: function () {
+        const perPageBtns = document.querySelectorAll('.kptv-per-page-btn');
 
-            const totalRows = table.querySelectorAll('tbody tr').length;
-            const visibleRows = table.querySelectorAll('tbody tr:not([style*="display: none"])').length;
+        perPageBtns.forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
 
-            countDisplay.textContent = 'Showing ' + visibleRows + ' of ' + totalRows + ' records';
-        },
+                // Update active state
+                perPageBtns.forEach(function (b) {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
 
-        // ============================================
-        // Utility: Format Number
-        // ============================================
-        formatNumber: function (num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        },
+                const perPage = this.dataset.perpage;
+                const targetTable = document.querySelector(this.dataset.target || '.kptv-table');
 
-        // ============================================
-        // Utility: Debounce Function
-        // ============================================
-        debounce: function (func, wait) {
-            let timeout;
-            return function executedFunction() {
-                const context = this;
-                const args = arguments;
-                const later = function () {
-                    timeout = null;
-                    func.apply(context, args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
+                if (!targetTable) return;
+
+                const rows = targetTable.querySelectorAll('tbody tr');
+                const showAll = perPage === 'all';
+                const limit = parseInt(perPage, 10);
+
+                rows.forEach(function (row, index) {
+                    if (showAll || index < limit) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                KPTV.updateVisibleCount(targetTable);
+            });
+        });
+    },
+
+    // ============================================
+    // Update Visible Count Display
+    // ============================================
+    updateVisibleCount: function (table) {
+        const countDisplay = document.querySelector('.kptv-record-count');
+        if (!countDisplay || !table) return;
+
+        const totalRows = table.querySelectorAll('tbody tr').length;
+        const visibleRows = table.querySelectorAll('tbody tr:not([style*="display: none"])').length;
+
+        countDisplay.textContent = 'Showing ' + visibleRows + ' of ' + totalRows + ' records';
+    },
+
+    // ============================================
+    // Utility: Format Number
+    // ============================================
+    formatNumber: function (num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
+
+    // ============================================
+    // Utility: Debounce Function
+    // ============================================
+    debounce: function (func, wait) {
+        let timeout;
+        return function executedFunction() {
+            const context = this;
+            const args = arguments;
+            const later = function () {
+                timeout = null;
+                func.apply(context, args);
             };
-        }
-    };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+};
 
-    // ============================================
-    // Initialize on DOM Ready
-    // ============================================
-    DOMReady(function () {
-        KPTV.init();
-        MyInit();
-    });
+function MyInit( ) {
 
-    // Expose KPTV globally for external access
-    window.KPTV = KPTV;
+    // --- Event Delegation for Move Streams Handler ---
+    // This handles click events for '.move-to-live', '.move-to-series', '.move-to-other', '.move-to-vod'
+    // It is designed to work with dynamically added content by listening on a static parent.
+    const staticParent = document.querySelector('.the-datatable');
+    
+    if (staticParent) {
+    
+        staticParent.addEventListener('click', function (e) {
 
-})();
+            // Use .closest() to check if the clicked element or any of its ancestors matches our selectors
+            const targetButton = e.target.closest('.move-to-live, .move-to-series, .move-to-other, .move-to-vod');
 
-function MyInit() {
+            if (targetButton) {
+
+                // If a matching button was clicked or was an ancestor of the clicked element
+                e.preventDefault(); // Prevent default link behavior
+
+
+            }
+
+        } );
+
+    }
 
     // Global active toggle handler - works for all pages
     document.addEventListener('click', function (e) {
@@ -549,81 +557,6 @@ function MyInit() {
         });
     });
 
-    // move streams handler
-    document.querySelectorAll('.move-to-live, .move-to-series, .move-to-other, .move-to-vod').forEach(button => {
-        button.addEventListener('click', function (e) {
-            alert('clicked');
-            e.preventDefault();
-
-            // Determine if this is a single item move or bulk move
-            const isSingleMove = this.classList.contains('single-move');
-            let checkedBoxes;
-            let streamId;
-
-            if (isSingleMove) {
-                // For single item move, get the checkbox from the same row
-                const row = this.closest('tr');
-                streamId = row.querySelector('.record-checkbox').value;
-                if (!streamId) return;
-            } else {
-                // For bulk move, get all checked checkboxes
-                checkedBoxes = document.querySelectorAll('.record-checkbox:checked');
-                if (checkedBoxes.length === 0) {
-                    alert('Please select at least one item to move.');
-                    return;
-                }
-            }
-
-            const destination = this.classList.contains('move-to-live') ? 'live' :
-                this.classList.contains('move-to-series') ? 'series' : 'other';
-
-            const itemCount = isSingleMove ? 1 : checkedBoxes.length;
-            if (!confirm(`Move ${itemCount} item(s) to ${destination}?`)) return;
-
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '';
-
-            const actionInput = document.createElement('input');
-            actionInput.type = 'hidden';
-            actionInput.name = 'form_action';
-            actionInput.value = 'move-to-' + destination;
-            form.appendChild(actionInput);
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const sortInput = document.createElement('input');
-            sortInput.type = 'hidden';
-            sortInput.name = 'sort';
-            sortInput.value = urlParams.get('sort') || 'sp_priority';
-            form.appendChild(sortInput);
-
-            const dirInput = document.createElement('input');
-            dirInput.type = 'hidden';
-            dirInput.name = 'dir';
-            dirInput.value = urlParams.get('dir') || 'asc';
-            form.appendChild(dirInput);
-
-            if (isSingleMove) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'ids[]';
-                input.value = streamId;
-                form.appendChild(input);
-            } else {
-                checkedBoxes.forEach(checkbox => {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = 'ids[]';
-                    input.value = checkbox.value;
-                    form.appendChild(input);
-                });
-            }
-
-            document.body.appendChild(form);
-            form.submit();
-        });
-    });
-
     function revertCell(cell, originalValue) {
         cell.textContent = originalValue;
         cell.classList.add('stream-name');
@@ -840,3 +773,11 @@ function MyInit() {
 
 
 }
+
+// ============================================
+// Initialize on DOM Ready
+// ============================================
+DOMReady( function ( ) {
+    KPTV.init( );
+    MyInit( );
+} );
