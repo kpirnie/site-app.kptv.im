@@ -5,3 +5,4 @@ composer.lock
 assets/config.json
 .cache/
 _temp/
+tmp/
