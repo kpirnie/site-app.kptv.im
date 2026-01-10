@@ -45,8 +45,9 @@ Cache::configure( [
     'allowed_backends' => [ 'array', 'redis', 'memcached', 'opcache', 'shmop', 'file' ], // also: apcu, yac, mysql, sqlite
 ] );
 
-// define the app URI
+// define the app URIs
 defined( 'KPT_URI' ) || define( 'KPT_URI', KPT::get_setting( 'mainuri' ) . '/' );
+defined( 'KPT_XC_URI' ) || define( 'KPT_XC_URI', KPT::get_setting( 'xcuri' ) );
 
 // define our app name
 defined( 'APP_NAME' ) || define( 'APP_NAME', KPT::get_setting( 'appname' ) );

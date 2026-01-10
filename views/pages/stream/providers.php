@@ -35,8 +35,8 @@ $dt = new DataTables( $dbconf );
 // setup the form fields
 $formFields = KPT::view_configs( 'providers' ) -> form;
 
-// setup the row actions
-$rowActions = KPT::view_configs( 'providers', userForExport: $userForExport ) -> row;
+// setup the row actions - extract from view_configs
+$rowActionsConfig = KPT::view_configs( 'providers', userForExport: $userForExport ) -> row;
 
 // configure the datatable
 $dt -> table( 'kptv_stream_providers' )
@@ -72,10 +72,7 @@ $dt -> table( 'kptv_stream_providers' )
     -> bulkActions( true )
     -> addForm( 'Add a Provider', $formFields, class: 'uk-grid-small uk-grid' )
     -> editForm( 'Update a Provider', $formFields, class: 'uk-grid-small uk-grid' )
-    -> actionGroups( [
-        $rowActions,
-        [ 'edit' ],
-    ] );
+    -> actionGroups( array_merge( $rowActionsConfig, [ [ 'edit' ] ] ) );
 
 // Handle AJAX requests (before any HTML output)
 if ( isset( $_POST['action'] ) || isset( $_GET['action'] ) ) {
@@ -115,4 +112,4 @@ KPT::pull_header( );
 KPT::pull_footer( );
 
 // clean up
-unset( $dt, $formFields, $rowActions, $dbconf );
+unset( $dt, $formFields, $rowActionsConfig, $dbconf );
