@@ -240,70 +240,7 @@ const KPTV = {
 function MyInit() {
 
     // --- Event Delegation for Move Streams Handler ---
-    // This handles click events for '.move-to-live', '.move-to-series', '.move-to-other', '.move-to-vod'
-    // It is designed to work with dynamically added content by listening on a static parent.
     const staticParent = document.querySelector('.the-datatable');
-
-    if (staticParent) {
-
-        // Handle row action callback buttons
-        staticParent.addEventListener('click', function (e) {
-            const actionBtn = e.target.closest('a.action-callback');
-
-            if (!actionBtn) return;
-
-            e.preventDefault();
-            e.stopPropagation();
-
-            const row = actionBtn.closest('tr');
-            if (!row) return;
-
-            // now get the ID and the action taken
-            const rowId = row.dataset.id;
-            const action_name = actionBtn.dataset.action;
-
-            // get the confirmation message
-            const confirm_msg = actionBtn.dataset.confirm;
-            UIkit.modal.confirm(confirm_msg).then(function () {
-
-                // Get row data
-                const rowData = window.DataTablesRowData ? window.DataTablesRowData[rowId] : {};
-
-                // add all data to the ajax post
-                const formData = new FormData();
-                formData.append('action', 'action_callback');
-                formData.append('action_name', action_name);
-                formData.append('row_id', rowId);
-                formData.append('row_data', JSON.stringify(rowData));
-
-                // do the post
-                fetch(window.location.href, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                })
-                    .then(r => r.json())
-                    .then(data => {
-                        UIkit.notification({
-                            message: data.message || (data.success ? 'Success' : 'Failed'),
-                            status: data.success ? 'success' : 'danger',
-                            pos: 'top-center',
-                            timeout: 3000
-                        });
-                        if (data.success) setTimeout(() => window.location.reload(), 500);
-                    })
-                    .catch(() => {
-                        UIkit.notification({ message: 'An error occurred', status: 'danger', pos: 'top-center', timeout: 5000 });
-                    });
-
-            }, function () {
-                return;
-            });
-
-
-        });
-
-    }
 
     // Global active toggle handler - works for all pages
     document.addEventListener('click', function (e) {

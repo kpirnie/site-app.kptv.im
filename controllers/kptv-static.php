@@ -175,7 +175,6 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                             'delprovider' => [
                                 'icon' => 'trash',
                                 'title' => 'Delete this Provider<br />(also delete\'s all associated streams)',
-                                //'class' => 'action-callback',
                                 'success_message' => 'Provider and all it\'s streams have been deleted.',
                                 'error_message' => 'Failed to delete the provider.',
                                 'confirm' => 'Are you want to remove this provider and all it\'s streams?',
@@ -281,7 +280,6 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                             'livestreamact' => [
                                 'label' => '(De)Activate Streams',
                                 'icon' => 'crosshairs',
-                                'confirm' => 'Are you sure you want to (de)activate these streams?',
                                 'callback' => function( $selectedIds, $database, $tableName ) {
 
                                     // make sure we have records selected
@@ -297,6 +295,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                             -> execute( ) !== false;
 
                                 },
+                                'confirm' => 'Are you sure you want to (de)activate these streams?',
                                 'success_message' => 'Records (de)activated',
                                 'error_message' => 'Failed to (de)activate'
                             ],
@@ -308,31 +307,22 @@ if( ! class_exists( 'KPTV_Static' ) ) {
 
                                     // make sure we have selected items
                                     if ( empty( $selectedIds ) ) return false;
+
                                     // Track success/failure
                                     $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    // Use transaction for all operations
-                                    $database->transaction();
                                     
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 5 );
                                             if ($result) {
                                                 $successCount++;
                                             }
                                         }
                                         
-                                        // Commit if all successful, rollback if any failed
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
-                                        
+                                        // return
+                                        return $successCount > 0;
+
                                     } catch (\Exception $e) {
                                         $database->rollback();
                                         return false;
@@ -349,30 +339,21 @@ if( ! class_exists( 'KPTV_Static' ) ) {
 
                                     // make sure we have selected items
                                     if ( empty( $selectedIds ) ) return false;
+                                    
                                     // Track success/failure
                                     $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    // Use transaction for all operations
-                                    $database->transaction();
                                     
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 4 );
                                             if ($result) {
                                                 $successCount++;
                                             }
                                         }
                                         
-                                        // Commit if all successful, rollback if any failed
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
+                                        // return
+                                        return $successCount > 0;
                                         
                                     } catch (\Exception $e) {
                                         $database->rollback();
@@ -390,25 +371,17 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                     // make sure we have selected items
                                     if ( empty( $selectedIds ) ) return false;
                                     $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    $database->transaction();
-                                    
                                     try {
+                                        // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 99, 'toother' );
+                                            $result = KPTV::moveToType( $database, $id, 99 );
                                             if ($result) {
                                                 $successCount++;
                                             }
                                         }
                                         
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
+                                        // return
+                                        return $successCount > 0;
                                         
                                     } catch (\Exception $e) {
                                         $database->rollback();
@@ -423,7 +396,6 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                             'seriesstreamact' => [
                                 'label' => '(De)Activate Streams',
                                 'icon' => 'crosshairs',
-                                'confirm' => 'Are you sure you want to (de)activate these streams?',
                                 'callback' => function( $selectedIds, $database, $tableName ) {
 
                                     // make sure we have records selected
@@ -439,6 +411,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                             -> execute( ) !== false;
 
                                 },
+                                'confirm' => 'Are you sure you want to (de)activate these streams?',
                                 'success_message' => 'Records (de)activated',
                                 'error_message' => 'Failed to (de)activate'
                             ],
@@ -452,26 +425,18 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                     if ( empty( $selectedIds ) ) return false;
 
                                     $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    $database->transaction();
-                                    
                                     try {
+                                        // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 0, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 0 );
                                             if ($result) {
                                                 $successCount++;
                                             }
                                         }
                                         
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
-                                        
+                                        // return
+                                        return $successCount > 0;
+                                    
                                     } catch (\Exception $e) {
                                         $database->rollback();
                                         return false;
@@ -485,33 +450,22 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'icon' => 'video-camera',
                                 'confirm' => 'Move the selected records to vod streams?',
                                 'callback' => function( $selectedIds, $database, $tableName ) {
-
+                                    
                                     // make sure we have selected items
                                     if ( empty( $selectedIds ) ) return false;
-                                    // Track success/failure
+
                                     $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    // Use transaction for all operations
-                                    $database->transaction();
-                                    
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 4 );
                                             if ($result) {
                                                 $successCount++;
                                             }
                                         }
                                         
-                                        // Commit if all successful, rollback if any failed
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
+                                        // return
+                                        return $successCount > 0;
                                         
                                     } catch (\Exception $e) {
                                         $database->rollback();
@@ -529,25 +483,17 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                     // make sure we have selected items
                                     if ( empty( $selectedIds ) ) return false;
                                     $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    $database->transaction();
-                                    
                                     try {
+                                        // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 99, 'toother' );
+                                            $result = KPTV::moveToType( $database, $id, 99 );
                                             if ($result) {
                                                 $successCount++;
                                             }
                                         }
                                         
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
+                                        // return
+                                        return $successCount > 0;
                                         
                                     } catch (\Exception $e) {
                                         $database->rollback();
@@ -559,6 +505,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                             ],
                         ],
                         'vod' => [
+
                             'movetolive' => [
                                 'label' => 'Move to Live Streams',
                                 'icon' => 'tv',
@@ -569,25 +516,17 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                     if ( empty( $selectedIds ) ) return false;
 
                                     $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    $database->transaction();
-                                    
                                     try {
+                                        // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 0, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 0 );
                                             if ($result) {
                                                 $successCount++;
                                             }
                                         }
                                         
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
+                                        // return
+                                        return $successCount > 0;
                                         
                                     } catch (\Exception $e) {
                                         $database->rollback();
@@ -605,31 +544,20 @@ if( ! class_exists( 'KPTV_Static' ) ) {
 
                                     // make sure we have selected items
                                     if ( empty( $selectedIds ) ) return false;
-                                    // Track success/failure
+                                    
                                     $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    // Use transaction for all operations
-                                    $database->transaction();
-                                    
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 5 );
                                             if ($result) {
                                                 $successCount++;
                                             }
                                         }
                                         
-                                        // Commit if all successful, rollback if any failed
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
-                                        
+                                        // return
+                                        return $successCount > 0;
+                                    
                                     } catch (\Exception $e) {
                                         $database->rollback();
                                         return false;
@@ -637,47 +565,6 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 },
                                 'success_message' => 'Records moved to series streams successfully',
                                 'error_message' => 'Failed to move some or all records to series streams'
-                            ],
-                            'movetovod' => [
-                                'label' => 'Move to VOD Streams',
-                                'icon' => 'video-camera',
-                                'confirm' => 'Move the selected records to vod streams?',
-                                'callback' => function( $selectedIds, $database, $tableName ) {
-
-                                    // make sure we have selected items
-                                    if ( empty( $selectedIds ) ) return false;
-                                    // Track success/failure
-                                    $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    // Use transaction for all operations
-                                    $database->transaction();
-                                    
-                                    try {
-                                        // Process all selected IDs
-                                        foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
-                                            if ($result) {
-                                                $successCount++;
-                                            }
-                                        }
-                                        
-                                        // Commit if all successful, rollback if any failed
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
-                                        
-                                    } catch (\Exception $e) {
-                                        $database->rollback();
-                                        return false;
-                                    }
-                                },
-                                'success_message' => 'Records moved to vod streams successfully',
-                                'error_message' => 'Failed to move some or all records to vod streams'
                             ],
                             'movetoother' => [
                                 'label' => 'Move to Other Streams',
@@ -687,25 +574,17 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                     // make sure we have selected items
                                     if ( empty( $selectedIds ) ) return false;
                                     $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    $database->transaction();
-                                    
                                     try {
+                                        // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 99, 'toother' );
+                                            $result = KPTV::moveToType( $database, $id, 99 );
                                             if ($result) {
                                                 $successCount++;
                                             }
                                         }
                                         
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
+                                        // return
+                                        return $successCount > 0;
                                         
                                     } catch (\Exception $e) {
                                         $database->rollback();
@@ -727,25 +606,17 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                     if ( empty( $selectedIds ) ) return false;
 
                                     $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    $database->transaction();
-                                    
                                     try {
+                                        // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 0, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 0 );
                                             if ($result) {
                                                 $successCount++;
                                             }
                                         }
                                         
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
+                                        // return
+                                        return $successCount > 0;
                                         
                                     } catch (\Exception $e) {
                                         $database->rollback();
@@ -763,30 +634,18 @@ if( ! class_exists( 'KPTV_Static' ) ) {
 
                                     // make sure we have selected items
                                     if ( empty( $selectedIds ) ) return false;
-                                    // Track success/failure
                                     $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    // Use transaction for all operations
-                                    $database->transaction();
-                                    
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 5 );
                                             if ($result) {
                                                 $successCount++;
                                             }
                                         }
                                         
-                                        // Commit if all successful, rollback if any failed
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
+                                        // return
+                                        return $successCount > 0;
                                         
                                     } catch (\Exception $e) {
                                         $database->rollback();
@@ -804,30 +663,18 @@ if( ! class_exists( 'KPTV_Static' ) ) {
 
                                     // make sure we have selected items
                                     if ( empty( $selectedIds ) ) return false;
-                                    // Track success/failure
                                     $successCount = 0;
-                                    $totalCount = count($selectedIds);
-                                    
-                                    // Use transaction for all operations
-                                    $database->transaction();
-                                    
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 4 );
                                             if ($result) {
                                                 $successCount++;
                                             }
                                         }
-                                        
-                                        // Commit if all successful, rollback if any failed
-                                        if ($successCount === $totalCount) {
-                                            $database->commit();
-                                            return true;
-                                        } else {
-                                            $database->rollback();
-                                            return false;
-                                        }
+                                        var_dump($successCount);exit;
+                                        // return
+                                        return $successCount > 0;
                                         
                                     } catch (\Exception $e) {
                                         $database->rollback();
@@ -851,7 +698,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 5 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -863,7 +710,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 4 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -875,7 +722,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPTV::moveToType( $database, $rowId, 99, 'toother' );
+                                    return KPTV::moveToType( $database, $rowId, 99 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -893,7 +740,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    KPTV::moveToType( $database, $rowId, 0, 'liveorseries' );
+                                    KPTV::moveToType( $database, $rowId, 0 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -905,7 +752,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 4 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -917,7 +764,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPTV::moveToType( $database, $rowId, 99, 'toother' );
+                                    return KPTV::moveToType( $database, $rowId, 99 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -935,7 +782,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    KPTV::moveToType( $database, $rowId, 0, 'liveorseries' );
+                                    KPTV::moveToType( $database, $rowId, 0 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -947,7 +794,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 5 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -959,7 +806,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 4 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -971,7 +818,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPTV::moveToType( $database, $rowId, 99, 'toother' );
+                                    return KPTV::moveToType( $database, $rowId, 99 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -989,7 +836,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    KPTV::moveToType( $database, $rowId, 0, 'liveorseries' );
+                                    KPTV::moveToType( $database, $rowId, 0 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -1001,7 +848,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 5 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -1013,7 +860,7 @@ if( ! class_exists( 'KPTV_Static' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 4 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -2589,44 +2436,50 @@ if( ! class_exists( 'KPTV_Static' ) ) {
 
         }
 
-        public static function moveToType( $database, $id, $type, $which = 'toother' ) : bool {
+        public static function moveToType( $db, int $id, int $type = 99 ) : bool {
 
             // Use transaction for multiple operations
-            $database -> transaction( );
+            $db -> transaction( );
             try {
-                
-                // do we want to move to other?
-                if( $which === 'toother' ) {
 
-                    // Call stored procedure for each ID
-                    $result = $database
+                // figure out what we're moving
+                $result = match( $type ) {
+                    // live
+                    0 => $db
+                        -> query( 'UPDATE `kptv_streams` SET `s_type_id` = 0 WHERE `id` = ?' )
+                        -> bind( [$id] )  // Fixed: was using $which instead of $type
+                        -> execute( ),
+                    // series
+                    5 => $db
+                        -> query( 'UPDATE `kptv_streams` SET `s_type_id` = 5 WHERE `id` = ?' )
+                        -> bind( [$id] )  // Fixed: was using $which instead of $type
+                        -> execute( ),
+                    // vod
+                    4 => $db
+                        -> query( 'UPDATE `kptv_streams` SET `s_type_id` = 4 WHERE `id` = ?' )
+                        -> bind( [$id] )  // Fixed: was using $which instead of $type
+                        -> execute( ),
+					// other
+                    default => $db
                         -> query( 'UPDATE `kptv_streams` SET `s_type_id` = 99 WHERE `id` = ?' )
                         -> bind( [$id] )
-                        -> execute( );
-                }
-                // do we want to move from other?
-                else {
+                        -> execute( ),
+                    
+                };
 
-                    // Call stored procedure for each ID
-                    $result = $database
-                        -> query( 'UPDATE `kptv_streams` SET `s_type_id` = ? WHERE `id` = ?' )
-                        -> bind( [$type, $id] )  // Fixed: was using $which instead of $type
-                        -> execute( );
-                }
-                
                 // Check if operation failed
                 if ( $result === false ) {
-                    $database -> rollback( );
+                    $db -> rollback( );
                     return false;
                 }
 
                 // Commit if all successful
-                $database -> commit( );
+                $db -> commit( );
                 return true;
                 
             } catch ( \Exception $e ) {
                 // Rollback on error
-                $database -> rollback( );
+                $db -> rollback( );
                 return false;
             }
 
