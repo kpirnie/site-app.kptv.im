@@ -13,45 +13,35 @@ use KPT\Router;
 use KPT\DataTables\DataTables;
 
 // define the primary app path if not already defined
-defined( 'KPT_PATH' ) || die( 'Direct Access is not allowed!' );
+defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
 ?>
-                        </div>
-                        <div class="uk-width-1-4@m uk-visible@m">
-                            <?php
-
-                                // include our sidebar
-                                include KPT_PATH . 'views/wrapper/sidebar.php';
-                            ?>
-                        </div>
-                    </div>
-                </div>
                 <?php if( '/terms-of-use' != Router::getCurrentRoute( ) -> path ) { ?>
-                    <div>
-                        <div class="uk-alert-primary dark-or-light uk-padding-large uk-margin-remove uk-padding-remove-vertical legal-notice" uk-alert>
-                            <hr class="uk-divider-icon dark-version" />
-                            <h3 class="me uk-heading-bullet uk-margin-remove-top">Important Legal Notice</h3>
+                    <div class="uk-margin-large uk-margin-remove-bottom">
+                        <div class="uk-alert-primary uk-padding uk-margin-remove" uk-alert>
+                            <h3 class="uk-heading-bullet uk-margin-remove-top">Important Legal Notice</h3>
                             <p>This platform is intended for legitimate IPTV management purposes only. Users are responsible for ensuring they have proper legal authorization for any content, streams, or media they manage through this service. We do not host, store, or distribute any media content - this is strictly an organizational tool for legally obtained IPTV subscriptions.</p>
                             <p>By using this service, you agree to use it responsibly and in accordance with all applicable local, national, and international laws. Any content that violates copyright or licensing agreements is strictly prohibited. Account privileges may be revoked immediately for misuse, unauthorized content management, or violation of these terms.</p>
                             <p class="uk-text-small uk-margin-remove-bottom uk-text-right">For support or legal concerns, visit our <a href="https://github.com/kpirnie/app.kptv.im/issues" target="_blank" class="uk-link">GitHub Issues page</a>.</p>
                         </div>
                     </div>
                 <?php } ?>
-            </section>
-        </main>
-        <footer>
-            <div class="uk-section uk-section-primary uk-padding uk-padding-remove-horizontal uk-margin-medium-top kp-footer">
-                <div class="uk-container">
-                    <div class="copyright-bar uk-text-center">
-                        <p class="in-copyright-text uk-text-small">
-                            <a href="/terms-of-use">Terms of Use</a> | Copyright &copy; <a href="https://kevinpirnie.com/" target="_blank">Kevin C. Pirnie</a> <?php echo date( 'Y' ); ?>, All Rights Reserved.<br />
-                        </p>
-                    </div>
-                </div>
+                </main>
             </div>
-            <div class="">
-                <a href="#" class="in-totop" data-uk-scroll><i class="dark-or-light" uk-icon="icon: chevron-up;"></i></a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="kptv-footer">
+            <div class="kptv-footer-content">
+                <p>
+                    <a href="/terms-of-use">Terms of Use</a> | Copyright &copy; <a href="https://kevinpirnie.com/" target="_blank">Kevin C. Pirnie</a> <?php echo date( 'Y' ); ?>, All Rights Reserved.
+                </p>
             </div>
         </footer>
+
+        <!-- Scroll to Top Button -->
+        <button id="kptv-scroll-top" class="kptv-scroll-top" title="Scroll to top">
+            <span uk-icon="chevron-up"></span>
+        </button>
 
         <div id="vid_modal" class="uk-flex-top vid-modal" uk-modal>
             <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-width-auto">
@@ -64,14 +54,11 @@ defined( 'KPT_PATH' ) || die( 'Direct Access is not allowed!' );
                 </video>
             </div>
         </div>
-        
-        <script type="text/javascript" src="//vjs.zencdn.net/8.6.1/video.min.js"></script>
-        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/hls.js@latest"></script>
-        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/mpegts.js@latest"></script>
-        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit.min.js"></script>
-        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit-icons.min.js"></script>
-        <?php echo DataTables::getJsIncludes(); ?>
-        <script type="text/javascript" src="/assets/js/video.js?_=<?php echo time( ); ?>"></script>
-        <script type="text/javascript" src="/assets/js/custom.js?_=<?php echo time( ); ?>"></script>
+        <script type="text/javascript" src="//vjs.zencdn.net/8.6.1/video.min.js" defer></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/mpegts.js@latest" defer></script>
+        <?php echo DataTables::getJsIncludes( 'uikit', true ); ?>
+        <script src="/assets/js/kptv.min.js" defer></script>
+        <script type="text/javascript" src="/assets/js/custom.js?_=<?php echo time( ); ?>" defer><script>
     </body>
 </html>

@@ -11,109 +11,130 @@
  */
 
 // define the primary app path if not already defined
-defined( 'KPT_PATH' ) || die( 'Direct Access is not allowed!' );
+defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
 
-use KPT\KPT;
-use KPT\Router;
+// Define nav items once to avoid duplication
+ob_start();
 
-// get the route we're in
-$_route = Router::getCurrentRoute( );
-
-// title and image string
-$title = ( KPT_User::is_user_logged_in( ) ) ? '<br /><br />' : "KPTV Stream Manager";
-$img = '/assets/images/iptv-inner.jpg';
-
-// switch on path se we can set the title and image
-switch( $_route -> path ) {
-    case '/users/login':
-    case '/users/register':
-    case '/users/forgot':
-    case '/users/changepass':
-    case '/admin/users':
-        $title = "Account<br />Manager";
-        $img = '/assets/images/security-inner.jpg';
-        break;
-}
-
-// get ther user id for the export
-$user_for_export = KPT::encrypt( ( KPT_User::get_current_user( ) -> id ) ?? 0 );
-
+// is there a logged in user?
+if( KPTV_User::is_user_logged_in( ) ):
+    ?>
+    <li class="uk-nav-header">STREAM MANAGER</li>
+    <li>
+        <a href="/providers">
+            <span uk-icon="server"></span>
+            Your Providers
+        </a>
+    </li>
+    <li>
+        <a href="/filters">
+            <span uk-icon="settings"></span>
+            Your Filters
+        </a>
+    </li>
+    <li class="uk-parent <?php echo KPTV::open_link( 'live' ); ?>">
+        <a href="#">
+            <span uk-icon="tv"></span>
+            Live Streams
+        </a>
+        <ul class="uk-nav-sub">
+            <li><a href="/streams/live/active">Active Streams</a></li>
+            <li><a href="/streams/live/inactive">Inactive Streams</a></li>
+            <li><a uk-tooltip="Click to Copy the M3U URL" href="<?php echo KPTV_URI; ?>playlist/<?php echo $user_for_export; ?>/live" class="copy-link">Export Streams</a></li>
+        </ul>
+    </li>
+    <li class="uk-parent <?php echo KPTV::open_link( 'series' ); ?>">
+        <a href="#">
+            <span uk-icon="album"></span>
+            Series Streams
+        </a>
+        <ul class="uk-nav-sub">
+            <li><a href="/streams/series/active">Active Streams</a></li>
+            <li><a href="/streams/series/inactive">Inactive Streams</a></li>
+            <li><a uk-tooltip="Click to Copy the M3U URL" href="<?php echo KPTV_URI; ?>playlist/<?php echo $user_for_export; ?>/series" class="copy-link">Export Streams</a></li>
+        </ul>
+    </li>
+    <li class="uk-parent <?php echo KPTV::open_link( 'vod' ); ?>">
+        <a href="#">
+            <span uk-icon="video-camera"></span>
+            VOD Streams
+        </a>
+        <ul class="uk-nav-sub">
+            <li><a href="/streams/vod/active">Active Streams</a></li>
+            <li><a href="/streams/vod/inactive">Inactive Streams</a></li>
+            <li><a uk-tooltip="Click to Copy the M3U URL" href="<?php echo KPTV_URI; ?>playlist/<?php echo $user_for_export; ?>/vod" class="copy-link">Export Streams</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="/streams/other">
+            <span uk-icon="nut" class="kptv-icon-dual"></span>
+            Other Streams
+        </a>
+    </li>
+    <li>
+        <a href="/missing">
+            <span uk-icon="minus-circle" class="kptv-icon-dual"></span>
+            Missing Streams
+        </a>
+    </li>
+    <li class="uk-nav-divider"></li>
+<?php endif; ?>
+<li class="uk-nav-header">ACCOUNT MANAGER</li>
+<li class="uk-parent <?php echo KPTV::open_link( 'account' ); ?>">
+    <a href="#">
+        <span uk-icon="user" class="kptv-icon-dual"></span>
+        Your Account
+    </a>
+    <ul class="uk-nav-sub">
+        <?php
+        // check if there is a user object, and a user id
+        if( KPTV_User::is_user_logged_in( ) ) {
+        ?>
+            <li><a href="/users/changepass">Change Your Password</a></li>
+            <li><a href="/users/logout">Logout of Your Account</a></li>
+        <?php
+        // there isn't so replace this with the login stuff
+        } else {
+        ?>
+            <li><a href="/users/login">Login to Your Account</a></li>
+            <li><a href="/users/register">Register an Account</a></li>
+            <li><a href="/users/forgot">Forgot Your Password?</a></li>
+        <?php 
+        }
+        ?>
+    </ul>
+</li>
+<li class="uk-nav-header">INFO &amp; SUPPORT</li>
+<li class="uk-parent <?php echo KPTV::open_link( 'info' ); ?>">
+    <a href="#">
+        <span uk-icon="tv"></span>
+        FAQ &amp; Info
+    </a>
+    <ul class="uk-nav-sub">
+        <li><a href="/users/faq">Account Management</a></li>
+        <li><a href="/streams/faq">Stream Management</a></li>
+        <li><a href="/terms-of-use">Terms of Use</a></li>
+    </ul>
+</li>
+<?php
+$nav_items = ob_get_clean();
 ?>
 
-<div class="in-pricing-1">
-    <div class="uk-card uk-card-default uk-box-shadow-medium">
-        <div class="uk-card-media-top">
-            <img class="uk-width-1-1 uk-align-center" data-src="<?php echo $img; ?>" height="800" width="534" data-width data-height alt="<?php echo ( $_data -> page_title ) ?? 'Kevin Pirnie\'s Support'; ?>" data-uk-img />
-            <span></span>
-        </div>
-        <div class="uk-card-body uk-margin-small uk-padding-small">
-            <div class="in-heading-extra in-card-decor-1">
-                <h2 class="no-border">
-                    <?php echo $title; ?>
-                </h2>
-            </div>
-            <?php
-                // if the type is empty or home
-                if( ! KPT_User::is_user_logged_in( ) ) {
-                    ?>
-                    <a href="/users/register" class="uk-button uk-button-primary uk-border-rounded contact-button uk-margin-auto uk-margin-medium-top" target="">
-                        Register
-                    </a>
-                    <a href="/users/forgot" class="uk-button uk-button-primary uk-border-rounded contact-button uk-margin-auto uk-margin-top" target="">
-                        Forgot Password?
-                    </a>
-                    <a href="/users/login" class="uk-button uk-button-primary uk-border-rounded contact-button uk-margin-auto uk-margin-top uk-margin-bottom" target="">
-                        Login
-                    </a>
-                    <?php
-                } else {
-
-                    ?>
-                    <h4 class="me uk-heading-bullet uk-margin-remove-top">Account Manager</h4>
-                    <ul class="uk-list uk-padding-small uk-padding-remove-vertical">
-                        <li><a href="/users/changepass"><i uk-icon="icon: cog"></i> Change Your Password</a></li>
-                        <li><a href="/users/logout"><i uk-icon="icon: sign-out"></i> Logout of Your Account</a></li>
-                        <?php if( KPT_User::get_current_user( ) -> role == 99 ) { ?>
-                            <li class="uk-li-divider"></li>
-                            <li><a href="/admin/users"><i uk-icon="icon: users"></i> User Management</a></li>
-                        <?php } ?>
-                    </ul>
-                    <h4 class="me uk-heading-bullet uk-margin-remove-top">Stream Manager</h4>
-                    <ul class="uk-list uk-padding-small uk-padding-remove-vertical">
-                        <li><a href="/providers"><i uk-icon="icon: server"></i> Your Providers</a></li>
-                        <li><a href="/filters"><i uk-icon="icon: settings"></i> Your Filters</a></li>
-                        <li class="uk-li-divider"></li>    
-                        <li>
-                            <a href="/streams/live/all" class="" target=""><i uk-icon="icon: tv"></i> Live Streams</a>
-                            <ul class="inner-links uk-margin-remove-top uk-list uk-padding-small uk-padding-remove-vertical">
-                                <li><a href="/streams/live/active">Active Streams</a></li>
-                                <li><a href="/streams/live/inactive">In-Active Streams</a></li>
-                                <li><a uk-tooltip="Click to Copy the Playlist URL" href="<?php echo KPT_URI; ?>playlist/<?php echo $user_for_export; ?>/live" class="copy-link">Export the Playlist</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="/streams/series/all" class="" target=""><i uk-icon="icon: album"></i>  Series Stream</a>
-                            <ul class="inner-links uk-margin-remove-top uk-list uk-padding-small uk-padding-remove-vertical">
-                                <li><a href="/streams/series/active">Active Streams</a></li>
-                                <li><a href="/streams/series/inactive">In-Active Streams</a></li>
-                                <li><a uk-tooltip="Click to Copy the Playlist URL" href="<?php echo KPT_URI; ?>playlist/<?php echo $user_for_export; ?>/series" class="copy-link">Export the Playlist</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="/streams/vod/all" class="" target=""><i uk-icon="icon: video-camera"></i>  VOD Stream</a>
-                            <ul class="inner-links uk-margin-remove-top uk-list uk-padding-small uk-padding-remove-vertical">
-                                <li><a href="/streams/vod/active">Active Streams</a></li>
-                                <li><a href="/streams/vod/inactive">In-Active Streams</a></li>
-                                <li><a uk-tooltip="Click to Copy the Playlist URL" href="<?php echo KPT_URI; ?>playlist/<?php echo $user_for_export; ?>/vod" class="copy-link">Export the Playlist</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="/streams/other" class="" target=""><i uk-icon="icon: nut"></i> Other Streams</a></li>
-                        <li><a href="/missing" class="" target=""><i uk-icon="icon: eye-slash"></i> Missing Streams</a></li>
-                    </ul>                    
-                    <?php
-
-                }
-                ?>
-        </div>
+<!-- Mobile Offcanvas Sidebar -->
+<div id="kptv-mobile-nav" uk-offcanvas="overlay: true; mode: slide; flip: true" class="kptv-offcanvas">
+    <div class="uk-offcanvas-bar">
+        <span uk-icon="icon: close; ratio: 1.5" class="uk-offcanvas-close"></span>
+        <ul class="uk-nav uk-nav-default uk-nav-parent-icon kptv-offcanvas-nav" uk-nav>
+            <?php echo $nav_items; ?>
+        </ul>
     </div>
+</div>
+
+<!-- Desktop Sidebar -->
+<div class="uk-width-auto uk-visible@m uk-flex uk-flex-column">
+    <aside class="kptv-sidebar uk-flex-1">
+        <ul class="uk-nav uk-nav-default uk-nav-parent-icon kptv-sidebar-nav" uk-nav>
+            <?php echo $nav_items; ?>
+        </ul>
+    </aside>
 </div>

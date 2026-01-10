@@ -22,9 +22,9 @@ php $APP_PATH/vendor/kevinpirnie/kpt-cache/src/cache/cleaner.php --cleanup
 php $APP_PATH/vendor/kevinpirnie/kpt-cache/src/cache/cleaner.php --clear_all
 rm -rf /tmp/kpt_* $APP_PATH/.cache/*
 
-#rm -rf $APP_PATH/node_modules
-#npm install --prefix "$APP_PATH"
-#npm run build --prefix "$APP_PATH"
+rm -rf $APP_PATH/node_modules
+npm install --prefix "$APP_PATH"
+npm run build --prefix "$APP_PATH"
 
 # just inn case php is caching
 service php8.4-fpm restart && service nginx restart

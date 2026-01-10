@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3902f00c554f7b9c72c67f9dc8291ac1
+class ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -159,8 +159,12 @@ class ComposerStaticInit3902f00c554f7b9c72c67f9dc8291ac1
         'GuzzleHttp\\RetryMiddleware' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/RetryMiddleware.php',
         'GuzzleHttp\\TransferStats' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/TransferStats.php',
         'GuzzleHttp\\Utils' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Utils.php',
-        'KPTV_Stream_Playlists' => __DIR__ . '/../..' . '/controllers/kpt-stream-playlists.php',
-        'KPTV_XtreamAPI' => __DIR__ . '/../..' . '/controllers/kpt-xtream-api.php',
+        'KPTV' => __DIR__ . '/../..' . '/controllers/main.php',
+        'KPTV_Proxy' => __DIR__ . '/../..' . '/controllers/kptv-proxy.php',
+        'KPTV_Static' => __DIR__ . '/../..' . '/controllers/kptv-static.php',
+        'KPTV_Stream_Playlists' => __DIR__ . '/../..' . '/controllers/kptv-stream-playlists.php',
+        'KPTV_User' => __DIR__ . '/../..' . '/controllers/kptv-user.php',
+        'KPTV_Xtream_API' => __DIR__ . '/../..' . '/controllers/kptv-xtreme-api.php',
         'KPT\\Cache' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache.php',
         'KPT\\CacheAPCU' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/backends/apcu.php',
         'KPT\\CacheArray' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/backends/array.php',
@@ -191,8 +195,6 @@ class ComposerStaticInit3902f00c554f7b9c72c67f9dc8291ac1
         'KPT\\DataTables\\Renderer' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/Renderer.php',
         'KPT\\DataTables\\ThemeManager' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/ThemeManager.php',
         'KPT\\Database' => __DIR__ . '/..' . '/kevinpirnie/kpt-database/src/Database.php',
-        'KPT\\KPT' => __DIR__ . '/../..' . '/controllers/static.php',
-        'KPT\\KStatic' => __DIR__ . '/../..' . '/controllers/static.php',
         'KPT\\Logger' => __DIR__ . '/..' . '/kevinpirnie/kpt-logger/src/Logger.php',
         'KPT\\Router' => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src/router.php',
         'KPT\\RouterMiddlewareHandler' => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src/router/middleware.php',
@@ -200,9 +202,6 @@ class ComposerStaticInit3902f00c554f7b9c72c67f9dc8291ac1
         'KPT\\RouterRequestProcessor' => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src/router/request-processor.php',
         'KPT\\RouterResponseHandler' => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src/router/response-handler.php',
         'KPT\\RouterRouteHandler' => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src/router/route-handler.php',
-        'KPT\\Sanitizers' => __DIR__ . '/../..' . '/controllers/static/sanitizers.php',
-        'KPT\\Validators' => __DIR__ . '/../..' . '/controllers/static/validators.php',
-        'KPT_User' => __DIR__ . '/../..' . '/controllers/kpt-user.php',
         'Kptv\\IptvSync\\Config' => __DIR__ . '/../..' . '/sync/src/Config.php',
         'Kptv\\IptvSync\\Database\\ComparisonOperator' => __DIR__ . '/../..' . '/sync/src/Database/ComparisonOperator.php',
         'Kptv\\IptvSync\\Database\\OrderByClause' => __DIR__ . '/../..' . '/sync/src/Database/OrderByClause.php',
@@ -217,7 +216,6 @@ class ComposerStaticInit3902f00c554f7b9c72c67f9dc8291ac1
         'Kptv\\IptvSync\\Parsers\\XtremeCodesProvider' => __DIR__ . '/../..' . '/sync/src/Parsers/XtremeCodesProvider.php',
         'Kptv\\IptvSync\\ProviderManager' => __DIR__ . '/../..' . '/sync/src/ProviderManager.php',
         'Kptv\\IptvSync\\SyncEngine' => __DIR__ . '/../..' . '/sync/src/SyncEngine.php',
-        'LiveStreamProxy' => __DIR__ . '/../..' . '/controllers/proxy.php',
         'Psr\\Http\\Client\\ClientExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientExceptionInterface.php',
         'Psr\\Http\\Client\\ClientInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientInterface.php',
         'Psr\\Http\\Client\\NetworkExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/NetworkExceptionInterface.php',
@@ -240,9 +238,9 @@ class ComposerStaticInit3902f00c554f7b9c72c67f9dc8291ac1
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3902f00c554f7b9c72c67f9dc8291ac1::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3902f00c554f7b9c72c67f9dc8291ac1::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit3902f00c554f7b9c72c67f9dc8291ac1::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -11,46 +11,44 @@
  */
 
 // define the primary app path if not already defined
-defined( 'KPT_PATH' ) || die( 'Direct Access is not allowed!' );
-
-use KPT\KPT;
+defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
 
 // pull in the header
-KPT::pull_header( );
+KPTV::pull_header( );
 
 // check if we're already logged in
-if( ! KPT_User::is_user_logged_in( ) ) {
+if( ! KPTV_User::is_user_logged_in( ) ) {
 
     // message with redirect
-    KPT::message_with_redirect( '/', 'danger', 'You don\'t belong there.' );
+    KPTV::message_with_redirect( '/', 'danger', 'You don\'t belong there.' );
 
 } else {
 
     ?>
-    <h2 class="me">Change Your Password</h2>
+    <h2 class="kptv-heading uk-heading-bullet">Change Your Password</h2>
     <form action="/users/changepass" method="POST" class="uk-form-stacked">
         <div class="uk-margin">
             <div class="uk-inline uk-width-1-1">
-                <span class="uk-form-icon" uk-icon="icon: unlock"></span>
+                <span class="uk-form-icon" uk-icon="unlock"></span>
                 <input class="uk-input" id="frmExistPassword" type="password" placeholder="Your Current Password" name="frmExistPassword" />
             </div>
         </div>
         <div class="uk-margin">
             <div class="uk-inline uk-width-1-1">
-                <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                <span class="uk-form-icon" uk-icon="lock"></span>
                 <input class="uk-input" id="frmNewPassword1" type="password" placeholder="New Password" name="frmNewPassword1" />
             </div>
         </div>
         <div class="uk-margin">
             <div class="uk-inline uk-width-1-1">
-                <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                <span class="uk-form-icon" uk-icon="lock"></span>
                 <input class="uk-input" id="frmNewPassword2" type="password" placeholder="New Password Again" name="frmNewPassword2" />
             </div>
         </div>
         <div class="uk-margin">
             <div class="uk-width-1-1">
                 <button class="uk-button uk-button-primary uk-border-rounded contact-button uk-align-right" type="submit">
-                    Change Your Password <i uk-icon="icon: cog"></i>
+                    Change Your Password <span uk-icon="cog"></span>
                 </button>
             </div>
         </div>
@@ -60,4 +58,4 @@ if( ! KPT_User::is_user_logged_in( ) ) {
 }
 
 // pull in the footer
-KPT::pull_footer( );
+KPTV::pull_footer( );

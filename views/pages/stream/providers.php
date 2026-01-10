@@ -7,17 +7,16 @@
  * @package KP Library
  */
 
-defined('KPT_PATH') || die('Direct Access is not allowed!');
+defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
 // make sure we've got our namespaces...
-use KPT\KPT;
 use KPT\DataTables\DataTables;
 
 // setup the user id
-$userId = KPT_User::get_current_user( ) -> id;
+$userId = KPTV_User::get_current_user( ) -> id;
 
 // setup the user string
-$userForExport = KPT::encrypt( $userId );
+$userForExport = KPTV::encrypt( $userId );
 
 // Configure database via constructor
 $dbconf = [
@@ -33,10 +32,10 @@ $dbconf = [
 $dt = new DataTables( $dbconf );
 
 // setup the form fields
-$formFields = KPT::view_configs( 'providers' ) -> form;
+$formFieldsConfig = KPTV::view_configs( 'providers' ) -> form;
 
 // setup the row actions - extract from view_configs
-$rowActionsConfig = KPT::view_configs( 'providers', userForExport: $userForExport ) -> row;
+$rowActionsConfig = KPTV::view_configs( 'providers', userForExport: $userForExport ) -> row;
 
 // configure the datatable
 $dt -> table( 'kptv_stream_providers' )
@@ -70,8 +69,8 @@ $dt -> table( 'kptv_stream_providers' )
     -> perPage( 25 )
     -> pageSizeOptions( [25, 50, 100, 250], true ) // true includes "ALL" option
     -> bulkActions( true )
-    -> addForm( 'Add a Provider', $formFields, class: 'uk-grid-small uk-grid' )
-    -> editForm( 'Update a Provider', $formFields, class: 'uk-grid-small uk-grid' )
+    -> addForm( 'Add a Provider', $formFieldsConfig, class: 'uk-grid-small uk-grid' )
+    -> editForm( 'Update a Provider', $formFieldsConfig, class: 'uk-grid-small uk-grid' )
     -> actionGroups( array_merge( $rowActionsConfig, [ [ 'edit' ] ] ) );
 
 // Handle AJAX requests (before any HTML output)
@@ -80,36 +79,34 @@ if ( isset( $_POST['action'] ) || isset( $_GET['action'] ) ) {
 }
 
 // pull in the header
-KPT::pull_header( );
+KPTV::pull_header( );
 ?>
-<div class="uk-container uk-container-full">
-    <h2 class="me uk-heading-divider">Stream Providers</h2>
-    <div class="uk-border-bottom">
-        <?php
+<h2 class="kptv-heading uk-heading-bullet">Stream Providers</h2>
+<div class="uk-border-bottom">
+    <?php
 
-        // pull in the control panel
-        KPT::include_view( 'common/control-panel', [ 'dt' => $dt ] );
-        ?>
-    </div>
-    <div class="">
-        <?php
+    // pull in the control panel
+    KPTV::include_view( 'common/control-panel', [ 'dt' => $dt ] );
+    ?>
+</div>
+<div class="uk-margin">
+    <?php
 
-        // write out the datatable component
-        echo $dt -> renderDataTableComponent( );
-        ?>
-    </div>
-    <div class="uk-border-top">
-        <?php
+    // write out the datatable component
+    echo $dt -> renderDataTableComponent( );
+    ?>
+</div>
+<div class="uk-border-top">
+    <?php
 
-        // pull in the control panel
-        KPT::include_view( 'common/control-panel', [ 'dt' => $dt ] );
-        ?>
-    </div>
+    // pull in the control panel
+    KPTV::include_view( 'common/control-panel', [ 'dt' => $dt ] );
+    ?>
 </div>
 <?php
 
 // pull in the footer
-KPT::pull_footer( );
+KPTV::pull_footer( );
 
 // clean up
-unset( $dt, $formFields, $rowActionsConfig, $dbconf );
+unset( $dt, $formFields, $dbconf );

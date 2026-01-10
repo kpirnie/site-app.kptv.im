@@ -8,7 +8,7 @@
  * @author Kevin Pirnie <me@kpirnie.com>
  * @package KP Library
  */
-defined( 'KPT_PATH' ) || die( 'Direct Access is not allowed!' );
+defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
 
 // setup our namespace imports
 use KPT\KPT;
@@ -23,8 +23,8 @@ $middlewareDefinitions = [
 
     // Guest-only middleware (user must NOT be logged in)
     'guest_only' => function( ) {
-        if ( KPT_User::is_user_logged_in( ) ) {
-            KPT::message_with_redirect( '/', 'danger', 'You are already logged in.' );
+        if ( KPTV_User::is_user_logged_in( ) ) {
+            KPTV::message_with_redirect( '/', 'danger', 'You are already logged in.' );
             return false;
         }
         return true;
@@ -32,8 +32,8 @@ $middlewareDefinitions = [
     
     // Authentication required middleware
     'auth_required' => function( ) {
-        if ( ! KPT_User::is_user_logged_in( ) ) {
-            KPT::message_with_redirect( '/users/login', 'danger', 'You must be logged in to access this page.' );
+        if ( ! KPTV_User::is_user_logged_in( ) ) {
+            KPTV::message_with_redirect( '/users/login', 'danger', 'You must be logged in to access this page.' );
             return false;
         }
         return true;
@@ -41,14 +41,14 @@ $middlewareDefinitions = [
     
     // Admin-only middleware
     'admin_required' => function() {
-        if ( ! KPT_User::is_user_logged_in( ) ) {
-            KPT::message_with_redirect( '/users/login', 'danger', 'You must be logged in to access this page.' );
+        if ( ! KPTV_User::is_user_logged_in( ) ) {
+            KPTV::message_with_redirect( '/users/login', 'danger', 'You must be logged in to access this page.' );
             return false;
         }
         
-        $user = KPT_User::get_current_user( );
+        $user = KPTV_User::get_current_user( );
         if ( $user -> role != 99 ) {
-            KPT::message_with_redirect( '/', 'danger', 'You do not have permission to access this page.' );
+            KPTV::message_with_redirect( '/', 'danger', 'You do not have permission to access this page.' );
             return false;
         }
         
@@ -73,7 +73,7 @@ $get_static_routes = [
         'path' => '/',
         'handler' => 'view:pages/home.php',
         'should_cache' => true,
-        'cache_length' => KPT::DAY_IN_SECONDS
+        'cache_length' => KPTV::DAY_IN_SECONDS
     ],
     // Stream FAQ
     [
@@ -81,7 +81,7 @@ $get_static_routes = [
         'path' => '/streams/faq',
         'handler' => 'view:pages/stream/faq.php',
         'should_cache' => true,
-        'cache_length' => KPT::DAY_IN_SECONDS
+        'cache_length' => KPTV::DAY_IN_SECONDS
     ],
     // Account FAQ
     [
@@ -89,7 +89,7 @@ $get_static_routes = [
         'path' => '/users/faq',
         'handler' => 'view:pages/users/faq.php',
         'should_cache' => true,
-        'cache_length' => KPT::DAY_IN_SECONDS
+        'cache_length' => KPTV::DAY_IN_SECONDS
     ],
 
 ];
@@ -109,7 +109,7 @@ $get_user_routes = [
         'method' => 'GET',
         'path' => '/users/logout',
         'middleware' => ['auth_required'],
-        'handler' => 'KPT_User@logout' // Class@Method
+        'handler' => 'KPTV_User@logout' // Class@Method
     ],
     
     // Registration page
@@ -140,7 +140,7 @@ $get_user_routes = [
     [
         'method' => 'GET',
         'path' => '/validate',
-        'handler' => 'KPT_User@validate_user' // Class@Method
+        'handler' => 'KPTV_User@validate_user' // Class@Method
     ],
 ];
 
@@ -214,14 +214,14 @@ $get_stream_routes = [
     [
         'method' => 'GET',
         'path' => '/player_api.php',
-        'handler' => 'KPTV_XtreamAPI@handleRequest',
+        'handler' => 'KPTV_Xtream_API@handleRequest',
         'should_cache' => false,
     ],
     // XtreamCodes API short endpoint
     [
         'method' => 'GET',
         'path' => '/xc',
-        'handler' => 'KPTV_XtreamAPI@handleRequest',
+        'handler' => 'KPTV_Xtream_API@handleRequest',
         'should_cache' => false,
     ],
 
@@ -229,7 +229,7 @@ $get_stream_routes = [
     [
         'method' => 'GET',
         'path' => '/api/xtream',
-        'handler' => 'KPTV_XtreamAPI@handleRequest',
+        'handler' => 'KPTV_Xtream_API@handleRequest',
         'should_cache' => false,
     ],
 
@@ -237,19 +237,19 @@ $get_stream_routes = [
     [
         'method' => 'GET',
         'path' => '/live/{username}/{password}/{streamId}',
-        'handler' => 'KPTV_XtreamAPI@handleStreamRedirect',
+        'handler' => 'KPTV_Xtream_API@handleStreamRedirect',
         'should_cache' => false,
     ],
     [
         'method' => 'GET',
         'path' => '/movie/{username}/{password}/{streamId}',
-        'handler' => 'KPTV_XtreamAPI@handleStreamRedirect',
+        'handler' => 'KPTV_Xtream_API@handleStreamRedirect',
         'should_cache' => false,
     ],
     [
         'method' => 'GET',
         'path' => '/series/{username}/{password}/{streamId}',
-        'handler' => 'KPTV_XtreamAPI@handleStreamRedirect',
+        'handler' => 'KPTV_Xtream_API@handleStreamRedirect',
         'should_cache' => false,
     ],
 
@@ -257,21 +257,13 @@ $get_stream_routes = [
 
 // Admin-related GET routes
 $get_admin_routes = [
-    // User management (admin only)
-    [
-        'method' => 'GET',
-        'path' => '/admin/users',
-        'middleware' => ['admin_required'],
-        'handler' => 'view:pages/admin/users.php'
-    ],
-
     // Legal notice
     [
         'method' => 'GET',
         'path' => '/terms-of-use',
         'handler' => 'view:pages/terms.php',
         'should_cache' => true,
-        'cache_length' => KPT::DAY_IN_SECONDS
+        'cache_length' => KPTV::DAY_IN_SECONDS
     ],
 ];
 
@@ -286,7 +278,7 @@ $post_user_routes = [
         'method' => 'POST',
         'path' => '/users/login',
         'middleware' => ['guest_only'],
-        'handler' => 'KPT_User@login' // Class@Method
+        'handler' => 'KPTV_User@login' // Class@Method
     ],
     
     // Registration form submission (using controller)
@@ -294,7 +286,7 @@ $post_user_routes = [
         'method' => 'POST',
         'path' => '/users/register',
         'middleware' => ['guest_only'],
-        'handler' => 'KPT_User@register' // Class@Method
+        'handler' => 'KPTV_User@register' // Class@Method
     ],
     
     // Change password form submission (using controller)
@@ -302,7 +294,7 @@ $post_user_routes = [
         'method' => 'POST',
         'path' => '/users/changepass',
         'middleware' => ['auth_required'],
-        'handler' => 'KPT_User@change_pass' // Class@Method
+        'handler' => 'KPTV_User@change_pass' // Class@Method
     ],
     
     // Forgot password form submission (using controller)
@@ -310,7 +302,7 @@ $post_user_routes = [
         'method' => 'POST',
         'path' => '/users/forgot',
         'middleware' => ['guest_only'],
-        'handler' => 'KPT_User@forgot' // Class@Method
+        'handler' => 'KPTV_User@forgot' // Class@Method
     ],
 ];
 
@@ -360,17 +352,6 @@ $post_stream_routes = [
     ],
 ];
 
-// Admin-related POST routes
-$post_admin_routes = [
-    // Admin user management form submission
-    [
-        'method' => 'POST',
-        'path' => '/admin/users',
-        'middleware' => ['admin_required'],
-        'handler' => 'KPT_User@handle_posts' // Class@Method
-    ],
-];
-
 // =============================================================
 // ==================== MERGE ALL ROUTES =====================
 // =============================================================
@@ -383,7 +364,6 @@ $routes = array_merge(
     $get_admin_routes,
     $post_user_routes,
     $post_stream_routes,
-    $post_admin_routes
 );
 
 // =============================================================
@@ -393,7 +373,7 @@ $routes = array_merge(
 // Setup the cache settings
 $routesFile = __FILE__;
 $cacheKey = 'compiled_routes_' . md5( $routesFile . filemtime( $routesFile ) );
-$cacheTTL = KPT::DAY_IN_SECONDS; // Cache for 1 day
+$cacheTTL = KPTV::DAY_IN_SECONDS; // Cache for 1 day
 
 // Try to get cached routes (NOTE: We can't cache middleware definitions with closures)
 $cachedData = Cache::get( $cacheKey );
@@ -454,9 +434,9 @@ $router -> addMiddleware( function( ) {
     if ( ! $enabled ) return true;
     
     // Check if client IP is in any allowed CIDR range
-    $clientIp = KPT::get_user_ip( );
+    $clientIp = KPTV::get_user_ip( );
     foreach ( $allowedIPs as $allowed ) {
-        if ( KPT::cidrMatch( $clientIp, $allowed ) ) {
+        if ( KPTV::cidrMatch( $clientIp, $allowed ) ) {
             return true;
         }
     }
@@ -484,7 +464,7 @@ $router -> notFound( function( ) {
     // Log the 404 error
     $uri = $_SERVER['REQUEST_URI'] ?? 'unknown';
     $method = $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN';
-    $ip = KPT::get_user_ip( );
+    $ip = KPTV::get_user_ip( );
     error_log( "404 Error: $method $uri from $ip" );
     
     // Check if it's an API request

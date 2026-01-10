@@ -7,10 +7,9 @@
  * @package KP Library
  */
 
-defined('KPT_PATH') || die('Direct Access is not allowed!');
+defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
 // make sure we've got our namespaces...
-use KPT\KPT;
 use KPT\DataTables\DataTables;
 
 // Handle stream type filter (passed from router)
@@ -25,16 +24,16 @@ $valid_active = ['active' => 1, 'inactive' => 0];
 $active_value = $valid_active[$active_filter] ?? null;
 
 // setup the user id
-$userId = KPT_User::get_current_user( ) -> id;
+$userId = KPTV_User::get_current_user( ) -> id;
 
 // setup the form fields
-$formFieldsConfig = KPT::view_configs( 'streams', userId: $userId ) -> form;
+$formFieldsConfig = KPTV::view_configs( 'streams', userId: $userId ) -> form;
 
 // setup the row actions - extract from view_configs
-$rowActionsConfig = KPT::view_configs( 'streams' ) -> row;
+$rowActionsConfig = KPTV::view_configs( 'streams' ) -> row;
 
 // setup the bulk actions - extract from view_configs
-$bulkActionsConfig = KPT::view_configs( 'streams' ) -> bulk;
+$bulkActionsConfig = KPTV::view_configs( 'streams' ) -> bulk;
 
 // Configure database via constructor
 $dbconf = [
@@ -83,6 +82,7 @@ $dt -> table( 'kptv_streams s' )
     ] )
     -> columnClasses( [
         's.id' => 'hide-col',
+        's_channel' => 'uk-min-width',
         's_tvg_id' => 'txt-truncate',
         'p.sp_name' => 'txt-truncate',
     ] )
@@ -99,7 +99,7 @@ $dt -> table( 'kptv_streams s' )
             'playstream' => [
                 'icon' => 'play',
                 'title' => 'Try to Play Stream',
-                'class' => 'play-stream',
+                'class' => 'play-stream uk-margin-tiny-full',
                 'href' => '#{s_orig_name}',
                 'attributes' => [
                     'data-stream-url' => '{s_stream_uri}',
@@ -109,7 +109,7 @@ $dt -> table( 'kptv_streams s' )
             'copystream' => [
                 'icon' => 'link', 
                 'title' => 'Copy Stream Link',
-                'class' => 'copy-link',
+                'class' => 'copy-link uk-margin-tiny-full',
                 'href' => '{s_stream_uri}',
             ]
         ],
@@ -123,36 +123,34 @@ if ( isset( $_POST['action'] ) || isset( $_GET['action'] ) ) {
 }
 
 // pull in the header
-KPT::pull_header( );
+KPTV::pull_header( );
 ?>
-<div class="uk-container uk-container-full">
-    <h2 class="me uk-heading-divider"><?php echo ucfirst( $type ); ?> <?php echo ucfirst( $which ); ?> Streams</h2>
-    <div class="">
-        <?php
+<h2 class="kptv-heading uk-heading-bullet"><?php echo ( isset($type) ) ? ucfirst( $type ) : ''; ?> <?php echo ucfirst( $which ); ?> Streams</h2>
+<div class="">
+    <?php
 
-        // pull in the control panel
-        KPT::include_view( 'common/control-panel', [ 'dt' => $dt ] );
-        ?>
-    </div>
-    <div class="">
-        <?php
+    // pull in the control panel
+    KPTV::include_view( 'common/control-panel', [ 'dt' => $dt ] );
+    ?>
+</div>
+<div class="uk-margin the-datatable">
+    <?php
 
-        // write out the datatable component
-        echo $dt -> renderDataTableComponent( );
-        ?>
-    </div>
-    <div class="">
-        <?php
+    // write out the datatable component
+    echo $dt -> renderDataTableComponent( );
+    ?>
+</div>
+<div class="">
+    <?php
 
-        // pull in the control panel
-        KPT::include_view( 'common/control-panel', [ 'dt' => $dt ] );
-        ?>
-    </div>
+    // pull in the control panel
+    KPTV::include_view( 'common/control-panel', [ 'dt' => $dt ] );
+    ?>
 </div>
 <?php
 
 // pull in the footer
-KPT::pull_footer( );
+KPTV::pull_footer( );
 
 // clean up
 unset( $dt, $formFields, $actionGroups, $bulkActions, $dbconf );

@@ -11,26 +11,24 @@
  */
 
 // define the primary app path if not already defined
-defined( 'KPT_PATH' ) || die( 'Direct Access is not allowed!' );
-
-use KPT\KPT;
+defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
 
 // pull in the header
-KPT::pull_header( );
+KPTV::pull_header( );
 
 // check if we're already logged in
-if( KPT_User::is_user_logged_in( ) ) {
+if( KPTV_User::is_user_logged_in( ) ) {
 
     // message with redirect
-    KPT::message_with_redirect( '/', 'danger', 'You don\'t belong there.  Don\'t worry, our support team has been notified.' );
+    KPTV::message_with_redirect( '/', 'danger', 'You don\'t belong there.  Don\'t worry, our support team has been notified.' );
 
 } else {
 
     ?>
-    <h2 class="me">Forgot Your Password?</h2>
+    <h2 class="kptv-heading uk-heading-bullet">Forgot Your Password?</h2>
     <form action="/users/forgot" method="POST" class="uk-form-stacked" id="t-forgot">
         <div class="uk-margin">
-            <?php KPT::show_message(
+            <?php KPTV::show_message(
                 'info',
                 '<ul class="uk-list uk-list-disc uk-margin-remove-top">
                     <li>All fields are required.</li>
@@ -41,20 +39,20 @@ if( KPT_User::is_user_logged_in( ) ) {
         </div>
         <div class="uk-margin">
             <div class="uk-inline uk-width-1-1">
-                <span class="uk-form-icon" uk-icon="icon: user"></span>
+                <span class="uk-form-icon" uk-icon="user"></span>
                 <input class="uk-input" id="frmUsername" type="text" placeholder="Your Username" name="frmUsername" />
             </div>
         </div>
         <div class="uk-margin">
             <div class="uk-inline uk-width-1-1">
-                <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                <span class="uk-form-icon" uk-icon="lock"></span>
                 <input class="uk-input" id="frmEmail" type="email" placeholder="Your Email" name="frmEmail" />
             </div>
         </div>
         <div class="uk-margin uk-grid uk-grid-small">
-            <div class="uk-width-1-1">
-                <button class="uk-button uk-button-primary uk-border-rounded contact-button uk-align-right g-recaptcha" data-badge="inline" data-sitekey="<?php echo KPT::get_setting( 'recaptcha' ) -> sitekey; ?>" data-callback='onSubmit' data-action='submit'>
-                    Reset Your Password <i uk-icon="icon: sign-in"></i>
+            <div class="uk-width-1-1 recapt">
+                <button class="uk-button uk-button-primary uk-border-rounded contact-button uk-align-right g-recaptcha" data-badge="inline" data-sitekey="<?php echo KPTV::get_setting( 'recaptcha' ) -> sitekey; ?>" data-callback='onSubmit' data-action='submit'>
+                    Reset Your Password <span uk-icon="sign-in"></span>
                 </button>
             </div>
         </div>
@@ -70,4 +68,4 @@ if( KPT_User::is_user_logged_in( ) ) {
 }
 
 // pull in the footer
-KPT::pull_footer( );
+KPTV::pull_footer( );

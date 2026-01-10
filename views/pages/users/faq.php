@@ -11,21 +11,18 @@
  */
 
 // define the primary app path if not already defined
-defined( 'KPT_PATH' ) || die( 'Direct Access is not allowed!' );
-
-use KPT\KPT;
+defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
 
 // pull in the header
-KPT::pull_header( );
+KPTV::pull_header( );
 
 ?>
 <div class="uk-container">
-    <h2 class="me uk-heading-divider">User Account FAQ</h2>
+    <h2 class="kptv-heading uk-heading-bullet">User Account FAQ</h2>
 
     <!-- Account Registration Section -->
-    <div class="uk-margin-large">
-        <h3 class="uk-heading-bullet">Account Registration</h3>
-        
+    <div class="uk-margin">
+        <h3 class="kptv-heading uk-heading-bullet">Account Registration</h3>    
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">How do I create a new account?</a>
@@ -89,8 +86,8 @@ KPT::pull_header( );
     </div>
 
     <!-- Login & Authentication Section -->
-    <div class="uk-margin-large">
-        <h3 class="uk-heading-bullet">Login & Authentication</h3>
+    <div class="uk-margin">
+        <h3 class="kptv-heading uk-heading-bullet">Login & Authentication</h3>
         
         <ul uk-accordion="multiple: false">
             <li>
@@ -154,8 +151,8 @@ KPT::pull_header( );
     </div>
 
     <!-- Password Management Section -->
-    <div class="uk-margin-large">
-        <h3 class="uk-heading-bullet">Password Management</h3>
+    <div class="uk-margin">
+        <h3 class="kptv-heading uk-heading-bullet">Password Management</h3>
         
         <ul uk-accordion="multiple: false">
             <li>
@@ -211,8 +208,8 @@ KPT::pull_header( );
     </div>
 
     <!-- Account Information Section -->
-    <div class="uk-margin-large">
-        <h3 class="uk-heading-bullet">Account Information</h3>
+    <div class="uk-margin">
+        <h3 class="kptv-heading uk-heading-bullet">Account Information</h3>
         
         <ul uk-accordion="multiple: false">
             <li>
@@ -270,8 +267,8 @@ KPT::pull_header( );
     </div>
 
     <!-- Security & Privacy Section -->
-    <div class="uk-margin-large">
-        <h3 class="uk-heading-bullet">Security & Privacy</h3>
+    <div class="uk-margin">
+        <h3 class="kptv-heading uk-heading-bullet">Security & Privacy</h3>
         
         <ul uk-accordion="multiple: false">
             <li>
@@ -326,8 +323,8 @@ KPT::pull_header( );
     </div>
 
     <!-- Admin Functions Section -->
-    <div class="uk-margin-large">
-        <h3 class="uk-heading-bullet">Admin Functions</h3>
+    <div class="uk-margin">
+        <h3 class="kptv-heading uk-heading-bullet">Admin Functions</h3>
         
         <ul uk-accordion="multiple: false">
             <li>
@@ -376,8 +373,8 @@ KPT::pull_header( );
     </div>
 
     <!-- Troubleshooting Section -->
-    <div class="uk-margin-large">
-        <h3 class="uk-heading-bullet">Troubleshooting</h3>
+    <div class="uk-margin">
+        <h3 class="kptv-heading uk-heading-bullet">Troubleshooting</h3>
         
         <ul uk-accordion="multiple: false">
             <li>
@@ -436,4 +433,4 @@ KPT::pull_header( );
 
 <?php
 // pull in the footer
-KPT::pull_footer( );
+KPTV::pull_footer( );

@@ -10,14 +10,14 @@
  * 
  */
 
-// throw it under my namespace
-namespace KPT;
-
 // define the primary app path if not already defined
-defined( 'KPT_PATH' ) || die( 'Direct Access is not allowed!' );
+defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
+
+// call in the router!
+use KPT\Router;
 
 // make sure the class does not already exist
-if( ! class_exists( 'KStatic' ) ) {
+if( ! class_exists( 'KPTV_Static' ) ) {
 
     /** 
      * Class Static
@@ -37,10 +37,7 @@ if( ! class_exists( 'KStatic' ) ) {
      * @var int YEAR_IN_SECONDS Constant defining 31536000 seconds based on 365 days
      * 
     */
-    class KStatic {
-
-        // Reusable static utilities (sanitization/validation)
-        use \KPT\Validators, \KPT\Sanitizers;
+    class KPTV_Static {
 
         /**
          * These are our static time constants
@@ -53,6 +50,7 @@ if( ! class_exists( 'KStatic' ) ) {
         const WEEK_IN_SECONDS = ( self::DAY_IN_SECONDS * 7 );
         const MONTH_IN_SECONDS = ( self::DAY_IN_SECONDS * 30 );
         const YEAR_IN_SECONDS = ( self::DAY_IN_SECONDS * 365 );
+
 
         /** 
          * view_configs
@@ -131,7 +129,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'icon' => 'link-external',
                                 'title' => 'Copy Domain',
                                 'class' => 'copy-link',
-                                'href' => KPT_XC_URI,
+                                'href' => KPTV_XC_URI,
                             ],
                             'exportseriesxc' => [
                                 'icon' => 'users', 
@@ -159,19 +157,19 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'icon' => 'tv',
                                 'title' => 'Export Live M3U',
                                 'class' => 'copy-link',
-                                'href' => '' . KPT_URI . 'playlist/' . $userForExport . '/{id}/live',
+                                'href' => '' . KPTV_URI . 'playlist/' . $userForExport . '/{id}/live',
                             ],
                             'exportseries' => [
                                 'icon' => 'album', 
                                 'title' => 'Export Series M3U',
                                 'class' => 'copy-link',
-                                'href' => '' . KPT_URI . 'playlist/' . $userForExport . '/{id}/series',
+                                'href' => '' . KPTV_URI . 'playlist/' . $userForExport . '/{id}/series',
                             ],
                             'exportvod' => [
                                 'icon' => 'video-camera', 
                                 'title' => 'Export VOD M3U',
                                 'class' => 'copy-link',
-                                'href' => '' . KPT_URI . 'playlist/' . $userForExport . '/{id}/vod',
+                                'href' => '' . KPTV_URI . 'playlist/' . $userForExport . '/{id}/vod',
                             ],            
                         ],
                         [
@@ -321,7 +319,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -362,7 +360,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -399,7 +397,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     
                                     try {
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 99, 'toother' );
+                                            $result = KPTV::moveToType( $database, $id, 99, 'toother' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -461,7 +459,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     
                                     try {
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 0, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 0, 'liveorseries' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -501,7 +499,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -538,7 +536,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     
                                     try {
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 99, 'toother' );
+                                            $result = KPTV::moveToType( $database, $id, 99, 'toother' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -578,7 +576,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     
                                     try {
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 0, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 0, 'liveorseries' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -618,7 +616,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -659,7 +657,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -696,7 +694,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     
                                     try {
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 99, 'toother' );
+                                            $result = KPTV::moveToType( $database, $id, 99, 'toother' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -736,7 +734,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     
                                     try {
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 0, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 0, 'liveorseries' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -776,7 +774,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -817,7 +815,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                     try {
                                         // Process all selected IDs
                                         foreach($selectedIds as $id) {
-                                            $result = KPT::moveToType( $database, $id, 5, 'liveorseries' );
+                                            $result = KPTV::moveToType( $database, $id, 5, 'liveorseries' );
                                             if ($result) {
                                                 $successCount++;
                                             }
@@ -854,7 +852,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPT::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -866,7 +864,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPT::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -878,7 +876,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPT::moveToType( $database, $rowId, 99, 'toother' );
+                                    return KPTV::moveToType( $database, $rowId, 99, 'toother' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -896,7 +894,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    KPT::moveToType( $database, $rowId, 0, 'liveorseries' );
+                                    KPTV::moveToType( $database, $rowId, 0, 'liveorseries' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -908,7 +906,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPT::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -920,7 +918,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPT::moveToType( $database, $rowId, 99, 'toother' );
+                                    return KPTV::moveToType( $database, $rowId, 99, 'toother' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -938,7 +936,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    KPT::moveToType( $database, $rowId, 0, 'liveorseries' );
+                                    KPTV::moveToType( $database, $rowId, 0, 'liveorseries' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -950,7 +948,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPT::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -962,7 +960,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPT::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -974,7 +972,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPT::moveToType( $database, $rowId, 99, 'toother' );
+                                    return KPTV::moveToType( $database, $rowId, 99, 'toother' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -992,7 +990,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    KPT::moveToType( $database, $rowId, 0, 'liveorseries' );
+                                    KPTV::moveToType( $database, $rowId, 0, 'liveorseries' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -1004,7 +1002,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPT::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -1016,7 +1014,7 @@ if( ! class_exists( 'KStatic' ) ) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    return KPT::moveToType( $database, $rowId, 5, 'liveorseries' );
+                                    return KPTV::moveToType( $database, $rowId, 5, 'liveorseries' );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -1053,7 +1051,7 @@ if( ! class_exists( 'KStatic' ) ) {
                             'required' => true,
                             'class' => 'uk-width-1-1 uk-margin-bottom',
                             'label' => 'Provider',
-                            'options' => KPT::getProviders( $userId ),
+                            'options' => KPTV::getProviders( $userId ),
                         ], 
                         's_active' => [
                             'type' => 'boolean',
@@ -1249,6 +1247,135 @@ if( ! class_exists( 'KStatic' ) ) {
         
         }
 
+
+        public static function active_link( string $which ) : string {
+
+            $route = Router::getCurrentRoute( );
+            $route_path = $route -> path;
+
+            // hold the routes to match
+            $routes = [
+                'home' => ['/'],
+                'info' => ['/users/faq', '/streams/faq', '/terms-of-use'],
+                'admin' => ['/admin/users'],
+                'account' => ['/users/changepass', '/users/login', '/users/register', '/users/forgot'],
+                'streams' => [
+                    '/streams/live/all', '/streams/live/active', '/streams/live/inactive',
+                    '/streams/series/all', '/streams/series/active', '/streams/series/inactive',
+                    '/streams/vod/all', '/streams/vod/active', '/streams/vod/inactive',
+                ],
+            ];
+
+            // return the active class on the match
+            return isset($routes[$which]) && in_array($route_path, $routes[$which], true) 
+                ? 'uk-active' 
+                : '';
+
+        }
+
+
+        public static function open_link( string $which ) : string {
+
+            $route = Router::getCurrentRoute( );
+            $route_path = $route -> path;
+            
+            // hold the routes to match
+            $routes = [
+                'info' => ['/users/faq', '/streams/faq', '/terms-of-use'],
+                
+                'account' => ['/users/changepass', '/users/login', '/users/register', '/users/forgot'],
+                'live' => ['/streams/live/all', '/streams/live/active', '/streams/live/inactive',],
+                'series' => ['/streams/series/all', '/streams/series/active', '/streams/series/inactive',],
+                'vod' => ['/streams/vod/all', '/streams/vod/active', '/streams/vod/inactive',],
+            ];
+            
+            // return the active class on the match
+            return isset( $routes[$which] ) && in_array( $route_path, $routes[$which] ) 
+                ? 'uk-open' 
+                : '';
+
+        }
+
+
+        public static function get_counts( ) : array {
+
+            // get the users ID
+            $user_id = KPTV_User::get_current_user( ) -> id;
+
+            // stream count sql
+            $stream_ct_qry = "SELECT 
+                COUNT(id) as total_streams,
+                SUM(CASE WHEN s_active = 1 AND s_type_id = 0 THEN 1 ELSE 0 END) as active_live,
+                SUM(CASE WHEN s_active = 1 AND s_type_id = 5 THEN 1 ELSE 0 END) as active_series,
+                SUM(CASE WHEN s_active = 1 AND s_type_id = 4 THEN 1 ELSE 0 END) as active_vod
+            FROM kptv_streams
+            WHERE u_id = ?";
+
+            // provider count sql
+            $provider_ct_qry = "SELECT 
+                sp.sp_name as provider_name,
+                COUNT(s.id) as total_streams,
+                SUM(CASE WHEN s.s_active = 1 AND s.s_type_id = 0 THEN 1 ELSE 0 END) as active_live,
+                SUM(CASE WHEN s.s_active = 1 AND s.s_type_id = 5 THEN 1 ELSE 0 END) as active_series,
+                SUM(CASE WHEN s.s_active = 1 AND s.s_type_id = 4 THEN 1 ELSE 0 END) as active_vod
+            FROM kptv_stream_providers sp
+            LEFT JOIN kptv_streams s ON sp.id = s.p_id AND s.u_id = ?
+            WHERE sp.u_id = ?
+            GROUP BY sp.id, sp.sp_name
+            ORDER BY sp.sp_priority, sp.sp_name;";
+
+            // fire up the database class
+            $db = new \KPT\Database( self::get_setting( 'database' ) );
+
+            // run the queries
+            $strm_ct = $db->query($stream_ct_qry)
+                        ->bind([$user_id])
+                        ->single()
+                        ->fetch();
+            $prov_ct = $db->query($provider_ct_qry)
+                        ->bind([$user_id, $user_id])
+                        ->fetch();
+
+            // setup the return data
+            $ret = [
+                'total' => $strm_ct -> total_streams,
+                'live' => $strm_ct -> active_live,
+                'series' => $strm_ct -> active_series,
+                'vod' => $strm_ct -> active_vod,
+                'per_provider' => $prov_ct,
+            ];
+
+            // clean up
+            unset( $prov_ct, $strm_ct, $db );
+
+            // return
+            return $ret;
+        }
+
+        public static function time_ago( string $datetime ) : string {
+            $time = strtotime($datetime);
+            $diff = time() - $time;
+            
+            if ($diff < 60) {
+                return $diff . ' Seconds Ago';
+            }
+            
+            if ($diff < 3600) {
+                return floor($diff / 60) . ' Minutes Ago';
+            }
+            
+            if ($diff < 86400) {
+                return floor($diff / 3600) . ' Hours Ago';
+            }
+            
+            if ($diff < 604800) {
+                return floor($diff / 86400) . ' Days Ago';
+            }
+            
+            // Beyond a week, show the date
+            return date('M j', $time);
+        }
+
         /** 
          * manage_the_session
          * 
@@ -1325,7 +1452,7 @@ if( ! class_exists( 'KStatic' ) ) {
             $_SESSION['page_msg']['msg'] = sprintf( '<p>%s</p>', $_msg );
 
             // redirect
-            KPT::try_redirect( $_location );
+            KPTV::try_redirect( $_location );
 
         }
 
@@ -1413,41 +1540,34 @@ if( ! class_exists( 'KStatic' ) ) {
          * @return object This method returns a standard class object of our applications configuration
          * 
         */
-        public static function get_full_config( ) {
+        public static function get_full_config( ) : object {
 
-            // hold the returnable object
-            $_ret = new \stdClass( );
-
-            // hold hte cache key
-            $_cache_key = 'KPTV_config';
-
-            // check the cache
-            $_cached = Cache::get( $_cache_key );
-
-            // if we do have this object
-            if( $_cached ) {
-                
-                // just return it
-                return $_cached;
-
+            static $config = null;
+    
+            if ($config !== null) {
+                return $config;
             }
-
-            // read the file
-            $_conf = file_get_contents( KPT_PATH . 'assets/config.json' );
-
-            // if there is nothing here, return an error object
-            if( $_conf ) {
-
-                // otherwise parse the json
-                $_ret = json_decode( $_conf );
-
+            
+            // Use OPcache if available
+            $configPath = KPTV_PATH . 'assets/config.json';
+            
+            if (function_exists('opcache_is_script_cached') && 
+                opcache_is_script_cached($configPath)) {
+                $content = file_get_contents($configPath);
+            } else {
+                $content = file_get_contents($configPath);
+                if (function_exists('opcache_compile_file')) {
+                    opcache_compile_file($configPath);
+                }
             }
-
-            // set the config to cache, for 1 week
-            Cache::set( $_cache_key, $_ret, self::WEEK_IN_SECONDS );
-
-            // return the object
-            return $_ret;
+            
+            $config = json_decode($content);
+            
+            if (!$config) {
+                $config = new \stdClass();
+            }
+            
+            return $config;
 
         }
 
@@ -2439,10 +2559,10 @@ if( ! class_exists( 'KStatic' ) ) {
         public static function get_redirect_url( ) : string {
 
             // parse out the querystring
-            $query_string = parse_url( KPT::get_user_uri( ), PHP_URL_QUERY ) ?? '';
+            $query_string = parse_url( self::get_user_uri( ), PHP_URL_QUERY ) ?? '';
             
             // parse out the actual URL including the path browsed
-            $url = parse_url( KPT::get_user_uri( ), PHP_URL_PATH ) ?? '/';
+            $url = parse_url( self::get_user_uri( ), PHP_URL_PATH ) ?? '/';
 
             // return the formatted string
             return sprintf( '%s?%s', $url, $query_string );
@@ -2461,7 +2581,7 @@ if( ! class_exists( 'KStatic' ) ) {
             extract( $data );
             
             // Include the view file
-            include KPT_PATH . "/views/{$view_name}.php";
+            include KPTV_PATH . "/views/{$view_name}.php";
         
         }
 
@@ -2588,14 +2708,394 @@ if( ! class_exists( 'KStatic' ) ) {
 
         }
 
+        /**---------------------------------------------------------------------------------------------------- */
+        /**---------------------------------------------------------------------------------------------------- */
+        /**---------------------------------------------------------------------------------------------------- */
+        /**---------------------------------------------------------------------------------------------------- */
+        /**---------------------------------------------------------------------------------------------------- */
+        /**---------------------------------------------------------------------------------------------------- */
+        /** 
+         * sanitize_string
+         * 
+         * Static method for sanitizing a string
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param string $_val String to sanitize
+         * 
+         * @return string Returns a sanitized string
+         * 
+        */
+        public static function sanitize_string( string $_val ) : string {
+
+            // return the sanitized string, or empty
+            return addslashes( $_val );
+
+        }
+
+        /** 
+         * sanitize_numeric
+         * 
+         * Static method for sanitizing a number
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param var $_val Number to sanitize
+         * 
+         * @return var Returns a sanitized number
+         * 
+        */
+        public static function sanitize_numeric( $_val ) {
+
+            // return the sanitized string, or 0
+            return filter_var( $_val, FILTER_SANITIZE_NUMBER_FLOAT );
+
+        }
+
+        /** 
+         * sanitize_the_email
+         * 
+         * Static method for sanitizing an email address
+         * 
+         * @since 8.4
+         * @access public
+         * @static 
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param string $_val Email address to sanitize
+         * 
+         * @return string Returns a sanitized email address
+         * 
+        */
+        public static function sanitize_the_email( string $_val ) : string {
+
+            // return the sanitized email, or empty
+            return ( empty( $_val ) ) ? '' : filter_var( $_val, FILTER_SANITIZE_EMAIL );
+
+        }
+
+        /** 
+         * sanitize_url
+         * 
+         * Static method for sanitizing a url
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param string $_val URL to sanitize
+         * 
+         * @return string Returns a sanitized URL
+         * 
+        */
+        public static function sanitize_url( string $_val ) : string {
+
+            // return the sanitized url, or empty
+            return ( empty( $_val ) ) ? '' : filter_var( $_val, FILTER_SANITIZE_URL );
+
+        }
+
+        /** 
+         * sanitize_css_js
+         * 
+         * Static method for sanitizing a CSS or JS
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param string $_val CSS or JS to sanitize
+         * 
+         * @return string Returns sanitized CSS or JS
+         * 
+        */
+        public static function sanitize_css_js( string $_val ) : string {
+
+            // strip out script and style tags
+            $string = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $_val );
+
+            // strip out all other tage
+            $string = strip_tags( $string );
+
+            // return the trimmed value
+            return trim( $string );
+
+        }
+
+        /** 
+         * sanitize_svg
+         * 
+         * Static method for sanitizing a svg's xml content
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param string $_svg_xml SVG XML to sanitize
+         * 
+         * @return string Returns sanitized SVG XML
+         * 
+        */
+        public static function sanitize_svg( string $_svg_xml ) : ?string  {
+
+            // if the string is empty
+            if( empty( $_svg_xml ) ) {
+
+                // just return an empty string
+                return '';
+            }
+
+            // return the clean xml
+            return $_svg_xml;
+
+        }
+
+        /**
+         * Sanitize path
+         * 
+         * @since 8.4
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * 
+         * @param string|null $path Path to sanitize
+         * @return string Sanitized path
+         */
+        public static function sanitize_path( ?string $path ): string {
+
+            if ( empty( $path ) ) return '/';
+            $path = parse_url( $path, PHP_URL_PATH ) ?? '';
+            $path = preg_replace('#/+#', '/', $path); // Only normalize multiple slashes
+            $path = trim( $path, '/' );
+            return $path === '' ? '/' : '/' . $path;
+        }
+
+                /** 
+         * validate_string
+         * 
+         * Static method for validating a string
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param string $_val String to validate
+         * 
+         * @return bool Returns a true/false if the input is a valid string
+         * 
+        */
+        public static function validate_string( string $_val ) : bool {
+
+            // check if the value is empty, then check if it's a string 
+            return ( empty( $_val ) ) ? false : is_string( $_val );
+
+        }
+
+        /** 
+         * validate_number
+         * 
+         * Static method for validating a number
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param var $_val Variable input to validate
+         * 
+         * @return bool Returns a true/false if the input is a valid number.
+         * This includes float, decimal, integer, etc...
+         * 
+        */
+        public static function validate_number( $_val ) : bool {
+
+            // check if the value is empty, then check if it's a number 
+            return ( empty( $_val ) ) ? false : is_numeric( $_val );
+            
+        }
+
+        /** 
+         * validate_alphanum
+         * 
+         * Static method for validating an alpha-numeric string
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param string $_val String to validate
+         * 
+         * @return bool Returns a true/false if the input is a valid alpha-numeric string
+         * 
+        */
+        public static function validate_alphanum( string $_val ) : bool {
+
+            // check if the value is empty, then check if it's alpha numeric or space, _, -
+            return ( empty( $_val ) ) ? false : preg_match( '/^[\p{L}\p{N} ._-]+$/', $_val );
+
+        }
+
+        /** 
+         * validate_username
+         * 
+         * Static method for validating an username string
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param string $_val String to validate
+         * 
+         * @return bool Returns a true/false if the input is a valid username string
+         * 
+        */
+        public static function validate_username( string $_val ) : bool {
+
+            // check if the value is empty, then check if it has alpha numeric characters, _, or - in it 
+            return ( empty( $_val ) ) ? false : preg_match( '/^[\p{L}\p{N}._-]+$/', $_val );
+
+        }
+
+        /** 
+         * validate_name
+         * 
+         * Static method for validating a name
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param string $_val String to validate
+         * 
+         * @return bool Returns a true/false if the input is a valid name string
+         * 
+        */
+        public static function validate_name( string $_value ) : bool {
+
+            // validate the string
+            if( ! preg_match( '/((^(?(?![^,]+?,)((.*?) )?(([A-Za-zà-üÀ-Ü\']*?) )?(([A-Za-zà-üÀ-Ü\']*?) )?)([A-ZÀ-Ü\']((\'|[a-z]{1,2})[A-ZÀ-Ü\'])?[a-zà-ü\']+))(?(?=,)(, ([A-Za-zà-üÀ-Ü\']*?))?( ([A-Za-zà-üÀ-Ü\']*?))?( ([A-Za-zà-üÀ-Ü\']*?))?)$)/', $_value ) ) {
+                return false;
+            }
+
+            // otherwise, it all validates return true
+            return true;
+
+        }
+
+        /** 
+         * validate_email
+         * 
+         * Static method for validating an email address
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param string $_val String email address to validate
+         * 
+         * @return bool Returns a true/false if the input is a valid string
+         * 
+        */
+        public static function validate_email( string $_val ) : bool {
+
+            // check if the value is empty, then check if it's an email address
+            return ( empty( $_val ) ) ? false : filter_var( $_val, FILTER_VALIDATE_EMAIL );
+
+        }
+
+        /** 
+         * validate_url
+         * 
+         * Static method for validating a URL
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param string $_val String URL to validate
+         * 
+         * @return bool Returns a true/false if the input is a valid URL
+         * 
+        */
+        public static function validate_url( string $_val ) : bool {
+
+            // check if the value is empty
+            if( empty( $_val ) ) {
+
+                // it is, so return false
+                return false;
+            }
+
+            // parse the URL
+            $_url = parse_url( $_val );
+
+            // we need a scheme at the least
+            if( $_url['scheme'] != 'http' && $_url['scheme'] != 'https' ) {
+
+                // we don't have a scheme, return false
+                return false;
+            }
+
+            // we have made it this far, return the domain validation
+            return filter_var( $_url['host'], FILTER_VALIDATE_DOMAIN );
+
+        }
+
+        /** 
+         * validate_password
+         * 
+         * Static method for validating a password
+         * 
+         * @since 8.4
+         * @access public
+         * @static
+         * @author Kevin Pirnie <me@kpirnie.com>
+         * @package KP Library
+         * 
+         * @param string $_value String to validate
+         * 
+         * @return bool Returns a true/false if the input is a valid strong password
+         *              Password Rules: 6-64 alphanumeric characters plus at least 1 !@#$%*
+         * 
+        */
+        public static function validate_password( string $_value ) : bool {
+
+            // validate the PW
+            if( ! preg_match( '/(?=^.{8,64}$)(?=.[a-zA-Z\d])(?=.*[!@#$%*])(?!.*\s).*$/', $_value ) ) {
+                return false;
+            }
+    
+            // otherwise, it all validates return true
+            return true;
+        }
+
+
     }
-
-}
-
-// create our fake alias if it doesn't already exist
-if( ! class_exists( 'KPT' ) ) {
-
-    // redeclare this
-    class KPT extends KStatic {}
 
 }

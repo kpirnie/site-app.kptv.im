@@ -12,9 +12,9 @@ class MultiFormatPlayer {
         this.proxyUrl = '/proxy/stream';
         this.originalUrl = null;
         this.loadingModal = null; // Track loading modal
-        
+
         this.videoJsPlayer = null;
-        
+
         // Player states
         this.players = {
             hls: null,
@@ -23,35 +23,35 @@ class MultiFormatPlayer {
             native: null
         };
     }
-    
+
     /**
      * Main entry point to play a stream
      */
     async play(url, options = {}) {
         console.log('Play method called with URL:', url);
-        
+
         this.originalUrl = url;
         const useProxy = options.useProxy !== false;
         const streamUrl = useProxy ? this.getProxiedUrl(url) : url;
-        
+
         // Show loading modal
         this.showLoadingModal();
-        
+
         this.cleanup();
-        
+
         const streamType = this.detectStreamType(url);
         console.log(`Attempting to play: ${url}`);
         console.log(`Detected type: ${streamType}`);
-        
+
         let success = false;
-        
-        switch(streamType) {
+
+        switch (streamType) {
             case 'hls':
-                success = await this.tryHLS(streamUrl) || 
-                         await this.tryVideoJS(streamUrl) || 
-                         await this.tryNative(streamUrl);
+                success = await this.tryHLS(streamUrl) ||
+                    await this.tryVideoJS(streamUrl) ||
+                    await this.tryNative(streamUrl);
                 break;
-                
+
             case 'mpegts':
                 // For MPEG-TS, try mpegts.js first, then try .m3u8 equivalent, then other players
                 // Sequential with delays to reduce server load
@@ -67,12 +67,12 @@ class MultiFormatPlayer {
                     success = await this.tryVideoJS(streamUrl);
                 }
                 break;
-                
+
             case 'video':
-                success = await this.tryNative(streamUrl) || 
-                         await this.tryVideoJS(streamUrl);
+                success = await this.tryNative(streamUrl) ||
+                    await this.tryVideoJS(streamUrl);
                 break;
-                
+
             default:
                 // Try players sequentially with delays to reduce server load
                 success = await this.tryHLS(streamUrl);
@@ -95,7 +95,7 @@ class MultiFormatPlayer {
                 }
                 break;
         }
-        
+
         if (!success) {
             // Hide loading modal on failure
             this.hideLoadingModal();
@@ -106,13 +106,13 @@ class MultiFormatPlayer {
             this.modal.show();
         }
     }
-    
+
     /**
      * Detect stream type from URL
      */
     detectStreamType(url) {
         const lower = url.toLowerCase();
-        
+
         if (lower.includes('.m3u8') || lower.includes('/hls/')) {
             return 'hls';
         } else if (lower.includes('.ts') && !lower.includes('.m3u8')) {
@@ -120,10 +120,10 @@ class MultiFormatPlayer {
         } else if (lower.match(/\.(mp4|webm|ogg|mov)$/)) {
             return 'video';
         }
-        
+
         return 'unknown';
     }
-    
+
     /**
      * Get proxied URL for CORS bypass
      */
@@ -131,7 +131,7 @@ class MultiFormatPlayer {
         const baseUrl = window.location.origin;
         return `${baseUrl}/proxy/stream?url=${encodeURIComponent(url)}`;
     }
-    
+
     /**
      * Show loading modal with spinner
      */
@@ -148,14 +148,14 @@ class MultiFormatPlayer {
             `;
             document.body.insertAdjacentHTML('beforeend', modalHtml);
         }
-        
+
         this.loadingModal = UIkit.modal('#loading_modal', {
             bgClose: false,
             escClose: false
         });
         this.loadingModal.show();
     }
-    
+
     /**
      * Hide loading modal
      */
@@ -165,14 +165,14 @@ class MultiFormatPlayer {
             this.loadingModal = null;
         }
     }
-    
+
     /**
      * Add small delay between player attempts to reduce server load
      */
     async delay(ms = 500) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-    
+
     /**
      * Try .ts to .m3u8 fallback for streams that might have HLS equivalents
      */
@@ -181,12 +181,12 @@ class MultiFormatPlayer {
         if (!originalUrl.toLowerCase().includes('.ts')) {
             return false;
         }
-        
+
         console.log('Trying .ts to .m3u8 fallback...');
-        
+
         // Replace .ts with .m3u8
         let m3u8Url = originalUrl.replace(/\.ts$/i, '.m3u8');
-        
+
         if (m3u8Url === originalUrl) {
             // URL didn't end with .ts, try replacing .ts anywhere in the URL
             m3u8Url = originalUrl.replace(/\.ts/gi, '.m3u8');
@@ -194,14 +194,14 @@ class MultiFormatPlayer {
                 return false; // No .ts found to replace
             }
         }
-        
+
         const streamUrl = useProxy ? this.getProxiedUrl(m3u8Url) : m3u8Url;
         console.log(`Trying HLS equivalent: ${m3u8Url}`);
-        
+
         // Try HLS.js with the .m3u8 equivalent
         return await this.tryHLS(streamUrl);
     }
-    
+
     /**
      * Try HLS.js player
      */
@@ -210,19 +210,19 @@ class MultiFormatPlayer {
             console.log('HLS.js not supported');
             return false;
         }
-        
+
         return new Promise((resolve) => {
             console.log('Trying HLS.js...');
-            
+
             const hls = new Hls({
                 debug: false,
                 enableWorker: true,
                 lowLatencyMode: true,
                 backBufferLength: 90
             });
-            
+
             this.players.hls = hls;
-            
+
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 console.log('HLS.js: Manifest parsed successfully');
                 this.videoElement.play().then(() => {
@@ -235,7 +235,7 @@ class MultiFormatPlayer {
                     resolve(false);
                 });
             });
-            
+
             hls.on(Hls.Events.ERROR, (event, data) => {
                 console.error('HLS.js error:', data);
                 if (data.fatal) {
@@ -243,10 +243,10 @@ class MultiFormatPlayer {
                     resolve(false);
                 }
             });
-            
+
             hls.loadSource(url);
             hls.attachMedia(this.videoElement);
-            
+
             setTimeout(() => {
                 if (!this.currentPlayer) {
                     this.safeDestroyHLS();
@@ -255,7 +255,7 @@ class MultiFormatPlayer {
             }, 5000);
         });
     }
-    
+
     /**
      * Try mpegts.js player - FIXED VERSION
      */
@@ -264,10 +264,10 @@ class MultiFormatPlayer {
             console.log('mpegts.js not supported');
             return false;
         }
-        
+
         return new Promise((resolve) => {
             console.log('Trying mpegts.js...');
-            
+
             try {
                 const player = mpegts.createPlayer({
                     type: 'mse',
@@ -282,20 +282,20 @@ class MultiFormatPlayer {
                     lazyLoadMaxDuration: 3 * 60,
                     seekType: 'range'
                 });
-                
+
                 this.players.mpegts = player;
-                
+
                 player.on(mpegts.Events.ERROR, (e) => {
                     console.error('mpegts.js error:', e);
                     this.safePauseMpegTS(); // Use safe cleanup
                     this.players.mpegts = null; // Clear reference
                     resolve(false);
                 });
-                
+
                 player.on(mpegts.Events.MEDIA_INFO, (mediaInfo) => {
                     console.log('mpegts.js: Media info received', mediaInfo);
                 });
-                
+
                 player.on(mpegts.Events.LOADSTART, () => {
                     console.log('mpegts.js: Load started');
                     this.videoElement.play().then(() => {
@@ -309,11 +309,11 @@ class MultiFormatPlayer {
                         resolve(false);
                     });
                 });
-                
+
                 player.attachMediaElement(this.videoElement);
                 player.load();
                 player.play();
-                
+
                 setTimeout(() => {
                     if (!this.currentPlayer) {
                         this.safePauseMpegTS();
@@ -321,7 +321,7 @@ class MultiFormatPlayer {
                         resolve(false);
                     }
                 }, 5000);
-                
+
             } catch (error) {
                 console.error('mpegts.js initialization failed:', error);
                 this.players.mpegts = null;
@@ -329,7 +329,7 @@ class MultiFormatPlayer {
             }
         });
     }
-    
+
     /**
      * Try Video.js player
      */
@@ -338,10 +338,10 @@ class MultiFormatPlayer {
             console.log('Video.js not available');
             return false;
         }
-        
+
         return new Promise((resolve) => {
             console.log('Trying Video.js...');
-            
+
             try {
                 if (!this.videoJsPlayer) {
                     this.videoJsPlayer = videojs(this.videoElement.id, {
@@ -359,15 +359,15 @@ class MultiFormatPlayer {
                         }
                     });
                 }
-                
+
                 this.players.videojs = this.videoJsPlayer;
-                
+
                 this.videoJsPlayer.ready(() => {
                     this.videoJsPlayer.src({
                         src: url,
                         type: this.getVideoJsType(url)
                     });
-                    
+
                     this.videoJsPlayer.one('loadedmetadata', () => {
                         console.log('Video.js: Metadata loaded');
                         this.videoJsPlayer.play().then(() => {
@@ -379,45 +379,45 @@ class MultiFormatPlayer {
                             resolve(false);
                         });
                     });
-                    
+
                     this.videoJsPlayer.one('error', () => {
                         console.error('Video.js: Error loading');
                         resolve(false);
                     });
-                    
+
                     setTimeout(() => {
                         if (!this.currentPlayer) {
                             resolve(false);
                         }
                     }, 5000);
                 });
-                
+
             } catch (error) {
                 console.error('Video.js initialization failed:', error);
                 resolve(false);
             }
         });
     }
-    
+
     /**
      * Try native HTML5 video
      */
     async tryNative(url) {
         return new Promise((resolve) => {
             console.log('Trying native HTML5 video...');
-            
+
             // Don't try native for MPEG-TS files
             if (this.detectStreamType(url) === 'mpegts') {
                 console.log('Skipping native player for MPEG-TS format');
                 resolve(false);
                 return;
             }
-            
+
             try {
                 if (this.videoJsPlayer) {
                     this.videoJsPlayer.dispose();
                     this.videoJsPlayer = null;
-                    
+
                     // Check if video element still has a parent
                     const parent = this.videoElement.parentNode;
                     if (parent) {
@@ -433,7 +433,7 @@ class MultiFormatPlayer {
                         // Video element was removed, try to find it again or recreate
                         const originalId = this.videoElement.id;
                         this.videoElement = document.getElementById(originalId);
-                        
+
                         if (!this.videoElement) {
                             console.error('Native player: Video element not found');
                             resolve(false);
@@ -441,9 +441,9 @@ class MultiFormatPlayer {
                         }
                     }
                 }
-                
+
                 this.videoElement.src = url;
-                
+
                 const playHandler = () => {
                     console.log('Native player: Playing');
                     this.currentPlayer = 'native';
@@ -451,54 +451,54 @@ class MultiFormatPlayer {
                     cleanup();
                     resolve(true);
                 };
-                
+
                 const errorHandler = () => {
                     console.error('Native player: Error');
                     cleanup();
                     resolve(false);
                 };
-                
+
                 const cleanup = () => {
                     this.videoElement.removeEventListener('canplay', playHandler);
                     this.videoElement.removeEventListener('error', errorHandler);
                 };
-                
+
                 this.videoElement.addEventListener('canplay', playHandler, { once: true });
                 this.videoElement.addEventListener('error', errorHandler, { once: true });
-                
+
                 this.videoElement.load();
-                
+
                 setTimeout(() => {
                     if (!this.currentPlayer) {
                         cleanup();
                         resolve(false);
                     }
                 }, 5000);
-                
+
             } catch (error) {
                 console.error('Native player initialization failed:', error);
                 resolve(false);
             }
         });
     }
-    
+
     /**
      * Get Video.js type from URL - IMPROVED VERSION
      */
     getVideoJsType(url) {
         const lower = url.toLowerCase();
-        
+
         if (lower.includes('.m3u8')) return 'application/x-mpegURL';
         if (lower.includes('.mp4')) return 'video/mp4';
         if (lower.includes('.webm')) return 'video/webm';
         if (lower.includes('.ogg')) return 'video/ogg';
-        
+
         // For .ts files, try HLS type first - Video.js can sometimes handle them
         if (lower.includes('.ts')) return 'application/x-mpegURL';
-        
+
         return 'application/x-mpegURL'; // Default to HLS
     }
-    
+
     /**
      * Safe cleanup for HLS.js
      */
@@ -512,7 +512,7 @@ class MultiFormatPlayer {
             this.players.hls = null;
         }
     }
-    
+
     /**
      * Safe cleanup for mpegts.js - FIXED VERSION
      */
@@ -537,20 +537,20 @@ class MultiFormatPlayer {
             }
         }
     }
-    
+
     /**
      * Show fallback modal with VLC option
      */
     showFallbackModal() {
         console.error('All players failed');
-        
+
         const streamType = this.detectStreamType(this.originalUrl);
         let additionalInfo = '';
-        
+
         if (streamType === 'mpegts') {
             additionalInfo = '<p><strong>Note:</strong> This appears to be an MPEG-TS stream, which requires special player support.</p>';
         }
-        
+
         UIkit.modal.alert(`
             <div class="uk-text-center">
                 <h3 class="uk-text-center">Unable to Play Stream</h3>
@@ -565,22 +565,22 @@ class MultiFormatPlayer {
             </div>
         `);
     }
-    
+
     /**
      * Clean up all players - FIXED VERSION
      */
     cleanup() {
         console.log('Cleaning up players...');
-        
+
         // DON'T hide loading modal here - let it stay until success/failure
-        
+
         // Clean HLS.js
         this.safeDestroyHLS();
-        
+
         // Clean mpegts.js with safe cleanup
         this.safePauseMpegTS();
         this.players.mpegts = null;
-        
+
         // Clean Video.js
         if (this.videoJsPlayer) {
             try {
@@ -590,7 +590,7 @@ class MultiFormatPlayer {
                 console.error('Error cleaning up Video.js:', e);
             }
         }
-        
+
         // Reset native video
         try {
             if (this.videoElement && typeof this.videoElement.load === 'function') {
@@ -600,10 +600,10 @@ class MultiFormatPlayer {
         } catch (e) {
             console.error('Error resetting native video:', e);
         }
-        
+
         this.currentPlayer = null;
     }
-    
+
     /**
      * Stop playback and close modal
      */
@@ -617,9 +617,9 @@ class MultiFormatPlayer {
 // Initialize the player when DOM is ready
 let multiPlayer;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     multiPlayer = new MultiFormatPlayer('the_streamer', 'vid_modal');
-    
+
     UIkit.util.on('#vid_modal', 'hidden', function () {
         if (multiPlayer) {
             multiPlayer.cleanup();
@@ -631,17 +631,17 @@ function playStream(url, useProxy = true) {
     if (!multiPlayer) {
         multiPlayer = new MultiFormatPlayer('the_streamer', 'vid_modal');
     }
-    
+
     multiPlayer.play(url, { useProxy: useProxy });
 }
 
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     const streamElement = e.target.closest('.play-stream');
-    
+
     if (streamElement) {
         e.preventDefault();
         const url = streamElement.getAttribute('data-stream-url');
-        
+
         if (url) {
             playStream(url);
         } else {
