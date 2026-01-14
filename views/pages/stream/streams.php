@@ -14,8 +14,8 @@ use KPT\DataTables\DataTables;
 
 // Handle stream type filter (passed from router)
 $type_filter = $which ?? 'live';
-//$valid_types = ['live' => 0, 'series' => 5, 'other' => 99];
-$valid_types = ['live' => 0, 'vod' => 4, 'series' => 5, 'other' => 99];
+$valid_types = ['live' => 0, 'series' => 5, 'other' => 99];
+//$valid_types = ['live' => 0, 'vod' => 4, 'series' => 5, 'other' => 99];
 $type_value = $valid_types[$type_filter] ?? null;
 
 // Handle the stream active filter (passed from router)
