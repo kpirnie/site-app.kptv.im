@@ -336,23 +336,23 @@
         },
         {
             "name": "kevinpirnie/kpt-cache",
-            "version": "v1.0.33",
-            "version_normalized": "1.0.33.0",
+            "version": "v1.0.34",
+            "version_normalized": "1.0.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kpirnie/kp-cache.git",
-                "reference": "07550887595cdadcdd10fe7c901866000e1127aa"
+                "reference": "792592dcf67855ebf14d3da6e3291edade2e63b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kpirnie/kp-cache/zipball/07550887595cdadcdd10fe7c901866000e1127aa",
-                "reference": "07550887595cdadcdd10fe7c901866000e1127aa",
+                "url": "https://api.github.com/repos/kpirnie/kp-cache/zipball/792592dcf67855ebf14d3da6e3291edade2e63b4",
+                "reference": "792592dcf67855ebf14d3da6e3291edade2e63b4",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "kevinpirnie/kpt-logger": "^1.0",
-                "php": ">=8.1"
+                "php": ">=8.2"
             },
             "require-dev": {
                 "phpunit/phpunit": "^10",
@@ -364,7 +364,7 @@
                 "ext-redis": "For Redis cache support",
                 "ext-yac": "For YAC cache support"
             },
-            "time": "2025-09-12T17:19:47+00:00",
+            "time": "2026-01-24T13:03:55+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -400,9 +400,19 @@
                 "redis"
             ],
             "support": {
-                "issues": "https://github.com/kpirnie/kp-cache/issues",
-                "source": "https://github.com/kpirnie/kp-cache/tree/v1.0.33"
+                "issues": "https://github.com/kpirnie/kpt-wpfieldframework/issues",
+                "source": "https://github.com/kpirnie/kpt-wpfieldframework"
             },
+            "funding": [
+                {
+                    "url": "https://ko-fi.com/kevinpirnie",
+                    "type": "ko-fi"
+                },
+                {
+                    "url": "https://www.paypal.biz/kevinpirnie",
+                    "type": "paypal"
+                }
+            ],
             "install-path": "../kevinpirnie/kpt-cache"
         },
         {
@@ -474,17 +484,17 @@
         },
         {
             "name": "kevinpirnie/kpt-datatables",
-            "version": "v2.0.93",
-            "version_normalized": "2.0.93.0",
+            "version": "v2.0.94",
+            "version_normalized": "2.0.94.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kpirnie/kp-datatables.git",
-                "reference": "f11b9c9cd4ae3a915f866b7a90c8d4b0517dbbcf"
+                "reference": "07ade6efe9bdf29a6939495f75444fdcbb64c80b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kpirnie/kp-datatables/zipball/f11b9c9cd4ae3a915f866b7a90c8d4b0517dbbcf",
-                "reference": "f11b9c9cd4ae3a915f866b7a90c8d4b0517dbbcf",
+                "url": "https://api.github.com/repos/kpirnie/kp-datatables/zipball/07ade6efe9bdf29a6939495f75444fdcbb64c80b",
+                "reference": "07ade6efe9bdf29a6939495f75444fdcbb64c80b",
                 "shasum": ""
             },
             "require": {
@@ -497,7 +507,7 @@
                 "phpunit/phpunit": "^10.0 || ^11.0",
                 "squizlabs/php_codesniffer": "^3.7"
             },
-            "time": "2026-01-10T17:37:09+00:00",
+            "time": "2026-01-24T13:09:59+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -536,8 +546,12 @@
             },
             "funding": [
                 {
-                    "url": "https://github.com/sponsors/kpirnie",
-                    "type": "github"
+                    "url": "https://ko-fi.com/kevinpirnie",
+                    "type": "ko-fi"
+                },
+                {
+                    "url": "https://www.paypal.biz/kevinpirnie",
+                    "type": "paypal"
                 }
             ],
             "install-path": "../kevinpirnie/kpt-datatables"

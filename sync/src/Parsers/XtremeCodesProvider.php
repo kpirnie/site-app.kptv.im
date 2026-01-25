@@ -69,6 +69,10 @@ class XtremeCodesProvider extends BaseProvider
 
     private function fetchApi(string $url, int $streamType): array
     {
+        if ($streamType === 4) {
+            return [];
+        }
+
         $response = $this->makeRequest($url);
         $data = json_decode($response->getBody()->getContents(), true);
 
@@ -80,10 +84,16 @@ class XtremeCodesProvider extends BaseProvider
         $skipped = 0;
 
         foreach ($data as $item) {
-            // skip VOD
-            if($streamType === 4) {
+
+            $itemType = $item['stream_type'] ?? null;
+            if ($itemType === 'movie' || $itemType === 4 || $itemType === '4') {
                 continue;
             }
+            $catName = strtolower($item['category_name'] ?? '');
+            if (str_contains($catName, 'vod') || str_contains($catName, 'movie') || str_contains($catName, 'film')) {
+                continue;
+            }
+
             $streamId = $item['stream_id'] ?? $item['series_id'] ?? null;
 
             if ($streamId === null) {

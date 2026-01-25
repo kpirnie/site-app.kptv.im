@@ -91,19 +91,21 @@ class M3UProvider extends BaseProvider
     private function determineStreamType(string $url, array $info): int
     {
         $groupLower = strtolower($info['group'] ?? '');
-    
-        if (str_contains($groupLower, 'vod') || str_contains($groupLower, 'movie')) {
-            $typeId = 4;
-        } elseif (str_contains($groupLower, 'series')) {
-            $typeId = 5;
-        } else {
-            $typeId = 0;
-        }
+        $urlLower = strtolower($url);
         
-        if (str_contains(strtolower($info['name']), '24/7')) {
-            $typeId = 5;
+        // Check URL patterns for VOD/movie
+        if (str_contains($urlLower, '/movie/') || str_contains($urlLower, '/vod/')) {
+            return 4; // Will be skipped
         }
 
-        return $typeId;
+        if (str_contains($groupLower, 'vod') || str_contains($groupLower, 'movie')) {
+            return 4; // Will be skipped
+        }
+        
+        if (str_contains($groupLower, 'series') || str_contains(strtolower($info['name']), '24/7')) {
+            return 5;
+        }
+        
+        return 0; // Live
     }
 }
