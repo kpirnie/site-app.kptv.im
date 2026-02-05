@@ -417,30 +417,29 @@
         },
         {
             "name": "kevinpirnie/kpt-database",
-            "version": "v1.0.04",
-            "version_normalized": "1.0.04.0",
+            "version": "v1.1.98",
+            "version_normalized": "1.1.98.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kpirnie/kp-database.git",
-                "reference": "00f1dfff932e797efdfc0451d9563a274d50baa9"
+                "reference": "aee74b72fb9757bfa6fe3a36a6f3f56a027bf5b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kpirnie/kp-database/zipball/00f1dfff932e797efdfc0451d9563a274d50baa9",
-                "reference": "00f1dfff932e797efdfc0451d9563a274d50baa9",
+                "url": "https://api.github.com/repos/kpirnie/kp-database/zipball/aee74b72fb9757bfa6fe3a36a6f3f56a027bf5b1",
+                "reference": "aee74b72fb9757bfa6fe3a36a6f3f56a027bf5b1",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
                 "kevinpirnie/kpt-logger": "^1.0",
-                "php": ">=8.1"
+                "php": ">=8.2"
             },
             "require-dev": {
-                "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^10.0 || ^11.0",
+                "phpunit/phpunit": "^11.0",
                 "squizlabs/php_codesniffer": "^3.7"
             },
-            "time": "2025-10-27T11:44:53+00:00",
+            "time": "2026-01-25T14:59:30+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -476,8 +475,12 @@
             },
             "funding": [
                 {
-                    "url": "https://github.com/sponsors/kpirnie",
-                    "type": "github"
+                    "url": "https://ko-fi.com/kevinpirnie",
+                    "type": "ko-fi"
+                },
+                {
+                    "url": "https://www.paypal.biz/kevinpirnie",
+                    "type": "paypal"
                 }
             ],
             "install-path": "../kevinpirnie/kpt-database"
@@ -558,28 +561,26 @@
         },
         {
             "name": "kevinpirnie/kpt-logger",
-            "version": "v1.0.02",
-            "version_normalized": "1.0.02.0",
+            "version": "v1.0.03",
+            "version_normalized": "1.0.03.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kpirnie/kp-logger.git",
-                "reference": "d3308dd181b0fd80543f62c8dbd7d2d64f2cefcc"
+                "reference": "b7d8fa7200a61ea1f4c4cc5d3f2901f59d577206"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kpirnie/kp-logger/zipball/d3308dd181b0fd80543f62c8dbd7d2d64f2cefcc",
-                "reference": "d3308dd181b0fd80543f62c8dbd7d2d64f2cefcc",
+                "url": "https://api.github.com/repos/kpirnie/kp-logger/zipball/b7d8fa7200a61ea1f4c4cc5d3f2901f59d577206",
+                "reference": "b7d8fa7200a61ea1f4c4cc5d3f2901f59d577206",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0"
+                "php": ">=8.2"
             },
             "require-dev": {
-                "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^10.0 || ^11.0",
                 "squizlabs/php_codesniffer": "^3.9"
             },
-            "time": "2025-08-18T11:52:51+00:00",
+            "time": "2026-01-25T13:38:20+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -617,41 +618,44 @@
             },
             "funding": [
                 {
-                    "url": "https://github.com/sponsors/kpirnie",
-                    "type": "github"
+                    "url": "https://ko-fi.com/kevinpirnie",
+                    "type": "ko-fi"
+                },
+                {
+                    "url": "https://www.paypal.biz/kevinpirnie",
+                    "type": "paypal"
                 }
             ],
             "install-path": "../kevinpirnie/kpt-logger"
         },
         {
             "name": "kevinpirnie/kpt-router",
-            "version": "v1.0.06",
-            "version_normalized": "1.0.06.0",
+            "version": "v1.0.07",
+            "version_normalized": "1.0.07.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kpirnie/kp-router.git",
-                "reference": "917e66bb665245fb09737b51d10697e3a93bd59e"
+                "reference": "3cc0cec3e9a06726a436e72d975a32c1f0b31ecc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kpirnie/kp-router/zipball/917e66bb665245fb09737b51d10697e3a93bd59e",
-                "reference": "917e66bb665245fb09737b51d10697e3a93bd59e",
+                "url": "https://api.github.com/repos/kpirnie/kp-router/zipball/3cc0cec3e9a06726a436e72d975a32c1f0b31ecc",
+                "reference": "3cc0cec3e9a06726a436e72d975a32c1f0b31ecc",
                 "shasum": ""
             },
             "require": {
                 "kevinpirnie/kpt-cache": "^1.0",
                 "kevinpirnie/kpt-logger": "^1.0",
-                "php": ">=8.0"
+                "php": ">=8.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.0|^10.0",
                 "squizlabs/php_codesniffer": "^3.6"
             },
             "suggest": {
                 "ext-redis": "Required for Redis-based rate limiting and caching",
                 "predis/predis": "Alternative Redis client if ext-redis is not available"
             },
-            "time": "2025-08-18T17:32:45+00:00",
+            "time": "2026-01-25T13:44:52+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -696,6 +700,16 @@
                 "issues": "https://github.com/kpirnie/kpt-router/issues",
                 "source": "https://github.com/kpirnie/kpt-router"
             },
+            "funding": [
+                {
+                    "url": "https://ko-fi.com/kevinpirnie",
+                    "type": "ko-fi"
+                },
+                {
+                    "url": "https://www.paypal.biz/kevinpirnie",
+                    "type": "paypal"
+                }
+            ],
             "install-path": "../kevinpirnie/kpt-router"
         },
         {

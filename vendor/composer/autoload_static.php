@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7
+class ComposerStaticInit2af29beba30e96aa03602b3d36e52aba
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -13,18 +13,18 @@ class ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7
     );
 
     public static $prefixLengthsPsr4 = array (
-        'P' => 
+        'P' =>
         array (
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
         ),
-        'K' => 
+        'K' =>
         array (
             'Kptv\\IptvSync\\' => 14,
             'KPT\\DataTables\\' => 15,
             'KPT\\' => 4,
         ),
-        'G' => 
+        'G' =>
         array (
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
@@ -33,39 +33,39 @@ class ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7
     );
 
     public static $prefixDirsPsr4 = array (
-        'Psr\\Http\\Message\\' => 
+        'Psr\\Http\\Message\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Psr\\Http\\Client\\' => 
+        'Psr\\Http\\Client\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
-        'Kptv\\IptvSync\\' => 
+        'Kptv\\IptvSync\\' =>
         array (
             0 => __DIR__ . '/../..' . '/sync/src',
         ),
-        'KPT\\DataTables\\' => 
+        'KPT\\DataTables\\' =>
         array (
             0 => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class',
         ),
-        'KPT\\' => 
+        'KPT\\' =>
         array (
             0 => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src',
             1 => __DIR__ . '/..' . '/kevinpirnie/kpt-database/src',
             2 => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src',
             3 => __DIR__ . '/..' . '/kevinpirnie/kpt-logger/src',
         ),
-        'GuzzleHttp\\Psr7\\' => 
+        'GuzzleHttp\\Psr7\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
-        'GuzzleHttp\\Promise\\' => 
+        'GuzzleHttp\\Promise\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
         ),
-        'GuzzleHttp\\' => 
+        'GuzzleHttp\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
@@ -160,6 +160,7 @@ class ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7
         'GuzzleHttp\\TransferStats' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/TransferStats.php',
         'GuzzleHttp\\Utils' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Utils.php',
         'KPTV' => __DIR__ . '/../..' . '/controllers/main.php',
+        'KPTV_EPG_Proxy' => __DIR__ . '/../..' . '/controllers/kptv-epg-proxy.php',
         'KPTV_Proxy' => __DIR__ . '/../..' . '/controllers/kptv-proxy.php',
         'KPTV_Static' => __DIR__ . '/../..' . '/controllers/kptv-static.php',
         'KPTV_Stream_Playlists' => __DIR__ . '/../..' . '/controllers/kptv-stream-playlists.php',
@@ -238,9 +239,9 @@ class ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc7eceaaf247c642a70ef3468d1c572f7::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2af29beba30e96aa03602b3d36e52aba::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2af29beba30e96aa03602b3d36e52aba::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit2af29beba30e96aa03602b3d36e52aba::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * KPT_Routes
  * 
@@ -8,7 +9,7 @@
  * @author Kevin Pirnie <me@kpirnie.com>
  * @package KP Library
  */
-defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
+defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
 // setup our namespace imports
 use KPT\KPT;
@@ -22,39 +23,39 @@ use KPT\Logger;
 $middlewareDefinitions = [
 
     // Guest-only middleware (user must NOT be logged in)
-    'guest_only' => function( ) {
-        if ( KPTV_User::is_user_logged_in( ) ) {
-            KPTV::message_with_redirect( '/', 'danger', 'You are already logged in.' );
+    'guest_only' => function () {
+        if (KPTV_User::is_user_logged_in()) {
+            KPTV::message_with_redirect('/', 'danger', 'You are already logged in.');
             return false;
         }
         return true;
     },
-    
+
     // Authentication required middleware
-    'auth_required' => function( ) {
-        if ( ! KPTV_User::is_user_logged_in( ) ) {
-            KPTV::message_with_redirect( '/users/login', 'danger', 'You must be logged in to access this page.' );
+    'auth_required' => function () {
+        if (! KPTV_User::is_user_logged_in()) {
+            KPTV::message_with_redirect('/users/login', 'danger', 'You must be logged in to access this page.');
             return false;
         }
         return true;
     },
-    
+
     // Admin-only middleware
-    'admin_required' => function() {
-        if ( ! KPTV_User::is_user_logged_in( ) ) {
-            KPTV::message_with_redirect( '/users/login', 'danger', 'You must be logged in to access this page.' );
+    'admin_required' => function () {
+        if (! KPTV_User::is_user_logged_in()) {
+            KPTV::message_with_redirect('/users/login', 'danger', 'You must be logged in to access this page.');
             return false;
         }
-        
-        $user = KPTV_User::get_current_user( );
-        if ( $user -> role != 99 ) {
-            KPTV::message_with_redirect( '/', 'danger', 'You do not have permission to access this page.' );
+
+        $user = KPTV_User::get_current_user();
+        if ($user->role != 99) {
+            KPTV::message_with_redirect('/', 'danger', 'You do not have permission to access this page.');
             return false;
         }
-        
+
         return true;
     },
-    
+
 ];
 
 // =============================================================
@@ -103,7 +104,7 @@ $get_user_routes = [
         'middleware' => ['guest_only'],
         'handler' => 'view:pages/users/login.php'
     ],
-    
+
     // Logout action (using controller)
     [
         'method' => 'GET',
@@ -111,7 +112,7 @@ $get_user_routes = [
         'middleware' => ['auth_required'],
         'handler' => 'KPTV_User@logout' // Class@Method
     ],
-    
+
     // Registration page
     [
         'method' => 'GET',
@@ -119,7 +120,7 @@ $get_user_routes = [
         'middleware' => ['guest_only'],
         'handler' => 'view:pages/users/register.php'
     ],
-    
+
     // Forgot password page
     [
         'method' => 'GET',
@@ -127,7 +128,7 @@ $get_user_routes = [
         'middleware' => ['guest_only'],
         'handler' => 'view:pages/users/forgot.php'
     ],
-    
+
     // Change password page
     [
         'method' => 'GET',
@@ -135,7 +136,7 @@ $get_user_routes = [
         'middleware' => ['auth_required'],
         'handler' => 'view:pages/users/changepass.php'
     ],
-    
+
     // Account validation (using controller)
     [
         'method' => 'GET',
@@ -153,7 +154,7 @@ $get_stream_routes = [
         'middleware' => ['auth_required'],
         'handler' => 'view:pages/stream/providers.php'
     ],
-        
+
     // Filters management
     [
         'method' => 'GET',
@@ -161,7 +162,7 @@ $get_stream_routes = [
         'middleware' => ['auth_required'],
         'handler' => 'view:pages/stream/filters.php'
     ],
-    
+
     // missing streams
     [
         'method' => 'GET',
@@ -169,7 +170,7 @@ $get_stream_routes = [
         'middleware' => ['auth_required'],
         'handler' => 'view:pages/stream/missing.php'
     ],
-    
+
     // Streams management
     [
         'method' => 'GET',
@@ -185,7 +186,7 @@ $get_stream_routes = [
         'handler' => 'view:pages/stream/streams.php',
         'data' => ['currentRoute' => true]
     ],
-        
+
     // M3U Playlist export (user + which)
     [
         'method' => 'GET',
@@ -193,12 +194,28 @@ $get_stream_routes = [
         'handler' => 'KPTV_Stream_Playlists@handleUserPlaylist',
         'should_cache' => false,
     ],
-    
+
     // M3U Playlist export (user + provider + which)
     [
         'method' => 'GET',
         'path' => '/playlist/{user}/{provider}/{which}',
         'handler' => 'KPTV_Stream_Playlists@handleProviderPlaylist',
+        'should_cache' => false,
+    ],
+
+    // EPG Proxy (user + provider) - XC providers only
+    [
+        'method' => 'GET',
+        'path' => '/epg/{user}/{provider}',
+        'handler' => 'KPTV_EPG_Proxy@handleEpgRequest',
+        'should_cache' => false,
+    ],
+
+    // EPG Proxy - xmltv.php route (XC standard endpoint)
+    [
+        'method' => 'GET',
+        'path' => '/xmltv.php',
+        'handler' => 'KPTV_EPG_Proxy@handleEpgRequest',
         'should_cache' => false,
     ],
 
@@ -280,7 +297,7 @@ $post_user_routes = [
         'middleware' => ['guest_only'],
         'handler' => 'KPTV_User@login' // Class@Method
     ],
-    
+
     // Registration form submission (using controller)
     [
         'method' => 'POST',
@@ -288,7 +305,7 @@ $post_user_routes = [
         'middleware' => ['guest_only'],
         'handler' => 'KPTV_User@register' // Class@Method
     ],
-    
+
     // Change password form submission (using controller)
     [
         'method' => 'POST',
@@ -296,7 +313,7 @@ $post_user_routes = [
         'middleware' => ['auth_required'],
         'handler' => 'KPTV_User@change_pass' // Class@Method
     ],
-    
+
     // Forgot password form submission (using controller)
     [
         'method' => 'POST',
@@ -316,7 +333,7 @@ $post_stream_routes = [
         'handler' => 'view:pages/stream/filters.php', // Class@Method
         //'handler' => 'KPTV_Stream_Filters@handleFormSubmission', // Class@Method
     ],
-    
+
     // Providers form submission
     [
         'method' => 'POST',
@@ -325,7 +342,7 @@ $post_stream_routes = [
         'handler' => 'view:pages/stream/providers.php', // Class@Method
         //'handler' => 'KPTV_Stream_Providers@handleFormSubmission', // Class@Method
     ],
-    
+
     // Streams form submission with parameters
     [
         'method' => 'POST',
@@ -357,7 +374,7 @@ $post_stream_routes = [
 // =============================================================
 
 // Merge all route arrays into one comprehensive routes array
-$routes = array_merge( 
+$routes = array_merge(
     $get_static_routes,
     $get_user_routes,
     $get_stream_routes,
@@ -372,33 +389,32 @@ $routes = array_merge(
 
 // Setup the cache settings
 $routesFile = __FILE__;
-$cacheKey = 'compiled_routes_' . md5( $routesFile . filemtime( $routesFile ) );
+$cacheKey = 'compiled_routes_' . md5($routesFile . filemtime($routesFile));
 $cacheTTL = KPTV::DAY_IN_SECONDS; // Cache for 1 day
 
 // Try to get cached routes (NOTE: We can't cache middleware definitions with closures)
-$cachedData = Cache::get( $cacheKey );
+$cachedData = Cache::get($cacheKey);
 
-if ( $cachedData !== false && is_array( $cachedData ) && isset( $cachedData['routes'] ) ) {
-    
+if ($cachedData !== false && is_array($cachedData) && isset($cachedData['routes'])) {
+
     // Use cached routes (but always define middleware fresh since they contain closures)
     $routes = $cachedData['routes'];
-    
+
     // Log cache hit for debugging (optional)
-    Logger::debug( "Route cache HIT for key: {$cacheKey}" );
-    
+    Logger::debug("Route cache HIT for key: {$cacheKey}");
 } else {
-    
+
     // Cache miss - store routes for next time (but not middleware definitions)
     $cacheData = [
         'routes' => $routes,
-        'cached_at' => time( ),
-        'expires_at' => time( ) + $cacheTTL
+        'cached_at' => time(),
+        'expires_at' => time() + $cacheTTL
     ];
-    
-    Cache::set( $cacheKey, $cacheData, $cacheTTL );
-    
+
+    Cache::set($cacheKey, $cacheData, $cacheTTL);
+
     // Log cache miss for debugging (optional)  
-    Logger::debug( "Route cache MISS for key: {$cacheKey} - Routes cached" );
+    Logger::debug("Route cache MISS for key: {$cacheKey} - Routes cached");
 }
 
 // =============================================================
@@ -406,88 +422,85 @@ if ( $cachedData !== false && is_array( $cachedData ) && isset( $cachedData['rou
 // =============================================================
 
 // Register middleware definitions (always fresh since they contain closures)
-$router -> registerMiddlewareDefinitions( $middlewareDefinitions );
+$router->registerMiddlewareDefinitions($middlewareDefinitions);
 
 // Register all routes
-$router -> registerRoutes( $routes );
+$router->registerRoutes($routes);
 
 // =============================================================
 // ==================== GLOBAL MIDDLEWARE ====================
 // =============================================================
 
 // Maintenance mode middleware
-$router -> addMiddleware( function( ) {
+$router->addMiddleware(function () {
 
     // Check for maintenance mode configuration
     $configFile = $_SERVER['DOCUMENT_ROOT'] . '/.maintenance.json';
-    
+
     // Skip if no maintenance config exists
-    if ( ! file_exists( $configFile ) ) return true;
-    
+    if (! file_exists($configFile)) return true;
+
     // Load maintenance configuration
-    $config = json_decode( file_get_contents( $configFile ), true );
+    $config = json_decode(file_get_contents($configFile), true);
     $enabled = $config['enabled'] ?? false;
     $allowedIPs = $config['allowed_ips'] ?? ['127.0.0.1/32'];
     $message = $config['message'] ?? 'Down for maintenance';
-    
+
     // Skip if maintenance not enabled
-    if ( ! $enabled ) return true;
-    
+    if (! $enabled) return true;
+
     // Check if client IP is in any allowed CIDR range
-    $clientIp = KPTV::get_user_ip( );
-    foreach ( $allowedIPs as $allowed ) {
-        if ( KPTV::cidrMatch( $clientIp, $allowed ) ) {
+    $clientIp = KPTV::get_user_ip();
+    foreach ($allowedIPs as $allowed) {
+        if (KPTV::cidrMatch($clientIp, $allowed)) {
             return true;
         }
     }
 
     // Return maintenance mode response
-    http_response_code( 503 );
-    header( 'Content-Type: application/json' );
-    header( 'Retry-After: 3600' ); // Retry after 1 hour
-    die( json_encode( [
+    http_response_code(503);
+    header('Content-Type: application/json');
+    header('Retry-After: 3600'); // Retry after 1 hour
+    die(json_encode([
         'error' => 'maintenance',
         'message' => $message,
         'until' => $config['until'] ?? null,
         'status' => 503
-    ] ) );
-    
-} );
+    ]));
+});
 
 // =============================================================
 // ==================== ERROR HANDLING =========================
 // =============================================================
 
 // 404 Not Found handler
-$router -> notFound( function( ) {
-    
+$router->notFound(function () {
+
     // Log the 404 error
     $uri = $_SERVER['REQUEST_URI'] ?? 'unknown';
     $method = $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN';
-    $ip = KPTV::get_user_ip( );
-    error_log( "404 Error: $method $uri from $ip" );
-    
+    $ip = KPTV::get_user_ip();
+    error_log("404 Error: $method $uri from $ip");
+
     // Check if it's an API request
-    if ( strpos( $uri, '/api/' ) !== false ) {
+    if (strpos($uri, '/api/') !== false) {
         // Return JSON 404 response for API
-        header( 'Content-Type: application/json' );
-        http_response_code( 404 );
-        echo json_encode( [
+        header('Content-Type: application/json');
+        http_response_code(404);
+        echo json_encode([
             'status' => 'error',
             'message' => 'API endpoint not found',
             'request_uri' => $uri,
             'method' => $method,
-            'timestamp' => date( 'c' )
-        ] );
+            'timestamp' => date('c')
+        ]);
 
-    // otherwise it's a normal request
+        // otherwise it's a normal request
     } else {
 
         // Return HTML 404 response for web
-        http_response_code( 404 );
-        header( 'Content-Type: text/html; charset=UTF-8' );
+        http_response_code(404);
+        header('Content-Type: text/html; charset=UTF-8');
         echo 'Page Not Found';
-
     }
-    
-} );
+});
