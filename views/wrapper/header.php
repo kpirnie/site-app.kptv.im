@@ -1,4 +1,5 @@
 <?php
+
 /**
  * header.php
  * 
@@ -11,63 +12,63 @@
  */
 
 // define the primary app path if not already defined
-defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
+defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
 // call in the router!
 use KPT\Router;
 
 // get the route we're in
-$current_route = Router::getCurrentRoute( );
+$current_route = Router::getCurrentRoute();
 
 // get ther user id for the export
-$user_for_export = KPTV::encrypt( ( KPTV_User::get_current_user( ) -> id ) ?? 0 );
+$user_for_export = KPTV::encrypt((KPTV_User::get_current_user()->id) ?? 0);
 
 // get the user role
-$user_role = ( KPTV_User::get_current_user( ) -> role ) ?? 0;
+$user_role = (KPTV_User::get_current_user()->role) ?? 0;
 
 // hold the route path
-$route_path = $current_route -> path;
+$route_path = $current_route->path;
 ?>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Kevin C. Pirnie" />
-        <title>KPTV Stream Manager - Dashboard</title>
-        <meta name="description" content="KPTV Stream Manager - Manage your IPTV providers and streams">
-        <link rel="dns-prefetch" href="//dev.kptv.im" />
-        <link rel="dns-prefetch" href="//vjs.zencdn.net" />
-        <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
-        <link rel="preconnect" href="//fonts.googleapis.com">
-        <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
-        <?php echo \KPT\DataTables\DataTables::getCssIncludes( 'uikit', true ); ?>
-        <link rel="stylesheet" href="/assets/css/kptv.min.css" />
-        <link rel="stylesheet" href="/assets/css/custom.css?_=<?php echo time(); ?>" />        
-        <link rel="icon" type="image/png" href="/assets/images/kptv-icon.png" />
-    </head>
-    <body uk-height-viewport="offset-top: true">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Kevin C. Pirnie" />
+    <title>KPTV Stream Manager - Dashboard</title>
+    <meta name="description" content="KPTV Stream Manager - Manage your IPTV providers and streams">
+    <link rel="dns-prefetch" href="//dev.kptv.im" />
+    <link rel="dns-prefetch" href="//vjs.zencdn.net" />
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+    <link rel="preconnect" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+    <?php echo \KPT\DataTables\DataTables::getCssIncludes('uikit', true, true); ?>
+    <link rel="stylesheet" href="/assets/css/kptv.min.css" />
+    <link rel="stylesheet" href="/assets/css/custom.css?_=<?php echo time(); ?>" />
+    <link rel="icon" type="image/png" href="/assets/images/kptv-icon.png" />
+</head>
+
+<body uk-height-viewport="offset-top: true">
+    <?php
+    // main navigation
+    include KPTV_PATH . 'views/wrapper/nav-main.php';
+    ?>
+    <div uk-grid class="uk-grid-collapse uk-flex-1" uk-height-viewport="expand: true">
         <?php
-            // main navigation
-            include KPTV_PATH . 'views/wrapper/nav-main.php';
+        // include the sidebar
+        include KPTV_PATH . 'views/wrapper/sidebar.php';
         ?>
-        <div uk-grid class="uk-grid-collapse uk-flex-1" uk-height-viewport="expand: true">
-            <?php
-                // include the sidebar
-                include KPTV_PATH . 'views/wrapper/sidebar.php';
-            ?>
-            <div class="uk-width-expand">
-                <main class="kptv-main">
+        <div class="uk-width-expand">
+            <main class="kptv-main">
                 <?php
-                    // if there is a message to be shown
-                    if( isset( $_SESSION ) && isset( $_SESSION['page_msg'] ) ) {
+                // if there is a message to be shown
+                if (isset($_SESSION) && isset($_SESSION['page_msg'])) {
 
-                        // show the message
-                        KPTV::show_message( $_SESSION['page_msg']['type'], $_SESSION['page_msg']['msg'] );
+                    // show the message
+                    KPTV::show_message($_SESSION['page_msg']['type'], $_SESSION['page_msg']['msg']);
 
-                        // remove it from the session
-                        unset( $_SESSION['page_msg'] );
-
-                    }
-                
+                    // remove it from the session
+                    unset($_SESSION['page_msg']);
+                }
