@@ -10,9 +10,6 @@
 
 defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
-// make sure we've got our namespaces...
-use KPT\DataTables\DataTables;
-
 // setup the user id
 $userId = KPTV_User::get_current_user()->id;
 
@@ -23,7 +20,7 @@ $userForExport = KPTV::encrypt($userId);
 $dbconf = (array) KPTV::get_setting('database');
 
 // fire up the datatables class
-$dt = new DataTables($dbconf);
+$dt = new \KPT\DataTables\DataTables($dbconf);
 
 // setup the form fields
 $formFieldsConfig = KPTV::view_configs('providers', userId: $userId)->form;
@@ -44,12 +41,12 @@ $dt->table('kptv_stream_providers')
     ->primaryKey('id')
     ->columns([
         'id' => 'ID',
+        'sp_should_filter' => ['type' => 'boolean', 'label' => 'Filter'],
         'sp_priority' => [
             'label' => 'Priority',
         ],
         'sp_name' => 'Name',
-        'sp_cnx_limit' => 'Cnx.',
-        'sp_should_filter' => ['type' => 'boolean', 'label' => 'Filter'],
+        'sp_cnx_limit' => 'Connections',
     ])
     ->columnClasses([
         'sp_priority' => 'uk-min-width',
@@ -57,7 +54,7 @@ $dt->table('kptv_stream_providers')
         'sp_should_filter' => 'uk-min-width',
         'id' => 'hide-col'
     ])
-    ->sortable(['sp_priority', 'sp_name', 'sp_cnx_limit', 'sp_should_filter'])
+    ->sortable(['sp_priority', 'sp_name', 'sp_should_filter'])
     ->defaultSort('sp_priority', 'ASC')
     ->inlineEditable(['sp_priority', 'sp_name', 'sp_cnx_limit', 'sp_should_filter'])
     ->perPage(25)

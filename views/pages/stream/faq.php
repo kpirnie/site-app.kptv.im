@@ -1,4 +1,5 @@
 <?php
+
 /**
  * streams-faq.php
  * 
@@ -11,10 +12,10 @@
  */
 
 // define the primary app path if not already defined
-defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
+defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
 // pull in the header
-KPTV::pull_header( );
+KPTV::pull_header();
 
 ?>
 <div class="uk-container">
@@ -23,7 +24,7 @@ KPTV::pull_header( );
     <!-- Stream Basics Section -->
     <div class="uk-margin">
         <h3 class="uk-heading-bullet">Stream Basics</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">What are the different types of streams?</a>
@@ -38,7 +39,7 @@ KPTV::pull_header( );
                     <p class="uk-text-meta dark-version">You can move streams between categories as needed to keep your content organized.</p>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">What is the difference between active and inactive streams?</a>
                 <div class="uk-accordion-content">
@@ -49,7 +50,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">How do I play a stream to test it?</a>
                 <div class="uk-accordion-content">
@@ -68,7 +69,7 @@ KPTV::pull_header( );
     <!-- Provider Management Section -->
     <div class="uk-margin">
         <h3 class="uk-heading-bullet">Provider Management</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">What are providers and how do I add them?</a>
@@ -88,7 +89,7 @@ KPTV::pull_header( );
                     </ol>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">What does provider priority mean?</a>
                 <div class="uk-accordion-content">
@@ -103,7 +104,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">How do I get my IPTV app credentials for a provider?</a>
                 <div class="uk-accordion-content">
@@ -125,7 +126,7 @@ KPTV::pull_header( );
     <!-- IPTV App Setup Section -->
     <div class="uk-margin">
         <h3 class="uk-heading-bullet">IPTV App Setup (Xtream Codes)</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">How do I add my streams to an IPTV app?</a>
@@ -168,7 +169,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">What IPTV apps are compatible?</a>
                 <div class="uk-accordion-content">
@@ -187,7 +188,7 @@ KPTV::pull_header( );
                     <p class="uk-text-meta dark-version">When adding a playlist, look for "Xtream Codes" or "XC Login" option rather than M3U URL.</p>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">What's the difference between XC API and M3U export?</a>
                 <div class="uk-accordion-content">
@@ -211,7 +212,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">Can I view all providers' streams in one IPTV app playlist?</a>
                 <div class="uk-accordion-content">
@@ -224,7 +225,7 @@ KPTV::pull_header( );
                     <p class="uk-text-meta dark-version">Most IPTV apps support multiple playlists/logins that you can switch between.</p>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">Why aren't my streams playing in the IPTV app?</a>
                 <div class="uk-accordion-content">
@@ -247,7 +248,7 @@ KPTV::pull_header( );
     <!-- Content Filtering Section -->
     <div class="uk-margin">
         <h3 class="uk-heading-bullet">Content Filtering</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">What are filters and how do they work?</a>
@@ -262,7 +263,7 @@ KPTV::pull_header( );
                     </ul>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">How do I create effective filters?</a>
                 <div class="uk-accordion-content">
@@ -278,7 +279,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">Can I disable filtering for specific providers?</a>
                 <div class="uk-accordion-content">
@@ -296,7 +297,7 @@ KPTV::pull_header( );
     <!-- Stream Organization Section -->
     <div class="uk-margin">
         <h3 class="uk-heading-bullet">Stream Organization</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">How do I move streams between categories?</a>
@@ -314,7 +315,7 @@ KPTV::pull_header( );
                     </ol>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">How do I edit stream names and channel numbers?</a>
                 <div class="uk-accordion-content">
@@ -331,7 +332,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">What should I do with streams in the "Other" category?</a>
                 <div class="uk-accordion-content">
@@ -352,7 +353,7 @@ KPTV::pull_header( );
     <!-- Playlist Export Section -->
     <div class="uk-margin">
         <h3 class="uk-heading-bullet">Playlist Export</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">How do I export my streams as M3U playlists?</a>
@@ -373,7 +374,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">What's the difference between exported playlist types?</a>
                 <div class="uk-accordion-content">
@@ -387,7 +388,7 @@ KPTV::pull_header( );
                     </ul>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">How do I use exported playlists in media players?</a>
                 <div class="uk-accordion-content">
@@ -412,7 +413,7 @@ KPTV::pull_header( );
     <!-- Troubleshooting Section -->
     <div class="uk-margin">
         <h3 class="uk-heading-bullet">Troubleshooting</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">Why won't my stream play in the browser?</a>
@@ -431,7 +432,7 @@ KPTV::pull_header( );
                     </ol>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">My exported playlist isn't working. What should I check?</a>
                 <div class="uk-accordion-content">
@@ -447,7 +448,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">How do I report bugs or request features?</a>
                 <div class="uk-accordion-content">
@@ -468,4 +469,4 @@ KPTV::pull_header( );
 
 <?php
 // pull in the footer
-KPTV::pull_footer( );
+KPTV::pull_footer();

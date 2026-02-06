@@ -1,4 +1,5 @@
 <?php
+
 /**
  * accounts-faq.php
  * 
@@ -11,10 +12,10 @@
  */
 
 // define the primary app path if not already defined
-defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
+defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
 // pull in the header
-KPTV::pull_header( );
+KPTV::pull_header();
 
 ?>
 <div class="uk-container">
@@ -22,7 +23,7 @@ KPTV::pull_header( );
 
     <!-- Account Registration Section -->
     <div class="uk-margin">
-        <h3 class="kptv-heading uk-heading-bullet">Account Registration</h3>    
+        <h3 class="kptv-heading uk-heading-bullet">Account Registration</h3>
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">How do I create a new account?</a>
@@ -41,7 +42,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">What are the password requirements?</a>
                 <div class="uk-accordion-content">
@@ -58,7 +59,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">I didn't receive my activation email. What should I do?</a>
                 <div class="uk-accordion-content">
@@ -72,7 +73,7 @@ KPTV::pull_header( );
                     <p class="uk-text-meta dark-version">If you continue having issues, you can contact support through the GitHub issues page.</p>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">Can I change my username after registration?</a>
                 <div class="uk-accordion-content">
@@ -88,7 +89,7 @@ KPTV::pull_header( );
     <!-- Login & Authentication Section -->
     <div class="uk-margin">
         <h3 class="kptv-heading uk-heading-bullet">Login & Authentication</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">How do I log into my account?</a>
@@ -103,7 +104,7 @@ KPTV::pull_header( );
                     <p class="uk-text-meta dark-version">Make sure your account has been activated via the email link before attempting to log in.</p>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">Why is my account locked and how do I unlock it?</a>
                 <div class="uk-accordion-content">
@@ -119,7 +120,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">How do I log out securely?</a>
                 <div class="uk-accordion-content">
@@ -134,7 +135,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">What information is tracked about my login activity?</a>
                 <div class="uk-accordion-content">
@@ -153,7 +154,7 @@ KPTV::pull_header( );
     <!-- Password Management Section -->
     <div class="uk-margin">
         <h3 class="kptv-heading uk-heading-bullet">Password Management</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">How do I change my password?</a>
@@ -171,7 +172,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">I forgot my password. How do I reset it?</a>
                 <div class="uk-accordion-content">
@@ -190,7 +191,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">How often should I change my password?</a>
                 <div class="uk-accordion-content">
@@ -210,7 +211,7 @@ KPTV::pull_header( );
     <!-- Account Information Section -->
     <div class="uk-margin">
         <h3 class="kptv-heading uk-heading-bullet">Account Information</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">Can I update my personal information?</a>
@@ -225,7 +226,7 @@ KPTV::pull_header( );
                     <p>If you need to update your email address or name, contact an administrator or submit a request through GitHub issues.</p>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">What are user roles and permissions?</a>
                 <div class="uk-accordion-content">
@@ -248,7 +249,7 @@ KPTV::pull_header( );
                     </ul>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">How do I delete my account?</a>
                 <div class="uk-accordion-content">
@@ -269,7 +270,7 @@ KPTV::pull_header( );
     <!-- Security & Privacy Section -->
     <div class="uk-margin">
         <h3 class="kptv-heading uk-heading-bullet">Security & Privacy</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">How is my data protected?</a>
@@ -284,7 +285,7 @@ KPTV::pull_header( );
                     <p class="uk-text-meta dark-version">Your stream URLs and provider credentials are stored securely and are only accessible to your account.</p>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">What data is stored about me?</a>
                 <div class="uk-accordion-content">
@@ -304,7 +305,7 @@ KPTV::pull_header( );
                     </ul>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">Are my playlist URLs private?</a>
                 <div class="uk-accordion-content">
@@ -325,7 +326,7 @@ KPTV::pull_header( );
     <!-- Admin Functions Section -->
     <div class="uk-margin">
         <h3 class="kptv-heading uk-heading-bullet">Admin Functions</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">What can administrators do?</a>
@@ -343,7 +344,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">How do I become an administrator?</a>
                 <div class="uk-accordion-content">
@@ -356,7 +357,7 @@ KPTV::pull_header( );
                     <p class="uk-text-meta dark-version">Administrator access is typically only granted to trusted users who need to manage the system.</p>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">Can administrators see my streams and providers?</a>
                 <div class="uk-accordion-content">
@@ -375,7 +376,7 @@ KPTV::pull_header( );
     <!-- Troubleshooting Section -->
     <div class="uk-margin">
         <h3 class="kptv-heading uk-heading-bullet">Troubleshooting</h3>
-        
+
         <ul uk-accordion="multiple: false">
             <li>
                 <a class="uk-accordion-title" href="#">I can't log in. What should I check?</a>
@@ -391,7 +392,7 @@ KPTV::pull_header( );
                     </ol>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">I'm getting "Invalid username or password" errors. Why?</a>
                 <div class="uk-accordion-content">
@@ -407,7 +408,7 @@ KPTV::pull_header( );
                     </div>
                 </div>
             </li>
-            
+
             <li>
                 <a class="uk-accordion-title" href="#">How do I report account-related problems?</a>
                 <div class="uk-accordion-content">
@@ -433,4 +434,4 @@ KPTV::pull_header( );
 
 <?php
 // pull in the footer
-KPTV::pull_footer( );
+KPTV::pull_footer();

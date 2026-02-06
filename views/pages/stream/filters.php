@@ -10,9 +10,6 @@
 
 defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
-// make sure we've got our namespaces...
-use KPT\DataTables\DataTables;
-
 // setup the user id
 $userId = KPTV_User::get_current_user()->id;
 
@@ -20,7 +17,7 @@ $userId = KPTV_User::get_current_user()->id;
 $dbconf = (array) KPTV::get_setting('database');
 
 // fire up the datatables class
-$dt = new DataTables($dbconf);
+$dt = new \KPT\DataTables\DataTables($dbconf);
 
 // setup the form fields
 $formFields = KPTV::view_configs('filters', userId: $userId)->form;
@@ -59,7 +56,7 @@ $dt->table('kptv_stream_filters')
     ->defaultSort('sf_type_id', 'ASC')
     ->inlineEditable(['sf_active', 'sf_type_id', 'sf_filter'])
     ->perPage(25)
-    ->pageSizeOptions([25, 50, 100, 250], true) // true includes "ALL" option
+    ->pageSizeOptions([25, 50, 100, 250], true)
     ->bulkActions(true)
     ->actions('end', true, true, [])
     ->addForm('Add a Filter', $formFields, class: 'uk-grid-small uk-grid')

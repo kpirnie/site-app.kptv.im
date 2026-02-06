@@ -27,9 +27,6 @@ $appPath = dirname(__FILE__, 2) . '/';
 // include our vendor autoloader
 include_once $appPath . 'vendor/autoload.php';
 
-// use our namespace
-use KPT\KPT;
-
 // define the primary app path if not already defined
 defined('KPTV_PATH') || define('KPTV_PATH', $appPath);
 
@@ -120,6 +117,8 @@ if (
 
         // Dispatch the router
         try {
+            // Debug - check if routes are registered
+            error_log("Registered routes: " . print_r($router->getRoutes(), true));
             $router->dispatch();
 
             // whoopsie...

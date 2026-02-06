@@ -336,23 +336,23 @@
         },
         {
             "name": "kevinpirnie/kpt-cache",
-            "version": "v1.0.34",
-            "version_normalized": "1.0.34.0",
+            "version": "v1.0.83",
+            "version_normalized": "1.0.83.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kpirnie/kp-cache.git",
-                "reference": "792592dcf67855ebf14d3da6e3291edade2e63b4"
+                "reference": "4882c41f5c36c64d02b9af4244adfa1f439a2372"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kpirnie/kp-cache/zipball/792592dcf67855ebf14d3da6e3291edade2e63b4",
-                "reference": "792592dcf67855ebf14d3da6e3291edade2e63b4",
+                "url": "https://api.github.com/repos/kpirnie/kp-cache/zipball/4882c41f5c36c64d02b9af4244adfa1f439a2372",
+                "reference": "4882c41f5c36c64d02b9af4244adfa1f439a2372",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "kevinpirnie/kpt-logger": "^1.0",
-                "php": ">=8.2"
+                "php": ">=8.4"
             },
             "require-dev": {
                 "phpunit/phpunit": "^10",
@@ -364,7 +364,7 @@
                 "ext-redis": "For Redis cache support",
                 "ext-yac": "For YAC cache support"
             },
-            "time": "2026-01-24T13:03:55+00:00",
+            "time": "2026-02-06T21:06:19+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -400,8 +400,8 @@
                 "redis"
             ],
             "support": {
-                "issues": "https://github.com/kpirnie/kpt-wpfieldframework/issues",
-                "source": "https://github.com/kpirnie/kpt-wpfieldframework"
+                "issues": "https://github.com/kpirnie/kp-cache/issues",
+                "source": "https://github.com/kpirnie/kp-cache"
             },
             "funding": [
                 {
@@ -561,26 +561,26 @@
         },
         {
             "name": "kevinpirnie/kpt-logger",
-            "version": "v1.0.03",
-            "version_normalized": "1.0.03.0",
+            "version": "v1.0.11",
+            "version_normalized": "1.0.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kpirnie/kp-logger.git",
-                "reference": "b7d8fa7200a61ea1f4c4cc5d3f2901f59d577206"
+                "reference": "6dc32295c85cf7b070db1825c502ba877594e6bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kpirnie/kp-logger/zipball/b7d8fa7200a61ea1f4c4cc5d3f2901f59d577206",
-                "reference": "b7d8fa7200a61ea1f4c4cc5d3f2901f59d577206",
+                "url": "https://api.github.com/repos/kpirnie/kp-logger/zipball/6dc32295c85cf7b070db1825c502ba877594e6bb",
+                "reference": "6dc32295c85cf7b070db1825c502ba877594e6bb",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.2"
+                "php": ">=8.4"
             },
             "require-dev": {
                 "squizlabs/php_codesniffer": "^3.9"
             },
-            "time": "2026-01-25T13:38:20+00:00",
+            "time": "2026-02-06T21:33:52+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -630,23 +630,23 @@
         },
         {
             "name": "kevinpirnie/kpt-router",
-            "version": "v1.0.07",
-            "version_normalized": "1.0.07.0",
+            "version": "v1.0.33",
+            "version_normalized": "1.0.33.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kpirnie/kp-router.git",
-                "reference": "3cc0cec3e9a06726a436e72d975a32c1f0b31ecc"
+                "reference": "47366559b17a28f29cf5b5e08533d1212a01c0e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kpirnie/kp-router/zipball/3cc0cec3e9a06726a436e72d975a32c1f0b31ecc",
-                "reference": "3cc0cec3e9a06726a436e72d975a32c1f0b31ecc",
+                "url": "https://api.github.com/repos/kpirnie/kp-router/zipball/47366559b17a28f29cf5b5e08533d1212a01c0e6",
+                "reference": "47366559b17a28f29cf5b5e08533d1212a01c0e6",
                 "shasum": ""
             },
             "require": {
                 "kevinpirnie/kpt-cache": "^1.0",
                 "kevinpirnie/kpt-logger": "^1.0",
-                "php": ">=8.2"
+                "php": ">=8.4"
             },
             "require-dev": {
                 "squizlabs/php_codesniffer": "^3.6"
@@ -655,7 +655,7 @@
                 "ext-redis": "Required for Redis-based rate limiting and caching",
                 "predis/predis": "Alternative Redis client if ext-redis is not available"
             },
-            "time": "2026-01-25T13:44:52+00:00",
+            "time": "2026-02-06T21:30:10+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {

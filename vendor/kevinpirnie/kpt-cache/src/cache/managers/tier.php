@@ -50,9 +50,6 @@ if (! class_exists('CacheTierManager')) {
         /** @var string Memcached tier - Memcached distributed memory tier */
         const TIER_MEMCACHED = 'memcached';
 
-        /** @var string MySQL tier - MySQL database tier */
-        const TIER_MYSQL = 'mysql';
-
         /** @var string SQLite tier - SQLite database tier */
         const TIER_SQLITE = 'sqlite';
 
@@ -64,7 +61,7 @@ if (! class_exists('CacheTierManager')) {
             self::TIER_ARRAY, self::TIER_OPCACHE, self::TIER_SHMOP, self::TIER_APCU,
             self::TIER_YAC, self::TIER_REDIS,
             self::TIER_MEMCACHED,
-            self::TIER_MYSQL, self::TIER_SQLITE,
+            self::TIER_SQLITE,
             self::TIER_FILE
         ];
 
@@ -187,7 +184,6 @@ if (! class_exists('CacheTierManager')) {
                 self::TIER_YAC => self::testYacAvailability(),
                 self::TIER_REDIS => self::testRedisAvailability(),
                 self::TIER_MEMCACHED => self::testMemcachedAvailability(),
-                self::TIER_MYSQL => self::testMySQLAvailability(),
                 self::TIER_SQLITE => self::testSQLiteAvailability(),
                 self::TIER_FILE => self::testFileAvailability(),
                 default => false
@@ -577,41 +573,18 @@ if (! class_exists('CacheTierManager')) {
             // try to do a basic test
             try {
                 // Basic availability checks without calling Cache methods
-                switch ($tier) {
-                    // array
-                    case self::TIER_ARRAY:
-                        return true; // Arrays always available
-                    // opcache
-                    case self::TIER_OPCACHE:
-                        return function_exists('opcache_get_status');
-                    // shmop
-                    case self::TIER_SHMOP:
-                        return function_exists('shmop_open');
-                    // apcu
-                    case self::TIER_APCU:
-                        return function_exists('apcu_enabled') && apcu_enabled();
-                    // yac
-                    case self::TIER_YAC:
-                        return extension_loaded('yac');
-                    // redis
-                    case self::TIER_REDIS:
-                        return class_exists('Redis');
-                    // memcached
-                    case self::TIER_MEMCACHED:
-                        return class_exists('Memcached');
-                    // mysql
-                    case self::TIER_MYSQL:
-                        return class_exists('\\KPT\\Database');
-                    // sqlite
-                    case self::TIER_SQLITE:
-                        return class_exists('PDO') && in_array('sqlite', \PDO::getAvailableDrivers());
-                    // file
-                    case self::TIER_FILE:
-                        return true; // File system always available
-                    // default is invalid tier
-                    default:
-                        return false;
-                }
+                return match ($tier) {
+                    self::TIER_ARRAY => true,
+                    self::TIER_OPCACHE => function_exists('opcache_get_status'),
+                    self::TIER_SHMOP => function_exists('shmop_open'),
+                    self::TIER_APCU => function_exists('apcu_enabled') && apcu_enabled(),
+                    self::TIER_YAC => extension_loaded('yac'),
+                    self::TIER_REDIS => class_exists('Redis'),
+                    self::TIER_MEMCACHED => class_exists('Memcached'),
+                    self::TIER_SQLITE => class_exists('PDO') && in_array('sqlite', \PDO::getAvailableDrivers()),
+                    self::TIER_FILE => true,
+                    default => false
+                };
 
             // whoopsie... just return false
             } catch (\Exception $e) {
@@ -1003,48 +976,6 @@ if (! class_exists('CacheTierManager')) {
             } catch (\Exception $e) {
                 // set the error and return false
                 self::$_last_error = "File cache test failed: " . $e -> getMessage();
-                return false;
-            }
-        }
-
-        /**
-         * Test MySQL availability and basic functionality
-         *
-         * @since 8.4
-         * @author Kevin Pirnie <me@kpirnie.com>
-         *
-         * @return bool Returns true if MySQL is available and functional
-         */
-        private static function testMySQLAvailability(): bool
-        {
-
-            try {
-                // Check if Database class exists
-                if (! class_exists('\\KPT\\Database')) {
-                    return false;
-                }
-
-                // get mysql configuration
-                $config = CacheConfig::get('mysql');
-
-                // build database settings object if provided in config
-                $db_settings = null;
-                if (isset($config['db_settings']) && is_array($config['db_settings'])) {
-                    $db_settings = (object) $config['db_settings'];
-                }
-
-                // Try to get MySQL database instance
-                $test_db = new Database($db_settings);
-                if (! $test_db) {
-                    return false;
-                }
-
-                // Test basic query to verify MySQL connection
-                $result = $test_db->raw('SELECT 1 as test');
-
-                return !empty($result);
-            } catch (\Exception $e) {
-                self::$_last_error = "MySQL test failed: " . $e->getMessage();
                 return false;
             }
         }

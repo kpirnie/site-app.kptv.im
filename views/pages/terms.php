@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Legal Notice Component
  * 
@@ -12,12 +13,10 @@
  */
 
 // define the primary app path if not already defined
-defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
-
-use KPT\KPT;
+defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
 // pull in the header
-KPTV::pull_header( );
+KPTV::pull_header();
 
 ?>
 
@@ -85,4 +84,4 @@ KPTV::pull_header( );
 </div>
 <?php
 // pull in the footer
-KPTV::pull_footer( );
+KPTV::pull_footer();

@@ -33,7 +33,7 @@
         }
     ],
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.4",
         "ext-json": "*",
         "kevinpirnie/kpt-logger": "^1.0"
     },
@@ -61,6 +61,8 @@
         }
     },
     "scripts": {
+        "test": "phpunit tests",
+        "test-coverage": "phpunit tests --coverage-html coverage --coverage-filter src",
         "cs-check": "phpcs src --standard=PSR12 --ignore=*.js,*.css -n",
         "cs-fix": "phpcbf src --standard=PSR12 --ignore=*.js,*.css -n"
     },
@@ -72,7 +74,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "support": {
-        "issues": "https://github.com/kpirnie/kpt-wpfieldframework/issues",
-        "source": "https://github.com/kpirnie/kpt-wpfieldframework"
+        "issues": "https://github.com/kpirnie/kp-cache/issues",
+        "source": "https://github.com/kpirnie/kp-cache"
     }
 }

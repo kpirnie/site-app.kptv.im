@@ -11,13 +11,11 @@
  * 
  */
 
-use KPT\Router;
-use KPT\DataTables\DataTables;
 
 // define the primary app path if not already defined
 defined('KPTV_PATH') || die('Direct Access is not allowed!');
 ?>
-<?php if ('/terms-of-use' != Router::getCurrentRoute()->path) { ?>
+<?php if ('/terms-of-use' != \KPT\Router::getCurrentRoute()->path) { ?>
     <div class="uk-margin-large uk-margin-remove-bottom">
         <div class="uk-alert-primary uk-padding uk-margin-remove" uk-alert>
             <h3 class="uk-heading-bullet uk-margin-remove-top">Important Legal Notice</h3>
@@ -59,9 +57,11 @@ defined('KPTV_PATH') || die('Direct Access is not allowed!');
 <script type="text/javascript" src="//vjs.zencdn.net/8.6.1/video.min.js" defer></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/mpegts.js@latest" defer></script>
-<?php echo DataTables::getJsIncludes('uikit', true, true); ?>
+<?php echo \KPT\DataTables\DataTables::getJsIncludes('uikit', true, true); ?>
 <script src="/assets/js/kptv.min.js" defer></script>
 <script type="text/javascript" src="/assets/js/custom.js?_=<?php echo time(); ?>" defer></script>
 </body>
 
 </html>
+<?php
+exit;

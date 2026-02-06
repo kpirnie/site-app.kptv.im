@@ -180,7 +180,6 @@ class ComposerStaticInit2af29beba30e96aa03602b3d36e52aba
         'KPT\\CacheMemcached' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/backends/memcached.php',
         'KPT\\CacheMemcachedAsync' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/backends/async_memcached.php',
         'KPT\\CacheMixedAsync' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/backends/async_mixed.php',
-        'KPT\\CacheMySQL' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/backends/mysql.php',
         'KPT\\CacheOPCache' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/backends/opcache.php',
         'KPT\\CacheOPCacheAsync' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/backends/async_opcache.php',
         'KPT\\CachePromise' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/async/promise.php',

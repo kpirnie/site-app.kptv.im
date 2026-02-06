@@ -1,6 +1,0 @@
-/tests export-ignore
-/.github export-ignore
-/.phpunit.cache export-ignore
-/coverage export-ignore
-phpunit.xml export-ignore
-.gitattributes export-ignore

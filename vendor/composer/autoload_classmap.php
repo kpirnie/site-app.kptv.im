@@ -114,7 +114,6 @@ return array(
     'KPT\\CacheMemcached' => $vendorDir . '/kevinpirnie/kpt-cache/src/cache/backends/memcached.php',
     'KPT\\CacheMemcachedAsync' => $vendorDir . '/kevinpirnie/kpt-cache/src/cache/backends/async_memcached.php',
     'KPT\\CacheMixedAsync' => $vendorDir . '/kevinpirnie/kpt-cache/src/cache/backends/async_mixed.php',
-    'KPT\\CacheMySQL' => $vendorDir . '/kevinpirnie/kpt-cache/src/cache/backends/mysql.php',
     'KPT\\CacheOPCache' => $vendorDir . '/kevinpirnie/kpt-cache/src/cache/backends/opcache.php',
     'KPT\\CacheOPCacheAsync' => $vendorDir . '/kevinpirnie/kpt-cache/src/cache/backends/async_opcache.php',
     'KPT\\CachePromise' => $vendorDir . '/kevinpirnie/kpt-cache/src/cache/async/promise.php',

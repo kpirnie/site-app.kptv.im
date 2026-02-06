@@ -1,4 +1,5 @@
 <?php
+
 /**
  * user/login.php
  * 
@@ -11,20 +12,19 @@
  */
 
 // define the primary app path if not already defined
-defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
+defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
 // pull in the header
-KPTV::pull_header( );
+KPTV::pull_header();
 
 // check if we're already logged in
-if( ! KPTV_User::is_user_logged_in( ) ) {
+if (! KPTV_User::is_user_logged_in()) {
 
     // message with redirect
-    KPTV::message_with_redirect( '/', 'danger', 'You don\'t belong there.' );
-
+    KPTV::message_with_redirect('/', 'danger', 'You don\'t belong there.');
 } else {
 
-    ?>
+?>
     <h2 class="kptv-heading uk-heading-bullet">Change Your Password</h2>
     <form action="/users/changepass" method="POST" class="uk-form-stacked">
         <div class="uk-margin">
@@ -58,4 +58,4 @@ if( ! KPTV_User::is_user_logged_in( ) ) {
 }
 
 // pull in the footer
-KPTV::pull_footer( );
+KPTV::pull_footer();

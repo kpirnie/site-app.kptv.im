@@ -11,11 +11,6 @@
  */
 defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
-// setup our namespace imports
-use KPT\KPT;
-use KPT\Cache;
-use KPT\Logger;
-
 // =============================================================
 // ==================== MIDDLEWARE DEFINITIONS ===============
 // =============================================================
@@ -393,7 +388,7 @@ $cacheKey = 'compiled_routes_' . md5($routesFile . filemtime($routesFile));
 $cacheTTL = KPTV::DAY_IN_SECONDS; // Cache for 1 day
 
 // Try to get cached routes (NOTE: We can't cache middleware definitions with closures)
-$cachedData = Cache::get($cacheKey);
+$cachedData = \KPT\Cache::get($cacheKey);
 
 if ($cachedData !== false && is_array($cachedData) && isset($cachedData['routes'])) {
 
@@ -401,7 +396,7 @@ if ($cachedData !== false && is_array($cachedData) && isset($cachedData['routes'
     $routes = $cachedData['routes'];
 
     // Log cache hit for debugging (optional)
-    Logger::debug("Route cache HIT for key: {$cacheKey}");
+    \KPT\Logger::debug("Route cache HIT for key: {$cacheKey}");
 } else {
 
     // Cache miss - store routes for next time (but not middleware definitions)
@@ -411,10 +406,10 @@ if ($cachedData !== false && is_array($cachedData) && isset($cachedData['routes'
         'expires_at' => time() + $cacheTTL
     ];
 
-    Cache::set($cacheKey, $cacheData, $cacheTTL);
+    \KPT\Cache::set($cacheKey, $cacheData, $cacheTTL);
 
     // Log cache miss for debugging (optional)  
-    Logger::debug("Route cache MISS for key: {$cacheKey} - Routes cached");
+    \KPT\Logger::debug("Route cache MISS for key: {$cacheKey} - Routes cached");
 }
 
 // =============================================================
@@ -476,6 +471,10 @@ $router->addMiddleware(function () {
 // 404 Not Found handler
 $router->notFound(function () {
 
+    if (ob_get_length() > 0 || headers_sent()) {
+        return; // Page already rendered, don't output 404
+    }
+
     // Log the 404 error
     $uri = $_SERVER['REQUEST_URI'] ?? 'unknown';
     $method = $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN';
@@ -503,4 +502,5 @@ $router->notFound(function () {
         header('Content-Type: text/html; charset=UTF-8');
         echo 'Page Not Found';
     }
+    exit; // Make sure we exit after 404
 });

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * index.php
  * 
@@ -9,4 +10,4 @@
  */
 
 // define the primary app path if not already defined
-defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
+defined('KPTV_PATH') || die('Direct Access is not allowed!');

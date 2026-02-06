@@ -1,4 +1,5 @@
 <?php
+
 /**
  * sidebar.php
  * 
@@ -11,14 +12,15 @@
  */
 
 // define the primary app path if not already defined
-defined( 'KPTV_PATH' ) || die( 'Direct Access is not allowed!' );
+defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
 // Define nav items once to avoid duplication
 ob_start();
 
 // is there a logged in user?
-if( KPTV_User::is_user_logged_in( ) ):
-    ?>
+if (KPTV_User::is_user_logged_in()):
+?>
+
     <li class="uk-nav-header">STREAM MANAGER</li>
     <li>
         <a href="/providers">
@@ -32,7 +34,7 @@ if( KPTV_User::is_user_logged_in( ) ):
             Your Filters
         </a>
     </li>
-    <li class="uk-parent <?php echo KPTV::open_link( 'live' ); ?>">
+    <li class="uk-parent <?php echo KPTV::open_link('live'); ?>">
         <a href="#">
             <span uk-icon="tv"></span>
             Live Streams
@@ -43,7 +45,7 @@ if( KPTV_User::is_user_logged_in( ) ):
             <li><a uk-tooltip="Click to Copy the M3U URL" href="<?php echo KPTV_URI; ?>playlist/<?php echo $user_for_export; ?>/live" class="copy-link">Export Streams</a></li>
         </ul>
     </li>
-    <li class="uk-parent <?php echo KPTV::open_link( 'series' ); ?>">
+    <li class="uk-parent <?php echo KPTV::open_link('series'); ?>">
         <a href="#">
             <span uk-icon="album"></span>
             Series Streams
@@ -54,7 +56,7 @@ if( KPTV_User::is_user_logged_in( ) ):
             <li><a uk-tooltip="Click to Copy the M3U URL" href="<?php echo KPTV_URI; ?>playlist/<?php echo $user_for_export; ?>/series" class="copy-link">Export Streams</a></li>
         </ul>
     </li>
-    <!--<li class="uk-parent <?php echo KPTV::open_link( 'vod' ); ?>">
+    <!--<li class="uk-parent <?php echo KPTV::open_link('vod'); ?>">
         <a href="#">
             <span uk-icon="video-camera"></span>
             VOD Streams
@@ -80,7 +82,7 @@ if( KPTV_User::is_user_logged_in( ) ):
     <li class="uk-nav-divider"></li>
 <?php endif; ?>
 <li class="uk-nav-header">ACCOUNT MANAGER</li>
-<li class="uk-parent <?php echo KPTV::open_link( 'account' ); ?>">
+<li class="uk-parent <?php echo KPTV::open_link('account'); ?>">
     <a href="#">
         <span uk-icon="user" class="kptv-icon-dual"></span>
         Your Account
@@ -88,24 +90,24 @@ if( KPTV_User::is_user_logged_in( ) ):
     <ul class="uk-nav-sub">
         <?php
         // check if there is a user object, and a user id
-        if( KPTV_User::is_user_logged_in( ) ) {
+        if (KPTV_User::is_user_logged_in()) {
         ?>
             <li><a href="/users/changepass">Change Your Password</a></li>
             <li><a href="/users/logout">Logout of Your Account</a></li>
         <?php
-        // there isn't so replace this with the login stuff
+            // there isn't so replace this with the login stuff
         } else {
         ?>
             <li><a href="/users/login">Login to Your Account</a></li>
             <li><a href="/users/register">Register an Account</a></li>
             <li><a href="/users/forgot">Forgot Your Password?</a></li>
-        <?php 
+        <?php
         }
         ?>
     </ul>
 </li>
 <li class="uk-nav-header">INFO &amp; SUPPORT</li>
-<li class="uk-parent <?php echo KPTV::open_link( 'info' ); ?>">
+<li class="uk-parent <?php echo KPTV::open_link('info'); ?>">
     <a href="#">
         <span uk-icon="tv"></span>
         FAQ &amp; Info

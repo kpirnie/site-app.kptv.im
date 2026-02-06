@@ -13,14 +13,12 @@
 
 defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
-use KPT\Database;
-
 /**
  * KPTV_EPG_Proxy
  * 
  * Handles EPG passthrough for XC providers only
  */
-class KPTV_EPG_Proxy extends Database
+class KPTV_EPG_Proxy extends \KPT\Database
 {
 
     private const CACHE_TTL = 3600; // 1 hour cache

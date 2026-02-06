@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User Management Class
  * 
@@ -10,12 +11,9 @@
  */
 
 // We don't want to allow direct access to this
-defined( 'KPTV_PATH' ) || die( 'No direct script access allowed' );
+defined('KPTV_PATH') || die('No direct script access allowed');
 
-use KPT\KPT;
-use KPT\Database;
-
-if( ! class_exists( 'KPTV_User' ) ) {
+if (! class_exists('KPTV_User')) {
 
     /**
      * User Management Class
@@ -26,14 +24,15 @@ if( ! class_exists( 'KPTV_User' ) ) {
      * @author Kevin Pirnie <me@kpirnie.com>
      * @package KP Library
      */
-    class KPTV_User extends Database {
-        
+    class KPTV_User extends \KPT\Database
+    {
+
         /**
          * Password hashing algorithm (Argon2ID)
          * @var string
          */
         private const HASH_ALGO = PASSWORD_ARGON2ID;
-        
+
         /**
          * Hashing configuration options
          * Memory: 64MB, Iterations: 4, Threads: 2
@@ -44,13 +43,13 @@ if( ! class_exists( 'KPTV_User' ) ) {
             'time_cost'   => 4,
             'threads'     => 2
         ];
-        
+
         /**
          * Maximum allowed failed login attempts before lockout
          * @var int
          */
         private const MAX_LOGIN_ATTEMPTS = 5;
-        
+
         /**
          * Account lockout duration in seconds (15 minutes)
          * @var int
@@ -73,8 +72,9 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * Constructor
          * Initializes parent database class
          */
-        public function __construct( ) {
-            parent::__construct( KPTV::get_setting( 'database' ) );
+        public function __construct()
+        {
+            parent::__construct(KPTV::get_setting('database'));
         }
 
         /**
@@ -83,47 +83,47 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception On validation failure or database error
          */
-        public function register( ) : void {
+        public function register(): void
+        {
 
             // hold our errors
             $errors = [];
 
             // sanitize the input
-            $input = $this -> sanitizeRegistrationInput( $_POST );
-            
+            $input = $this->sanitizeRegistrationInput($_POST);
+
             // Validate all registration fields
-            $this -> validateNameFields( $input, $errors );
-            $this -> validateUsername( $input, $errors );
-            $this -> validateEmail( $input, $errors );
-            $this -> validatePasswords( $input, $errors );
-            
+            $this->validateNameFields($input, $errors);
+            $this->validateUsername($input, $errors);
+            $this->validateEmail($input, $errors);
+            $this->validatePasswords($input, $errors);
+
             // are there any errors from validating?
-            if ( ! empty( $errors ) ) {
+            if (! empty($errors)) {
 
                 // process them then return
-                $this -> processErrors( $errors );
+                $this->processErrors($errors);
                 return;
             }
-            
+
             // try to create the user account
             try {
 
                 // create
-                $this -> createUserAccount( $input );
-                
+                $this->createUserAccount($input);
+
                 // if no exceptions occurred, redirect with a message
                 KPTV::message_with_redirect(
-                    '/', 
-                    'success', 
+                    '/',
+                    'success',
                     'Your account has been created, but there is one more step. Please check your email for your activation link.'
                 );
-            
-            // whoopsie... log the error then process it
-            } catch ( Exception $e ) {
-                error_log( "Registration failed: " . $e -> getMessage( ) );
-                $this -> processErrors( ["Registration failed: " . $e -> getMessage( )] );
-            }
 
+                // whoopsie... log the error then process it
+            } catch (Exception $e) {
+                error_log("Registration failed: " . $e->getMessage());
+                $this->processErrors(["Registration failed: " . $e->getMessage()]);
+            }
         }
 
         /**
@@ -132,65 +132,65 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception On invalid activation request or database error
          */
-        public function validate_user( ) : void {
+        public function validate_user(): void
+        {
 
             // if the querystrings are empty
-            if ( empty( $_GET['v'] ) || empty( $_GET['e'] ) ) {
-                
+            if (empty($_GET['v']) || empty($_GET['e'])) {
+
                 // show a message and go no further
-                KPTV::show_message( 'danger', '<p>Please make sure you are clicking the link in the email you received.</p>' );
+                KPTV::show_message('danger', '<p>Please make sure you are clicking the link in the email you received.</p>');
                 return;
             }
-            
+
             // make sure the strings are sanitized
-            $hash = KPTV::sanitize_string( $_GET['v'] );
-            $email = KPTV::sanitize_string( $_GET['e'] );
-            
+            $hash = KPTV::sanitize_string($_GET['v']);
+            $email = KPTV::sanitize_string($_GET['e']);
+
             // try to validate the user
             try {
-                
+
                 // get the user record first
-                $user = $this -> query( 'SELECT id FROM kptv_users WHERE u_email = ? AND u_hash = ? AND u_active = 0' )
-                              -> bind( [$email, $hash] )
-                              -> single( )
-                              -> fetch( );
-                
+                $user = $this->query('SELECT id FROM kptv_users WHERE u_email = ? AND u_hash = ? AND u_active = 0')
+                    ->bind([$email, $hash])
+                    ->single()
+                    ->fetch();
+
                 // if we don't have a record
-                if ( ! $user ) {
-                    throw new Exception( "Invalid validation request" );
+                if (! $user) {
+                    throw new Exception("Invalid validation request");
                 }
 
                 // made it here, so let's try to update the record.
-                $success = $this -> query( 'UPDATE kptv_users SET u_active = 1, u_hash = "", u_updated = NOW() WHERE id = ?' )
-                                 -> bind( [$user -> id] )
-                                 -> execute( );
-                
+                $success = $this->query('UPDATE kptv_users SET u_active = 1, u_hash = "", u_updated = NOW() WHERE id = ?')
+                    ->bind([$user->id])
+                    ->execute();
+
                 // if it was successfully updated
-                if ( $success ) {
+                if ($success) {
 
                     // send out the welcome email
-                    $this -> sendWelcomeEmail( $email );
-                    
+                    $this->sendWelcomeEmail($email);
+
                     // show a message and redirect
                     KPTV::message_with_redirect(
-                        '/users/login', 
-                        'success', 
+                        '/users/login',
+                        'success',
                         'Your account is now active, feel free to login.'
                     );
 
-                // whoops... something went wrong, so throw an exception
+                    // whoops... something went wrong, so throw an exception
                 } else {
-                    throw new Exception( "Validation failed for hash: $hash, email: $email" );
+                    throw new Exception("Validation failed for hash: $hash, email: $email");
                 }
 
-            // whoopsie...  
-            } catch ( Exception $e ) {
+                // whoopsie...  
+            } catch (Exception $e) {
 
                 // log the error and process it
-                error_log( "Account validation failed: " . $e -> getMessage( ) );
-                $this -> processErrors( ["Account validation failed: " . $e -> getMessage( )] );
+                error_log("Account validation failed: " . $e->getMessage());
+                $this->processErrors(["Account validation failed: " . $e->getMessage()]);
             }
-
         }
 
         /**
@@ -199,7 +199,8 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception On authentication failure
          */
-        public function login( ) : void {
+        public function login(): void
+        {
 
             // hold our errors
             $errors = [];
@@ -207,42 +208,41 @@ if( ! class_exists( 'KPTV_User' ) ) {
             $password = $_POST['frmPassword'] ?? '';
 
             // make sure the username and password are both valid
-            if ( ! KPTV::validate_username( $username ) ) {
+            if (! KPTV::validate_username($username)) {
                 $errors[] = 'The username you have typed in is not valid.';
             }
-            if ( ! KPTV::validate_password( $password ) ) {
+            if (! KPTV::validate_password($password)) {
                 $errors[] = 'The password you typed is not valid.';
             }
-            
+
             // if the errors aren't empty
-            if ( ! empty( $errors ) ) {
+            if (! empty($errors)) {
 
                 // process the errors and return outta here
-                $this -> processErrors( $errors );
+                $this->processErrors($errors);
                 return;
             }
-            
+
             // try to authenticate
             try {
 
                 // authenticate the user
-                $this -> authenticateUser( $username, $password );
+                $this->authenticateUser($username, $password);
 
                 // throw a message with the redirect
                 KPTV::message_with_redirect(
-                    '/', 
-                    'success', 
+                    '/',
+                    'success',
                     'Thanks for logging in. You are all set to proceed.'
                 );
 
-            // whoopsie...
-            } catch ( Exception $e ) {
+                // whoopsie...
+            } catch (Exception $e) {
 
                 // log the error and process it
-                error_log( "Login failed: " . $e -> getMessage( ) );
-                $this -> processErrors( ["Login failed: " . $e -> getMessage( )] );
+                error_log("Login failed: " . $e->getMessage());
+                $this->processErrors(["Login failed: " . $e->getMessage()]);
             }
-
         }
 
         /**
@@ -253,15 +253,16 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * 
          * @return void
          */
-        public function logout( ) : void {
+        public function logout(): void
+        {
 
             // destroy the user authentication
-            $this -> destroyCookie( );
-            
+            $this->destroyCookie();
+
             // redirect with a message
             KPTV::message_with_redirect(
-                '/', 
-                'success', 
+                '/',
+                'success',
                 'Thanks for logging out. To fully secure your account, please close your web browser.'
             );
         }
@@ -272,7 +273,8 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception On validation failure or reset processing error
          */
-        public function forgot( ) : void {
+        public function forgot(): void
+        {
 
             // setup the errors
             $errors = [];
@@ -280,27 +282,27 @@ if( ! class_exists( 'KPTV_User' ) ) {
             // grab the username and email
             $username = $_POST['frmUsername'] ?? '';
             $email = $_POST['frmEmail'] ?? '';
-            
+
             // check if the username and email validate
             if (!KPTV::validate_username($username)) {
                 $errors[] = 'The username you typed is not valid.';
             }
-            
+
             if (!KPTV::validate_email($email)) {
                 $errors[] = 'The email address you typed is not valid.';
             }
-            
+
             if (!empty($errors)) {
                 $this->processErrors($errors);
                 return;
             }
-            
+
             try {
                 $this->processPasswordReset($username, $email);
-                
+
                 KPTV::message_with_redirect(
-                    '/', 
-                    'success', 
+                    '/',
+                    'success',
                     'Your password has been reset and emailed to you. Please change your password as soon as you can.'
                 );
             } catch (Exception $e) {
@@ -322,7 +324,8 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception On validation failure or database error
          */
-        public function change_pass() : void {
+        public function change_pass(): void
+        {
             $errors = [];
             $user = self::get_current_user();
 
@@ -330,37 +333,37 @@ if( ! class_exists( 'KPTV_User' ) ) {
                 KPTV::show_message('danger', '<p>You must be logged in to change your password.</p>');
                 return;
             }
-            
+
             $currentPass = $_POST['frmExistPassword'] ?? '';
             $newPass1 = $_POST['frmNewPassword1'] ?? '';
             $newPass2 = $_POST['frmNewPassword2'] ?? '';
-            
+
             // Validate current password matches stored hash
             if (!KPTV::validate_password($currentPass)) {
                 $errors[] = 'The current password you typed is not valid.';
             } elseif (!$this->verifyCurrentPassword($user->id, $currentPass)) {
                 $errors[] = 'Your current password does not match what we have in our system.';
             }
-            
+
             // Validate new password meets requirements and matches confirmation
             if (!KPTV::validate_password($newPass1)) {
                 $errors[] = 'The new password you typed is not valid.';
             } elseif ($newPass1 !== $newPass2) {
                 $errors[] = 'Your new passwords do not match each other.';
             }
-            
+
             if (!empty($errors)) {
                 $this->processErrors($errors);
                 return;
             }
-            
+
             try {
                 $this->updatePassword($user->id, $newPass1);
                 $this->sendPasswordChangeNotification($user->email);
-                
+
                 KPTV::message_with_redirect(
-                    '/', 
-                    'success', 
+                    '/',
+                    'success',
                     'Your password has successfully been changed.'
                 );
             } catch (Exception $e) {
@@ -380,29 +383,29 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @static
          * @return bool True if valid user authentication exists
          */
-        public static function is_user_logged_in() : bool {
+        public static function is_user_logged_in(): bool
+        {
             if (!isset($_COOKIE[self::COOKIE_NAME])) {
                 return false;
             }
-            
+
             try {
                 // Decrypt user ID from cookie
                 $encryptedUserId = base64_decode($_COOKIE[self::COOKIE_NAME]);
                 $userId = KPTV::decrypt($encryptedUserId, KPTV::get_setting('mainkey'));
-                
+
                 if (!$userId || !is_numeric($userId)) {
                     return false;
                 }
-                
+
                 // Check if user exists and is active
                 $db = new self();
                 $user = $db->query('SELECT id FROM kptv_users WHERE id = ? AND u_active = 1')
-                           ->bind([$userId])
-                           ->single()
-                           ->fetch();
-                
+                    ->bind([$userId])
+                    ->single()
+                    ->fetch();
+
                 return $user !== false;
-                
             } catch (Exception $e) {
                 return false;
             }
@@ -418,31 +421,32 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @static
          * @return object|bool User object if valid authentication, false otherwise
          */
-        public static function get_current_user() : object|bool {
+        public static function get_current_user(): object|bool
+        {
             if (!isset($_COOKIE[self::COOKIE_NAME])) {
                 return false;
             }
-            
+
             try {
                 // Decrypt user ID from cookie
                 $encryptedUserId = base64_decode($_COOKIE[self::COOKIE_NAME]);
                 $userId = KPTV::decrypt($encryptedUserId, KPTV::get_setting('mainkey'));
-                
+
                 if (!$userId || !is_numeric($userId)) {
                     return false;
                 }
-                
+
                 // Get full user data from database
                 $db = new self();
                 $user = $db->query('SELECT id, u_name, u_email, u_role, u_fname, u_lname FROM kptv_users WHERE id = ? AND u_active = 1')
-                           ->bind([$userId])
-                           ->single()
-                           ->fetch();
-                
+                    ->bind([$userId])
+                    ->single()
+                    ->fetch();
+
                 if (!$user) {
                     return false;
                 }
-                
+
                 return (object) [
                     'id' => $user->id,
                     'username' => $user->u_name,
@@ -451,7 +455,6 @@ if( ! class_exists( 'KPTV_User' ) ) {
                     'firstName' => $user->u_fname ?? '',
                     'lastName' => $user->u_lname ?? ''
                 ];
-                
             } catch (Exception $e) {
                 return false;
             }
@@ -469,7 +472,8 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param array $input Raw POST data
          * @return array Sanitized input data
          */
-        private function sanitizeRegistrationInput(array $input) : array {
+        private function sanitizeRegistrationInput(array $input): array
+        {
             return [
                 'firstName' => KPTV::sanitize_string($input['frmFirstName'] ?? ''),
                 'lastName'  => KPTV::sanitize_string($input['frmLastName'] ?? ''),
@@ -491,7 +495,8 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param array &$errors Reference to error collection array
          * @return void
          */
-        private function validateNameFields(array $input, array &$errors) : void {
+        private function validateNameFields(array $input, array &$errors): void
+        {
             if (!KPTV::validate_name($input['firstName']) || !KPTV::validate_name($input['lastName'])) {
                 $errors[] = 'Are you sure your first and last name is correct?';
             }
@@ -508,7 +513,8 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param array &$errors Reference to error collection array
          * @return void
          */
-        private function validateUsername(array $input, array &$errors) : void {
+        private function validateUsername(array $input, array &$errors): void
+        {
             if (!KPTV::validate_username($input['username'])) {
                 $errors[] = 'The username you have typed in is not valid.';
             } elseif ($this->check_username_exists($input['username'])) {
@@ -527,7 +533,8 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param array &$errors Reference to error collection array
          * @return void
          */
-        private function validateEmail(array $input, array &$errors) : void {
+        private function validateEmail(array $input, array &$errors): void
+        {
             if (!KPTV::validate_email($input['email'])) {
                 $errors[] = 'The email address you have typed in is not valid.';
             } elseif ($this->check_email_exists($input['email'])) {
@@ -546,7 +553,8 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param array &$errors Reference to error collection array
          * @return void
          */
-        private function validatePasswords(array $input, array &$errors) : void {
+        private function validatePasswords(array $input, array &$errors): void
+        {
             if (!KPTV::validate_password($input['password1'])) {
                 $errors[] = 'The password you typed is not valid.';
             } elseif ($input['password1'] !== $input['password2']) {
@@ -567,28 +575,29 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception On database insertion failure
          */
-        private function createUserAccount(array $input) : void {
+        private function createUserAccount(array $input): void
+        {
             $hash = bin2hex(random_bytes(32));
-            
+
             // Hash password directly - NO ENCRYPTION
             $password = password_hash($input['password2'], self::HASH_ALGO, self::HASH_OPTIONS);
-            
+
             $userId = $this->query('INSERT INTO kptv_users (u_name, u_pass, u_hash, u_email, u_lname, u_fname, u_created) 
                                    VALUES (?, ?, ?, ?, ?, ?, NOW())')
-                           ->bind([
-                               $input['username'],
-                               $password,
-                               $hash,
-                               $input['email'],
-                               $input['lastName'],
-                               $input['firstName']
-                           ])
-                           ->execute();
-            
+                ->bind([
+                    $input['username'],
+                    $password,
+                    $hash,
+                    $input['email'],
+                    $input['lastName'],
+                    $input['firstName']
+                ])
+                ->execute();
+
             if (!$userId) {
                 throw new Exception("Failed to create user account");
             }
-            
+
             $this->sendActivationEmail($input['firstName'], $input['email'], $hash);
         }
 
@@ -598,11 +607,12 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param string $username Username to check
          * @return bool True if username exists
          */
-        private function check_username_exists(string $username) : bool {
+        private function check_username_exists(string $username): bool
+        {
             $result = $this->query('SELECT id FROM kptv_users WHERE u_name = ?')
-                           ->bind([$username])
-                           ->single()
-                           ->fetch();
+                ->bind([$username])
+                ->single()
+                ->fetch();
 
             return $result !== false;
         }
@@ -613,11 +623,12 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param string $email Email to check
          * @return bool True if email exists
          */
-        private function check_email_exists(string $email) : bool {
+        private function check_email_exists(string $email): bool
+        {
             $result = $this->query('SELECT id FROM kptv_users WHERE u_email = ?')
-                           ->bind([$email])
-                           ->single()
-                           ->fetch();
+                ->bind([$email])
+                ->single()
+                ->fetch();
 
             return $result !== false;
         }
@@ -630,14 +641,15 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param string $hash Activation hash
          * @return void
          */
-        private function sendActivationEmail(string $name, string $email, string $hash) : void {
+        private function sendActivationEmail(string $name, string $email, string $hash): void
+        {
             $activationLink = sprintf(
                 '%svalidate?v=%s&e=%s',
                 KPTV_URI,
                 urlencode($hash),
                 urlencode($email)
             );
-            
+
             $message = sprintf(
                 "<h1>Welcome</h1>
                 <p>Hey %s, thanks for signing up. There is one more step... you will need to activate your account.</p>
@@ -647,7 +659,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
                 $activationLink,
                 $activationLink
             );
-            
+
             KPTV::send_email([$email, $name], 'There\'s One Last Step', $message);
         }
 
@@ -657,10 +669,11 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param string $email User's email address
          * @return void
          */
-        private function sendWelcomeEmail(string $email) : void {
+        private function sendWelcomeEmail(string $email): void
+        {
             KPTV::send_email(
-                [$email, ''], 
-                'Welcome', 
+                [$email, ''],
+                'Welcome',
                 '<h1>Welcome</h1><p>Your account is now active. Thanks for joining us.</p>'
             );
         }
@@ -673,7 +686,8 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param string $newPassword The new temporary password
          * @return void
          */
-        private function sendPasswordResetEmail(string $username, string $email, string $newPassword) : void {
+        private function sendPasswordResetEmail(string $username, string $email, string $newPassword): void
+        {
             $message = sprintf(
                 "<p>Hey %s, Sorry you forgot your password.</p>
                 <p>Here is a new one to get you back in: <strong>%s</strong></p>
@@ -682,7 +696,7 @@ if( ! class_exists( 'KPTV_User' ) ) {
                 htmlspecialchars($username),
                 htmlspecialchars($newPassword)
             );
-            
+
             KPTV::send_email([$email, ''], 'Password Reset', $message);
         }
 
@@ -692,10 +706,11 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param string $email User's email address
          * @return void
          */
-        private function sendPasswordChangeNotification(string $email) : void {
+        private function sendPasswordChangeNotification(string $email): void
+        {
             KPTV::send_email(
-                [$email, ''], 
-                'Password Changed', 
+                [$email, ''],
+                'Password Changed',
                 '<p>This message is to notify you that your password has been changed. If you did not initiate this, please go to the site and hit the "Forgot My Password" button.</p>'
             );
         }
@@ -716,37 +731,38 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception On authentication failure
          */
-        private function authenticateUser(string $username, string $password) : void {
+        private function authenticateUser(string $username, string $password): void
+        {
             $user = $this->query('SELECT id, u_pass, u_email, u_role, locked_until FROM kptv_users WHERE u_name = ?')
-                         ->bind([$username])
-                         ->single()
-                         ->fetch();
-            
+                ->bind([$username])
+                ->single()
+                ->fetch();
+
             if (!$user || !is_object($user)) {
                 throw new Exception("User not found: $username");
             }
-            
+
             // Check if account is temporarily locked
             if ($user->locked_until && strtotime($user->locked_until) > time()) {
                 throw new Exception("Account is temporarily locked. Please try again later.");
             }
-            
+
             // Verify password directly against hash - NO DECRYPTION
             if (!password_verify($password, $user->u_pass)) {
                 $this->incrementLoginAttempts($user->id);
                 throw new Exception("Invalid username or password");
             }
-            
+
             // Reset failed attempts on successful login
             $this->query('UPDATE kptv_users SET login_attempts = 0, locked_until = NULL, last_login = NOW() WHERE id = ?')
-                 ->bind([$user->id])
-                 ->execute();
-            
+                ->bind([$user->id])
+                ->execute();
+
             $this->rehash_password($user->id, $password);
-            
+
             // Encrypt user ID and set cookie
             $encryptedUserId = base64_encode(KPTV::encrypt($user->id, KPTV::get_setting('mainkey')));
-            
+
             setcookie(
                 self::COOKIE_NAME,
                 $encryptedUserId,
@@ -767,24 +783,25 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param int $userId
          * @return void
          */
-        private function incrementLoginAttempts(int $userId) : void {
+        private function incrementLoginAttempts(int $userId): void
+        {
             $user = $this->query('SELECT login_attempts FROM kptv_users WHERE id = ?')
-                         ->bind([$userId])
-                         ->single()
-                         ->fetch();
-            
+                ->bind([$userId])
+                ->single()
+                ->fetch();
+
             $attempts = $user ? $user->login_attempts + 1 : 1;
-            
+
             if ($attempts >= self::MAX_LOGIN_ATTEMPTS) {
                 $lockTime = date('Y-m-d H:i:s', time() + self::LOCKOUT_TIME);
-                
+
                 $this->query('UPDATE kptv_users SET login_attempts = ?, locked_until = ? WHERE id = ?')
-                     ->bind([$attempts, $lockTime, $userId])
-                     ->execute();
+                    ->bind([$attempts, $lockTime, $userId])
+                    ->execute();
             } else {
                 $this->query('UPDATE kptv_users SET login_attempts = ? WHERE id = ?')
-                     ->bind([$attempts, $userId])
-                     ->execute();
+                    ->bind([$attempts, $userId])
+                    ->execute();
             }
         }
 
@@ -796,20 +813,21 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception On reset failure
          */
-        private function processPasswordReset(string $username, string $email) : void {
+        private function processPasswordReset(string $username, string $email): void
+        {
             $newPassword = KPTV::generate_password();
-            
+
             // Hash password directly - NO ENCRYPTION
             $passwordHash = password_hash($newPassword, self::HASH_ALGO, self::HASH_OPTIONS);
-            
+
             $success = $this->query('UPDATE kptv_users SET u_pass = ?, login_attempts = 0, locked_until = NULL WHERE u_name = ? AND u_email = ?')
-                            ->bind([$passwordHash, $username, $email])
-                            ->execute();
-            
+                ->bind([$passwordHash, $username, $email])
+                ->execute();
+
             if (!$success) {
                 throw new Exception("Password reset failed for user: $username");
             }
-            
+
             $this->sendPasswordResetEmail($username, $email, $newPassword);
         }
 
@@ -820,16 +838,17 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param string $password
          * @return bool True if password matches
          */
-        private function verifyCurrentPassword(int $userId, string $password) : bool {
+        private function verifyCurrentPassword(int $userId, string $password): bool
+        {
             $result = $this->query('SELECT u_pass FROM kptv_users WHERE id = ?')
-                           ->bind([$userId])
-                           ->single()
-                           ->fetch();
-            
+                ->bind([$userId])
+                ->single()
+                ->fetch();
+
             if (!$result) {
                 return false;
             }
-            
+
             // Verify password directly - NO DECRYPTION
             return password_verify($password, $result->u_pass);
         }
@@ -842,14 +861,15 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception On update failure
          */
-        private function updatePassword(int $userId, string $newPassword) : void {
+        private function updatePassword(int $userId, string $newPassword): void
+        {
             // Hash password directly - NO ENCRYPTION
             $passwordHash = password_hash($newPassword, self::HASH_ALGO, self::HASH_OPTIONS);
-            
+
             $success = $this->query('UPDATE kptv_users SET u_pass = ?, u_updated = NOW() WHERE id = ?')
-                            ->bind([$passwordHash, $userId])
-                            ->execute();
-            
+                ->bind([$passwordHash, $userId])
+                ->execute();
+
             if (!$success) {
                 throw new Exception("Failed to update password for user ID: $userId");
             }
@@ -867,13 +887,14 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param string $password
          * @return void
          */
-        private function rehash_password(int $userId, string $password) : void {
+        private function rehash_password(int $userId, string $password): void
+        {
             // Hash password directly - NO ENCRYPTION
             $passwordHash = password_hash($password, self::HASH_ALGO, self::HASH_OPTIONS);
-            
+
             $this->query('UPDATE kptv_users SET u_pass = ?, u_updated = NOW() WHERE id = ?')
-                 ->bind([$passwordHash, $userId])
-                 ->execute();
+                ->bind([$passwordHash, $userId])
+                ->execute();
         }
 
         /**
@@ -885,7 +906,8 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param array $errors Array of error messages
          * @return void
          */
-        private function processErrors(array $errors) : void {
+        private function processErrors(array $errors): void
+        {
             $referrer = KPTV::get_user_referer();
             $message = '<ul class="uk-list uk-list-disc">';
 
@@ -893,12 +915,12 @@ if( ! class_exists( 'KPTV_User' ) ) {
                 $message .= "<li>" . htmlspecialchars($error) . "</li>";
             }
             $message .= '</ul>';
-            
+
             KPTV::message_with_redirect(
-                $referrer ?? '/', 
-                'danger', 
-                $message        
-            );        
+                $referrer ?? '/',
+                'danger',
+                $message
+            );
         }
 
         /**
@@ -908,7 +930,8 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * 
          * @return void
          */
-        private function destroyCookie() : void {
+        private function destroyCookie(): void
+        {
             // Clear cookie by setting it to expire in the past
             setcookie(
                 self::COOKIE_NAME,
@@ -929,10 +952,11 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * 
          * @return int Number of registered users
          */
-        public function get_total_users_count() : int {
+        public function get_total_users_count(): int
+        {
             $result = $this->query('SELECT COUNT(id) as total FROM kptv_users')
-                           ->single()
-                           ->fetch();
+                ->single()
+                ->fetch();
             return $result ? (int)$result->total : 0;
         }
 
@@ -943,14 +967,15 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param int $offset Pagination offset
          * @return array User records
          */
-        public function get_users_paginated(int $limit, int $offset) : array {
+        public function get_users_paginated(int $limit, int $offset): array
+        {
             $query = 'SELECT * FROM kptv_users ORDER BY u_created DESC';
-            
+
             if ($limit > 0) {
                 $query .= " LIMIT $limit OFFSET $offset";
                 return $this->query($query)->many()->fetch();
             }
-            
+
             return $this->query($query)->many()->fetch();
         }
 
@@ -964,21 +989,22 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception If attempting to change own status
          */
-        private function toggle_user_active_status(int $userId, int $currentUserId) : void {
+        private function toggle_user_active_status(int $userId, int $currentUserId): void
+        {
             if ($userId === $currentUserId) {
                 throw new Exception('You cannot change your own status');
             }
-            
+
             $current = $this->query('SELECT u_active FROM kptv_users WHERE id = ?')
-                            ->bind([$userId])
-                            ->single()
-                            ->fetch();
-            
+                ->bind([$userId])
+                ->single()
+                ->fetch();
+
             if ($current) {
                 $newStatus = $current->u_active ? 0 : 1;
                 $this->query('UPDATE kptv_users SET u_active = ? WHERE id = ?')
-                     ->bind([$newStatus, $userId])
-                     ->execute();
+                    ->bind([$newStatus, $userId])
+                    ->execute();
             }
         }
 
@@ -990,10 +1016,11 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @param int $userId User ID to unlock
          * @return void
          */
-        private function unlock_user_account(int $userId) : void {
+        private function unlock_user_account(int $userId): void
+        {
             $this->query('UPDATE kptv_users SET login_attempts = 0, locked_until = NULL WHERE id = ?')
-                 ->bind([$userId])
-                 ->execute();
+                ->bind([$userId])
+                ->execute();
         }
 
         /**
@@ -1011,19 +1038,20 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception If attempting to delete own account
          */
-        private function delete_user(int $userId, int $currentUserId) : void {
+        private function delete_user(int $userId, int $currentUserId): void
+        {
             if ($userId === $currentUserId) {
                 throw new Exception('You cannot delete your own account');
             }
-            
+
             $prefix = TBL_PREFIX;
-            
+
             // Delete from all related tables
             $this->query("DELETE FROM {$prefix}streams WHERE id = ?")->bind([$userId])->execute();
             $this->query("DELETE FROM {$prefix}stream_filters WHERE id = ?")->bind([$userId])->execute();
             $this->query("DELETE FROM {$prefix}stream_other WHERE id = ?")->bind([$userId])->execute();
             $this->query("DELETE FROM {$prefix}stream_providers WHERE id = ?")->bind([$userId])->execute();
-            
+
             // Delete the user
             $this->query("DELETE FROM {$prefix}users WHERE id = ?")->bind([$userId])->execute();
         }
@@ -1050,27 +1078,28 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception On validation failure or security violation
          */
-        private function update_user(array $data, int $currentUserId) : void {
+        private function update_user(array $data, int $currentUserId): void
+        {
             // Validate email format
             if (!KPTV::validate_email($data['u_email'])) {
                 throw new Exception('Invalid email address');
             }
-            
+
             // Prevent removing own admin privileges
             if ($data['id'] === $currentUserId && $data['u_role'] != 99) {
                 throw new Exception('You cannot remove your own admin privileges');
             }
-            
+
             // execute the update
             $this->query('UPDATE kptv_users SET u_fname = ?, u_lname = ?, u_email = ?, u_role = ?, u_updated = NOW() WHERE id = ?')
-                 ->bind([
-                     $data['u_fname'],
-                     $data['u_lname'],
-                     $data['u_email'],
-                     $data['u_role'],
-                     $data['id']
-                 ])
-                 ->execute();
+                ->bind([
+                    $data['u_fname'],
+                    $data['u_lname'],
+                    $data['u_email'],
+                    $data['u_role'],
+                    $data['id']
+                ])
+                ->execute();
         }
 
         /**
@@ -1079,58 +1108,73 @@ if( ! class_exists( 'KPTV_User' ) ) {
          * @return void
          * @throws Exception On validation failure or security violation
          */
-        public function handle_posts( ) : void {
+        public function handle_posts(): void
+        {
 
             // grab the "global" items we'll need in here
             $action = $_POST['action'] ?? '';
-            $userId = ( int )( $_POST['user_id'] ) ?? 0;
-            $currentUser = KPTV_User::get_current_user( );
+            $userId = (int)($_POST['user_id']) ?? 0;
+            $currentUser = KPTV_User::get_current_user();
 
             // Get pagination parameters from request
             $currentPage = $_GET['page'] ?? 1;
             $perPage = $_GET['per_page'] ?? 25;
 
             // switch the action we need to take
-            switch ( $action ) {
+            switch ($action) {
                 case 'toggle_active':
+
                     // toggle the user active status
-                    $this -> toggle_user_active_status( $userId, $currentUser -> id );
-                    KPTV::message_with_redirect( '/admin/users?page=' . $currentPage . '&per_page=' . $perPage, 
-                        'success', 'User status updated successfully.');
+                    $this->toggle_user_active_status($userId, $currentUser->id);
+                    KPTV::message_with_redirect(
+                        '/admin/users?page=' . $currentPage . '&per_page=' . $perPage,
+                        'success',
+                        'User status updated successfully.'
+                    );
                     break;
-                    
+
                 case 'unlock':
+
                     // unlock/lock the user account
-                    $this -> unlock_user_account( $userId );
-                    KPTV::message_with_redirect( '/admin/users?page=' . $currentPage . '&per_page=' . $perPage, 
-                        'success', 'User account unlocked successfully.');
+                    $this->unlock_user_account($userId);
+                    KPTV::message_with_redirect(
+                        '/admin/users?page=' . $currentPage . '&per_page=' . $perPage,
+                        'success',
+                        'User account unlocked successfully.'
+                    );
                     break;
-                    
+
                 case 'delete':
+
                     // delete a user
-                    $this -> delete_user( $userId, $currentUser -> id );
-                    KPTV::message_with_redirect( '/admin/users?page=' . $currentPage . '&per_page=' . $perPage, 
-                        'success', 'User deleted successfully.');
+                    $this->delete_user($userId, $currentUser->id);
+                    KPTV::message_with_redirect(
+                        '/admin/users?page=' . $currentPage . '&per_page=' . $perPage,
+                        'success',
+                        'User deleted successfully.'
+                    );
                     break;
-                    
+
                 case 'update':
+
                     // hold the data to update the user
                     $data = [
-                        'u_fname' => KPTV::sanitize_string( $_POST['u_fname'] ?? '' ),
-                        'u_lname' => KPTV::sanitize_string( $_POST['u_lname'] ?? '' ),
-                        'u_email' => KPTV::sanitize_string( $_POST['u_email'] ?? '' ),
-                        'u_role' => ( int ) ( $_POST['u_role'] ?? 0 ),
+                        'u_fname' => KPTV::sanitize_string($_POST['u_fname'] ?? ''),
+                        'u_lname' => KPTV::sanitize_string($_POST['u_lname'] ?? ''),
+                        'u_email' => KPTV::sanitize_string($_POST['u_email'] ?? ''),
+                        'u_role' => (int) ($_POST['u_role'] ?? 0),
                         'id' => $userId
                     ];
+
                     // update the user
-                    $this -> update_user( $data, $currentUser -> id );
-                    KPTV::message_with_redirect( '/admin/users?page=' . $currentPage . '&per_page=' . $perPage, 
-                        'success', 'User updated successfully.');
+                    $this->update_user($data, $currentUser->id);
+                    KPTV::message_with_redirect(
+                        '/admin/users?page=' . $currentPage . '&per_page=' . $perPage,
+                        'success',
+                        'User updated successfully.'
+                    );
                     break;
             }
-
         }
-
     }
-
 }

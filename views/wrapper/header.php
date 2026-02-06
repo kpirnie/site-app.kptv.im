@@ -14,11 +14,8 @@
 // define the primary app path if not already defined
 defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
-// call in the router!
-use KPT\Router;
-
 // get the route we're in
-$current_route = Router::getCurrentRoute();
+$current_route = \KPT\Router::getCurrentRoute();
 
 // get ther user id for the export
 $user_for_export = KPTV::encrypt((KPTV_User::get_current_user()->id) ?? 0);

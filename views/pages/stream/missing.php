@@ -10,9 +10,6 @@
 
 defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
-// make sure we've got our namespaces...
-use KPT\DataTables\DataTables;
-
 // setup the user id
 $userId = KPTV_User::get_current_user()->id;
 
@@ -20,7 +17,7 @@ $userId = KPTV_User::get_current_user()->id;
 $dbconf = (array) KPTV::get_setting('database');
 
 // fire up the datatables class
-$dt = new DataTables($dbconf);
+$dt = new KPT\DataTables\DataTables($dbconf);
 
 // setup the row actions - extract from view_configs
 $bulkActionsConfig = KPTV::view_configs('missing')->bulk;
