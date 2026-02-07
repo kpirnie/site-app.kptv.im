@@ -29,40 +29,46 @@ $formFieldsConfig = KPTV::view_configs('providers', userId: $userId)->form;
 $rowActionsConfig = KPTV::view_configs('providers', userForExport: $userForExport)->row;
 
 // configure the datatable
-$dt->table('kptv_stream_providers')
+$dt->table('kptv_stream_providers p')
     ->tableClass('uk-table uk-table-divider uk-table-small uk-margin-bottom')
     ->where([
         [ // unless specified as OR, it should always be AND
-            'field' => 'u_id',
+            'field' => 'p.u_id',
             'comparison' => '=', // =, !=, >, <, <>, <=, >=, LIKE, NOT LIKE, IN, NOT IN, REGEXP
             'value' => $userId
         ],
     ])
-    ->primaryKey('id')
+    ->primaryKey('p.id')
     ->columns([
-        'id' => 'ID',
-        'sp_should_filter' => ['type' => 'boolean', 'label' => 'Filter'],
-        'sp_priority' => [
+        'p.id' => 'ID',
+        'p.sp_should_filter' => ['type' => 'boolean', 'label' => 'Filter'],
+        'p.sp_priority' => [
             'label' => 'Priority',
         ],
-        'sp_name' => 'Name',
-        'sp_cnx_limit' => 'Connections',
+        'p.sp_name' => 'Name',
+        'p.sp_cnx_limit' => 'Connections',
     ])
+    ->join('LEFT', 'kptv_streams s', 'p.id = s.p_id')
+    ->groupBy('p.id')
+    ->calculatedColumnRaw('stream_count', 'Streams', 'COUNT(s.id)')
     ->columnClasses([
-        'sp_priority' => 'uk-min-width',
-        'sp_cnx_limit' => 'uk-min-width',
-        'sp_should_filter' => 'uk-min-width',
-        'id' => 'hide-col'
+        'p.sp_priority' => 'uk-min-width',
+        'p.sp_cnx_limit' => 'uk-min-width',
+        'p.sp_should_filter' => 'uk-min-width',
+        'stream_count' => 'uk-min-width',
+        'p.id' => 'hide-col'
     ])
-    ->sortable(['sp_priority', 'sp_name', 'sp_should_filter'])
-    ->defaultSort('sp_priority', 'ASC')
-    ->inlineEditable(['sp_priority', 'sp_name', 'sp_cnx_limit', 'sp_should_filter'])
+    ->sortable(['p.sp_priority', 'p.sp_name', 'p.sp_should_filter'])
+    ->defaultSort('p.sp_priority', 'ASC')
+    ->inlineEditable(['p.sp_priority', 'p.sp_name', 'p.sp_cnx_limit', 'p.sp_should_filter'])
     ->perPage(25)
     ->pageSizeOptions([25, 50, 100, 250], true) // true includes "ALL" option
     ->bulkActions(true)
     ->addForm('Add a Provider', $formFieldsConfig, class: 'uk-grid-small uk-grid')
     ->editForm('Update a Provider', $formFieldsConfig, class: 'uk-grid-small uk-grid')
-    ->actionGroups(array_merge($rowActionsConfig, [['edit']]));
+    ->actionGroups(array_merge($rowActionsConfig, [['edit']]))
+    ->footerAggregate('stream_count', 'sum', 'all', 'Total Streams')
+;
 
 // Handle AJAX requests (before any HTML output)
 if (isset($_POST['action']) || isset($_GET['action'])) {

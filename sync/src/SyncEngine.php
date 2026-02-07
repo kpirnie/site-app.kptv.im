@@ -41,13 +41,13 @@ class SyncEngine
             echo "Applying filters...\n";
             $filters = $this->filterManager->getFilters($userId);
             echo sprintf("Found %s active filters for user %d\n", number_format(count($filters)), $userId);
-            
+
             if (!empty($filters)) {
                 $beforeCount = count($rawStreams);
                 $rawStreams = $this->filterManager->applyFilters($rawStreams, $filters);
                 $afterCount = count($rawStreams);
                 $filtered = $beforeCount - $afterCount;
-                
+
                 echo sprintf(
                     "Filter results: %s streams kept, %s filtered out (%.1f%% filtered)\n",
                     number_format($afterCount),
@@ -160,19 +160,19 @@ class SyncEngine
             // Check 1: Does s_orig_name exist?
             if (isset($existingByName[$nameKey])) {
                 $existing = $existingByName[$nameKey];
-                
+
                 // Skip if already processed
                 if (isset($processed[$existing['id']])) {
                     continue;
                 }
-                
+
                 // Update s_stream_uri ONLY if different
                 if ($existing['s_stream_uri'] !== $tempUri) {
                     $uriUpdates[] = [$existing['id'], $tempUri];
                 } else {
                     $unchanged++;
                 }
-                
+
                 $processed[$existing['id']] = true;
                 continue;
             }
@@ -180,19 +180,19 @@ class SyncEngine
             // Check 2: Does s_stream_uri exist?
             if (isset($existingByUri[$tempUri])) {
                 $existing = $existingByUri[$tempUri];
-                
+
                 // Skip if already processed
                 if (isset($processed[$existing['id']])) {
                     continue;
                 }
-                
+
                 // Update s_orig_name ONLY if different
                 if (strtolower($existing['s_orig_name']) !== $nameKey) {
                     $nameUpdates[] = [$existing['id'], $temp['s_orig_name']];
                 } else {
                     $unchanged++;
                 }
-                
+
                 $processed[$existing['id']] = true;
                 continue;
             }
@@ -291,5 +291,4 @@ class SyncEngine
 
         return count($uriUpdates) + count($nameUpdates) + count($inserts);
     }
-    
 }

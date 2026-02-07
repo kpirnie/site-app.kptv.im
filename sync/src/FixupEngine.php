@@ -43,15 +43,15 @@ class FixupEngine
         $userId = $provider['u_id'];
 
         $total = 0;
-        
+
         if ($this->shouldFixupField('s_name')) {
             $total += $this->fixupNames($userId) ?? 0;
         }
-        
+
         if ($this->shouldFixupField('s_channel')) {
             $total += $this->fixupChannels($userId) ?? 0;
         }
-        
+
         $total += $this->fixupMetadata($userId) ?? 0;
 
         return $total;
@@ -105,7 +105,7 @@ class FixupEngine
 
         return $this->chunkedUpdate($updates, 's_name');
     }
-    
+
     private function fixupChannels(int $userId): int
     {
         $streams = $this->db->get_all(
@@ -228,7 +228,7 @@ class FixupEngine
             }
 
             $key = strtolower($name);
-            
+
             if (!isset($metadataMap[$key])) {
                 continue;
             }
