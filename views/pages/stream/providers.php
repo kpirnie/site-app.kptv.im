@@ -58,7 +58,7 @@ $dt->table('kptv_stream_providers p')
         'stream_count' => 'uk-min-width',
         'p.id' => 'hide-col'
     ])
-    ->sortable(['p.sp_priority', 'p.sp_name', 'p.sp_should_filter'])
+    ->sortable(['p.sp_priority', 'p.sp_name', 'p.sp_should_filter']) // only allow sorting on certain columns
     ->defaultSort('p.sp_priority', 'ASC')
     ->inlineEditable(['p.sp_priority', 'p.sp_name', 'p.sp_cnx_limit', 'p.sp_should_filter'])
     ->perPage(25)
