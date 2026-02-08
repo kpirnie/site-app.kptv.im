@@ -26,7 +26,7 @@ if (KPTV_User::is_user_logged_in()):
 
     <!-- Page Header -->
     <div class="uk-margin-bottom">
-        <h2 class="kptv-heading kptv-page-title-lg"><span uk-icon="icon: thumbnails; ratio: 1.25" class="kptv-icon-dual"></span> Your Stream Stats</h2>
+        <h2 class="kptv-heading kptv-page-title-lg"><span uk-icon="icon: home;"></span> Your Stream Stats</h2>
     </div>
 
     <!-- Stats Grid -->

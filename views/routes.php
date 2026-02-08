@@ -198,6 +198,14 @@ $get_stream_routes = [
         'should_cache' => false,
     ],
 
+    // EPGs
+    [
+        'method' => 'GET',
+        'path' => '/epgs',
+        'handler' => 'view:pages/stream/epgs.php',
+        'should_cache' => false,
+    ],
+
     // EPG Proxy (user + provider) - XC providers only
     [
         'method' => 'GET',

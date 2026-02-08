@@ -34,7 +34,13 @@ if (KPTV_User::is_user_logged_in()):
             Your Filters
         </a>
     </li>
-    <li class="uk-parent <?php echo KPTV::open_link('live'); ?>">
+    <li>
+        <a href="/epgs">
+            <span uk-icon="thumbnails" class="kptv-icon-dual"></span>
+            Your EPGs
+        </a>
+    </li>
+    <li class=" uk-parent <?php echo KPTV::open_link('live'); ?>">
         <a href="#">
             <span uk-icon="tv"></span>
             Live Streams
