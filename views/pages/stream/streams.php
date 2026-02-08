@@ -11,7 +11,7 @@
 defined('KPTV_PATH') || die('Direct Access is not allowed!');
 
 // make sure we've got our namespaces...
-use KPT\DataTables\DataTables;
+use KPT\DataTables;
 
 // Handle stream type filter (passed from router)
 $type_filter = $which ?? 'live';

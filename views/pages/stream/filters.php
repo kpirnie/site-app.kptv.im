@@ -17,7 +17,7 @@ $userId = KPTV_User::get_current_user()->id;
 $dbconf = (array) KPTV::get_setting('database');
 
 // fire up the datatables class
-$dt = new \KPT\DataTables\DataTables($dbconf);
+$dt = new \KPT\DataTables($dbconf);
 
 // setup the form fields
 $formFields = KPTV::view_configs('filters', userId: $userId)->form;

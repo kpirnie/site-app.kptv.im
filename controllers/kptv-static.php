@@ -2455,10 +2455,12 @@ if (! class_exists('KPTV_Static')) {
                 ->asArray()
                 ->fetch();
 
-            // loop the array
-            foreach ($rs as $rec) {
-                // set the array items
-                $ret[$rec['id']] = $rec['sp_name'];
+            // loop the array, if it is an array
+            if (is_array($rs)) {
+                foreach ($rs as $rec) {
+                    // set the array items
+                    $ret[$rec['id']] = $rec['sp_name'];
+                }
             }
 
             // return them

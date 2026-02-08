@@ -57,7 +57,7 @@ defined('KPTV_PATH') || die('Direct Access is not allowed!');
 <script type="text/javascript" src="//vjs.zencdn.net/8.6.1/video.min.js" defer></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/mpegts.js@latest" defer></script>
-<?php echo \KPT\DataTables\DataTables::getJsIncludes('uikit', true, true); ?>
+<?php echo \KPT\DataTables::getJsIncludes('uikit', true, false); ?>
 <script src="/assets/js/kptv.min.js" defer></script>
 <script type="text/javascript" src="/assets/js/custom.js?_=<?php echo time(); ?>" defer></script>
 </body>

@@ -20,7 +20,7 @@ $userForExport = KPTV::encrypt($userId);
 $dbconf = (array) KPTV::get_setting('database');
 
 // fire up the datatables class
-$dt = new \KPT\DataTables\DataTables($dbconf);
+$dt = new \KPT\DataTables($dbconf);
 
 // setup the form fields
 $formFieldsConfig = KPTV::view_configs('providers', userId: $userId)->form;
@@ -41,7 +41,7 @@ $dt->table('kptv_stream_providers p')
     ->primaryKey('p.id')
     ->columns([
         'p.id' => 'ID',
-        'p.sp_should_filter' => ['type' => 'boolean', 'label' => 'Filter'],
+        'p.sp_should_filter' => ['type' => 'boolean', 'label' => 'Active'],
         'p.sp_priority' => [
             'label' => 'Priority',
         ],

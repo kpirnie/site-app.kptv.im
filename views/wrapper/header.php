@@ -41,7 +41,7 @@ $route_path = $current_route->path;
     <link rel="preconnect" href="//fonts.googleapis.com">
     <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
-    <?php echo \KPT\DataTables\DataTables::getCssIncludes('uikit', true, true); ?>
+    <?php echo \KPT\DataTables::getCssIncludes('uikit', true, true); ?>
     <link rel="stylesheet" href="/assets/css/kptv.min.css" />
     <link rel="stylesheet" href="/assets/css/custom.css?_=<?php echo time(); ?>" />
     <link rel="icon" type="image/png" href="/assets/images/kptv-icon.png" />
@@ -50,12 +50,12 @@ $route_path = $current_route->path;
 <body uk-height-viewport="offset-top: true">
     <?php
     // main navigation
-    include KPTV_PATH . 'views/wrapper/nav-main.php';
+    KPTV::include_view('wrapper/nav-main');
     ?>
     <div uk-grid class="uk-grid-collapse uk-flex-1" uk-height-viewport="expand: true">
         <?php
         // include the sidebar
-        include KPTV_PATH . 'views/wrapper/sidebar.php';
+        KPTV::include_view('wrapper/sidebar');
         ?>
         <div class="uk-width-expand">
             <main class="kptv-main">

@@ -21,7 +21,6 @@ class ComposerStaticInit2af29beba30e96aa03602b3d36e52aba
         'K' =>
         array (
             'Kptv\\IptvSync\\' => 14,
-            'KPT\\DataTables\\' => 15,
             'KPT\\' => 4,
         ),
         'G' =>
@@ -46,16 +45,13 @@ class ComposerStaticInit2af29beba30e96aa03602b3d36e52aba
         array (
             0 => __DIR__ . '/../..' . '/sync/src',
         ),
-        'KPT\\DataTables\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class',
-        ),
         'KPT\\' =>
         array (
             0 => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src',
-            1 => __DIR__ . '/..' . '/kevinpirnie/kpt-database/src',
-            2 => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src',
-            3 => __DIR__ . '/..' . '/kevinpirnie/kpt-logger/src',
+            1 => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class',
+            2 => __DIR__ . '/..' . '/kevinpirnie/kpt-database/src',
+            3 => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src',
+            4 => __DIR__ . '/..' . '/kevinpirnie/kpt-logger/src',
         ),
         'GuzzleHttp\\Psr7\\' =>
         array (
@@ -166,6 +162,7 @@ class ComposerStaticInit2af29beba30e96aa03602b3d36e52aba
         'KPTV_Stream_Playlists' => __DIR__ . '/../..' . '/controllers/kptv-stream-playlists.php',
         'KPTV_User' => __DIR__ . '/../..' . '/controllers/kptv-user.php',
         'KPTV_Xtream_API' => __DIR__ . '/../..' . '/controllers/kptv-xtreme-api.php',
+        'KPT\\AjaxHandler' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/AjaxHandler.php',
         'KPT\\Cache' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache.php',
         'KPT\\CacheAPCU' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/backends/apcu.php',
         'KPT\\CacheArray' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/backends/array.php',
@@ -189,19 +186,18 @@ class ComposerStaticInit2af29beba30e96aa03602b3d36e52aba
         'KPT\\CacheSQLite' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/backends/sqlite.php',
         'KPT\\CacheTierManager' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/managers/tier.php',
         'KPT\\CacheYAC' => __DIR__ . '/..' . '/kevinpirnie/kpt-cache/src/cache/backends/yac.php',
-        'KPT\\DataTables\\AjaxHandler' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/AjaxHandler.php',
-        'KPT\\DataTables\\DataTables' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/DataTables.php',
-        'KPT\\DataTables\\DataTablesBase' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/DataTablesBase.php',
-        'KPT\\DataTables\\Renderer' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/Renderer.php',
-        'KPT\\DataTables\\ThemeManager' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/ThemeManager.php',
+        'KPT\\DataTables' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/DataTables.php',
+        'KPT\\DataTablesBase' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/DataTablesBase.php',
         'KPT\\Database' => __DIR__ . '/..' . '/kevinpirnie/kpt-database/src/Database.php',
         'KPT\\Logger' => __DIR__ . '/..' . '/kevinpirnie/kpt-logger/src/Logger.php',
+        'KPT\\Renderer' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/Renderer.php',
         'KPT\\Router' => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src/router.php',
         'KPT\\RouterMiddlewareHandler' => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src/router/middleware.php',
         'KPT\\RouterRateLimiter' => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src/router/ratelimiter.php',
         'KPT\\RouterRequestProcessor' => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src/router/request-processor.php',
         'KPT\\RouterResponseHandler' => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src/router/response-handler.php',
         'KPT\\RouterRouteHandler' => __DIR__ . '/..' . '/kevinpirnie/kpt-router/src/router/route-handler.php',
+        'KPT\\ThemeManager' => __DIR__ . '/..' . '/kevinpirnie/kpt-datatables/src/class/ThemeManager.php',
         'Kptv\\IptvSync\\Config' => __DIR__ . '/../..' . '/sync/src/Config.php',
         'Kptv\\IptvSync\\Database\\ComparisonOperator' => __DIR__ . '/../..' . '/sync/src/Database/ComparisonOperator.php',
         'Kptv\\IptvSync\\Database\\OrderByClause' => __DIR__ . '/../..' . '/sync/src/Database/OrderByClause.php',
