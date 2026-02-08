@@ -77,6 +77,28 @@ if (! class_exists('KPTV_Static')) {
 
             // just return the matching config we need to present
             return (object) match ($which) {
+                'epg' => [
+                    'bulk' => [],
+                    'row' => [],
+                    'form' => [
+                        'u_id' => [
+                            'type' => 'hidden',
+                            'value' => $userId,
+                            'required' => true
+                        ],
+                        'se_active' => [
+                            'label' => 'Active',
+                            'type' => 'boolean',
+                            'required' => true,
+                            'class' => 'uk-width-1-2 uk-margin-bottom',
+                        ],
+                        'se_source' => [
+                            'type' => 'url',
+                            'label' => 'Source',
+                            'class' => 'uk-width-1-1',
+                        ],
+                    ]
+                ],
                 'filters' => [
                     'bulk' => [],
                     'row' => [],

@@ -19,47 +19,37 @@ $dbconf = (array) KPTV::get_setting('database');
 // fire up the datatables class
 $dt = new KPT\DataTables($dbconf);
 
-// setup the row actions - extract from view_configs
-$bulkActionsConfig = KPTV::view_configs('missing')->bulk;
-
-// setup the row actions - extract from view_configs
-$rowActionsConfig = KPTV::view_configs('missing')->row;
+// setup the form fields
+$formFields = KPTV::view_configs('epg', userId: $userId)->form;
 
 // configure the datatable
-/*
-$dt->table('kptv_stream_missing m')
-    ->primaryKey('m.id')  // Use qualified primary key
-    ->join('LEFT', 'kptv_stream_providers p', 'm.p_id = p.id')
-    ->join('LEFT', 'kptv_streams s', 'm.stream_id = s.id')
+$dt->table('kptv_stream_epgs')
+    ->theme('uikit', true)
+    ->tableClass('uk-table uk-table-divider uk-table-small uk-margin-bottom')
     ->where([
         [ // unless specified as OR, it should always be AND
-            'field' => 'm.u_id',
+            'field' => 'u_id',
             'comparison' => '=', // =, !=, >, <, <>, <=, >=, LIKE, NOT LIKE, IN, NOT IN, REGEXP
             'value' => $userId
         ],
     ])
-    ->tableClass('uk-table uk-table-divider uk-table-small uk-margin-bottom')
     ->columns([
-        'm.id' => 'ID',
-        'm.stream_id' => "StreamID",
-        'COALESCE(s.s_stream_uri, "N/A") AS TheStream' => "Stream",
-        'COALESCE(s.s_orig_name, "N/A") AS TheOrigName' => 'Original Name',
-        'p.sp_name' => 'Provider',
+        'id' => 'ID',
+        'se_active ' => ['type' => 'boolean', 'label' => 'Active'],
+        'se_source' => 'Source',
     ])
     ->columnClasses([
-        'm.id' => 'hide-col',
-        'm.stream_id' => 'hide-col',
-        'TheStream' => 'txt-truncate',
-        'TheOrigName' => 'txt-truncate',
-        'p.sp_name' => 'txt-truncate',
+        'id' => 'hide-col',
     ])
-    ->sortable(['TheOrigName', 'p.sp_name'])
-    ->defaultSort('TheOrigName', 'ASC')
+    ->sortable(['se_active', 'se_source',])
+    ->defaultSort('se_active', 'ASC')
+    ->inlineEditable(['se_active', 'se_source'])
     ->perPage(25)
     ->pageSizeOptions([25, 50, 100, 250], true)
-    ->bulkActions(true, $bulkActionsConfig)
-    ->actionGroups($rowActionsConfig);
-*/
+    ->bulkActions(true)
+    ->actions('end', true, true, [])
+    ->addForm('Add an EPG', $formFields, class: 'uk-grid-small uk-grid')
+    ->editForm('Update an EPG', $formFields, class: 'uk-grid-small uk-grid');
 
 // Handle AJAX requests (before any HTML output)
 if (isset($_POST['action']) || isset($_GET['action'])) {
@@ -81,7 +71,7 @@ KPTV::pull_header();
     <?php
 
     // write out the datatable component
-    //echo $dt->renderDataTableComponent();
+    echo $dt->renderDataTableComponent();
     ?>
 </div>
 <div class="uk-border-top">
