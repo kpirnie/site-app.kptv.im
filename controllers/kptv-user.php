@@ -385,30 +385,7 @@ if (! class_exists('KPTV_User')) {
          */
         public static function is_user_logged_in(): bool
         {
-            if (!isset($_COOKIE[self::COOKIE_NAME])) {
-                return false;
-            }
-
-            try {
-                // Decrypt user ID from cookie
-                $encryptedUserId = base64_decode($_COOKIE[self::COOKIE_NAME]);
-                $userId = KPTV::decrypt($encryptedUserId);
-
-                if (!$userId || !is_numeric($userId)) {
-                    return false;
-                }
-
-                // Check if user exists and is active
-                $db = new self();
-                $user = $db->query('SELECT id FROM kptv_users WHERE id = ? AND u_active = 1')
-                    ->bind([$userId])
-                    ->single()
-                    ->fetch();
-
-                return $user !== false;
-            } catch (Exception $e) {
-                return false;
-            }
+            return self::get_current_user() !== false;
         }
 
         /**
@@ -430,7 +407,7 @@ if (! class_exists('KPTV_User')) {
             try {
                 // Decrypt user ID from cookie
                 $encryptedUserId = base64_decode($_COOKIE[self::COOKIE_NAME]);
-                $userId = KPTV::decrypt($encryptedUserId, KPTV::get_setting('mainkey'));
+                $userId = KPTV::decrypt($encryptedUserId);
 
                 if (!$userId || !is_numeric($userId)) {
                     return false;
@@ -785,24 +762,16 @@ if (! class_exists('KPTV_User')) {
          */
         private function incrementLoginAttempts(int $userId): void
         {
-            $user = $this->query('SELECT login_attempts FROM kptv_users WHERE id = ?')
-                ->bind([$userId])
-                ->single()
-                ->fetch();
-
-            $attempts = $user ? $user->login_attempts + 1 : 1;
-
-            if ($attempts >= self::MAX_LOGIN_ATTEMPTS) {
-                $lockTime = date('Y-m-d H:i:s', time() + self::LOCKOUT_TIME);
-
-                $this->query('UPDATE kptv_users SET login_attempts = ?, locked_until = ? WHERE id = ?')
-                    ->bind([$attempts, $lockTime, $userId])
-                    ->execute();
-            } else {
-                $this->query('UPDATE kptv_users SET login_attempts = ? WHERE id = ?')
-                    ->bind([$attempts, $userId])
-                    ->execute();
-            }
+            $this->query(
+                'UPDATE kptv_users SET 
+                    login_attempts = login_attempts + 1,
+                    locked_until = CASE 
+                        WHEN login_attempts + 1 >= ? THEN DATE_ADD(NOW(), INTERVAL ? SECOND)
+                        ELSE locked_until 
+                    END
+                WHERE id = ?'
+            )->bind([self::MAX_LOGIN_ATTEMPTS, self::LOCKOUT_TIME, $userId])
+                ->execute();
         }
 
         /**
@@ -969,14 +938,8 @@ if (! class_exists('KPTV_User')) {
          */
         public function get_users_paginated(int $limit, int $offset): array
         {
-            $query = 'SELECT * FROM kptv_users ORDER BY u_created DESC';
-
-            if ($limit > 0) {
-                $query .= " LIMIT $limit OFFSET $offset";
-                return $this->query($query)->many()->fetch();
-            }
-
-            return $this->query($query)->many()->fetch();
+            $query = 'SELECT * FROM kptv_users ORDER BY u_created DESC LIMIT ? OFFSET ?';
+            return $this->query($query)->bind([$limit, $offset])->many()->fetch();
         }
 
         /**
