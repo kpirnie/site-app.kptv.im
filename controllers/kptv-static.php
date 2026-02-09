@@ -109,9 +109,14 @@ if (! class_exists('KPTV_Static')) {
                     'row' => [],
                     'form' => [
                         'u_id' => [
-                            'type' => 'hidden',
-                            'value' => $userId,
-                            'required' => true
+                            'label' => 'User',
+                            'type' => 'select2',
+                            'query' => 'SELECT id AS ID, u_name AS Label FROM kptv_users',
+                            'placeholder' => 'Select a user...',
+                            'required' => true,
+                            'min_search_chars' => 2,
+                            'max_results' => 50,
+                            'class' => 'uk-width-1-1',
                         ],
                         'sf_active' => [
                             'label' => 'Active',
@@ -137,6 +142,12 @@ if (! class_exists('KPTV_Static')) {
                             'label' => 'Filter',
                             'class' => 'uk-width-1-1',
                         ],
+                        /*'u_id' => [
+                            'type' => 'hidden',
+                            'value' => $userId,
+                            'required' => true
+                        ],*/
+
                     ]
                 ],
                 'providers' => [
@@ -893,6 +904,7 @@ if (! class_exists('KPTV_Static')) {
                             'value' => $userId,
                             'required' => true
                         ],
+
                         's_name' => [
                             'type' => 'text',
                             'required' => true,

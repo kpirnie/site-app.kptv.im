@@ -47,6 +47,16 @@ $dt->table('kptv_stream_filters')
                 '4' => 'Exclude Group (regex)',
             ]
         ],
+        'u_id' => [
+            'label' => 'User',
+            'type' => 'select2',
+            'query' => 'SELECT id AS ID, u_name AS Label FROM kptv_users',
+            'placeholder' => 'Select a user...',
+            'required' => true,
+            'min_search_chars' => 2,
+            'max_results' => 50,
+            'class' => 'uk-width-1-1',
+        ],
         'sf_filter' => 'Filter',
     ])
     ->columnClasses([
@@ -54,7 +64,7 @@ $dt->table('kptv_stream_filters')
     ])
     ->sortable(['sf_active', 'sf_type_id',])
     ->defaultSort('sf_type_id', 'ASC')
-    ->inlineEditable(['sf_active', 'sf_type_id', 'sf_filter'])
+    ->inlineEditable(['u_id', 'sf_active', 'sf_type_id', 'sf_filter'])
     ->perPage(25)
     ->pageSizeOptions([25, 50, 100, 250], true)
     ->bulkActions(true)

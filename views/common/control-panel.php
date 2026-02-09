@@ -25,7 +25,7 @@ defined('KPTV_PATH') || die('Direct Access is not allowed!');
             <?php echo $dt->renderBulkActionsComponent(); ?>
         </div>
     </div>
-    <?php if (! in_array($dt->getBaseTableName(), ['kptv_stream_providers'])) { ?>
+    <?php if (! in_array($dt->getBaseTableName(), ['kptv_stream_providers', 'kptv_stream_epgs',])) { ?>
         <div class="uk-width-1-1">
             <div class="" uk-grid>
                 <div class="uk-width-1-1 uk-width-1-2@s">
