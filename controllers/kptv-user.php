@@ -392,7 +392,7 @@ if (! class_exists('KPTV_User')) {
             try {
                 // Decrypt user ID from cookie
                 $encryptedUserId = base64_decode($_COOKIE[self::COOKIE_NAME]);
-                $userId = KPTV::decrypt($encryptedUserId, KPTV::get_setting('mainkey'));
+                $userId = KPTV::decrypt($encryptedUserId);
 
                 if (!$userId || !is_numeric($userId)) {
                     return false;
@@ -761,7 +761,7 @@ if (! class_exists('KPTV_User')) {
             $this->rehash_password($user->id, $password);
 
             // Encrypt user ID and set cookie
-            $encryptedUserId = base64_encode(KPTV::encrypt($user->id, KPTV::get_setting('mainkey')));
+            $encryptedUserId = base64_encode(KPTV::encrypt($user->id));
 
             setcookie(
                 self::COOKIE_NAME,
@@ -1047,10 +1047,10 @@ if (! class_exists('KPTV_User')) {
             $prefix = TBL_PREFIX;
 
             // Delete from all related tables
-            $this->query("DELETE FROM {$prefix}streams WHERE id = ?")->bind([$userId])->execute();
-            $this->query("DELETE FROM {$prefix}stream_filters WHERE id = ?")->bind([$userId])->execute();
-            $this->query("DELETE FROM {$prefix}stream_other WHERE id = ?")->bind([$userId])->execute();
-            $this->query("DELETE FROM {$prefix}stream_providers WHERE id = ?")->bind([$userId])->execute();
+            $this->query("DELETE FROM {$prefix}streams WHERE u_id = ?")->bind([$userId])->execute();
+            $this->query("DELETE FROM {$prefix}stream_filters WHERE u_id = ?")->bind([$userId])->execute();
+            $this->query("DELETE FROM {$prefix}stream_other WHERE u_id = ?")->bind([$userId])->execute();
+            $this->query("DELETE FROM {$prefix}stream_providers WHERE u_id = ?")->bind([$userId])->execute();
 
             // Delete the user
             $this->query("DELETE FROM {$prefix}users WHERE id = ?")->bind([$userId])->execute();

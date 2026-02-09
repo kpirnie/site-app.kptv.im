@@ -74,7 +74,6 @@ if (! class_exists('KPTV_Static')) {
             $userForExport = $extras['userForExport'] ?? '';
             $userId = $extras['userId'] ?? 0;
 
-
             // just return the matching config we need to present
             return (object) match ($which) {
                 'epg' => [
@@ -770,7 +769,7 @@ if (! class_exists('KPTV_Static')) {
                                 'callback' => function ($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    KPTV::moveToType($database, $rowId, 0);
+                                    return KPTV::moveToType($database, $rowId, 0);
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -812,7 +811,7 @@ if (! class_exists('KPTV_Static')) {
                                 'callback' => function($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    KPTV::moveToType( $database, $rowId, 0 );
+                                    returnKPTV::moveToType( $database, $rowId, 0 );
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -866,7 +865,7 @@ if (! class_exists('KPTV_Static')) {
                                 'callback' => function ($rowId, $rowData, $database, $tableName) {
 
                                     // move the stream
-                                    KPTV::moveToType($database, $rowId, 0);
+                                    return KPTV::moveToType($database, $rowId, 0);
                                 },
                                 'confirm' => 'Are you sure you want to move this stream?',
                                 'success_message' => 'The stream has been moved.',
@@ -1352,7 +1351,7 @@ if (! class_exists('KPTV_Static')) {
          * @return void This method returns nothing
          * 
          */
-        public static function try_redirect(string $_location, int $_status = 301): void
+        public static function try_redirect(string $location, int $status = 301): void
         {
 
             // setup an error handler to handle the possible PHP warning you could get for modifying headers after output
@@ -1366,13 +1365,16 @@ if (! class_exists('KPTV_Static')) {
             try {
 
                 // try to redirect
-                header("Location: $_location", true, $_status);
+                header("Location: $location", true, $status);
 
                 // caught it!
             } catch (\ErrorException $e) {
 
+                // escape the location for output
+                $escapedLocation = json_encode($location, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+
                 // use javascript to do the redirect instead, as a fallback
-                echo '<script type="text/javascript">setTimeout( function( ) { window.location.href="' . $_location . '"; }, 100 );</script>';
+                echo '<script type="text/javascript">setTimeout( function( ) { window.location.href="' . $escapedLocation . '"; }, 100 );</script>';
             }
 
             // return the default error handler
@@ -1753,28 +1755,14 @@ if (! class_exists('KPTV_Static')) {
             // hold the character set
             $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%*';
 
-            // setup the returnable array
-            $_ret = array();
+            // setup the randomizer
+            $randomizer = new \Random\Randomizer(new \Random\Engine\Secure());
 
             // hold the length of the character set
-            $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+            $length = $randomizer->getInt($_min_length, 64);
 
-            // get a random length
-            $_length = rand($_min_length, 64);
-
-            // loop over the alphabet string
-            for ($i = 0; $i < $_length; ++$i) {
-
-                // generate a random character
-                $n = rand(0, $alphaLength);
-
-                // add it to the outputting array
-                $_ret[] = $alphabet[$n];
-            }
-
-            // return the string
-            return implode($_ret); //turn the array into a string   
-
+            // return the random string
+            return $randomizer->getBytesFromString($alphabet, $length);
         }
 
         /** 
@@ -1799,28 +1787,14 @@ if (! class_exists('KPTV_Static')) {
             // hold the character set
             $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 
-            // setup the returnable array
-            $_ret = array();
+            // setup the randomizer
+            $randomizer = new \Random\Randomizer(new \Random\Engine\Secure());
 
             // hold the length of the character set
-            $alphaLength = strlen($alphabet) - 1;
+            $length = $randomizer->getInt($_min_length, 64);
 
-            // get a random length
-            $_length = rand($_min_length, 64);
-
-            // loop over the alphabet string
-            for ($i = 0; $i < $_length; ++$i) {
-
-                // generate a random character
-                $n = rand(0, $alphaLength);
-
-                // add it to the outputting array
-                $_ret[] = $alphabet[$n];
-            }
-
-            // return the string
-            return implode($_ret); //turn the array into a string   
-
+            // return the random string
+            return $randomizer->getBytesFromString($alphabet, $length);
         }
 
         /** 
@@ -2422,6 +2396,7 @@ if (! class_exists('KPTV_Static')) {
             // include the header and pass data if any
             self::include_view('wrapper/footer', $data);
         }
+
 
         public static function moveToType($db, int $id, int $type = 99): bool
         {

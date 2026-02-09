@@ -227,7 +227,7 @@ $get_stream_routes = [
         'method' => 'GET',
         'path' => '/proxy/stream',
         'middleware' => ['auth_required'],
-        'handler' => 'LiveStreamProxy@handleStreamPlayback'
+        'handler' => 'KPTV_Proxy@handleStreamPlayback'
     ],
 
     // XtreamCodes API routes - Standard player_api.php endpoint

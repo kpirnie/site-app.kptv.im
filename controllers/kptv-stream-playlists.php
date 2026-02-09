@@ -207,11 +207,9 @@ if (! class_exists('KPTV_Stream_Playlists')) {
                     // start creating the EXTINF line
                     $extinf = sprintf('#EXTINF:-1 tvg-name="%s" tvg-chno="%s" tvg-type="%s"', $rec->TvgName, $rec->TvgChNo, $rec->TvgType);
 
-                    // if there's a tvg-group
-                    if (! empty($rec->TvgGroup)) {
-                        $extinf .= sprintf(' tvg-group="%s"', $which);
-                        $extinf .= sprintf(' group-title="%s"', $which);
-                    }
+                    // write the group for the m3u
+                    $extinf .= sprintf(' tvg-group="%s"', $which);
+                    $extinf .= sprintf(' group-title="%s"', $which);
 
                     // if there's a tvg-id
                     if (! empty($rec->TvgID)) {

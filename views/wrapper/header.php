@@ -17,11 +17,10 @@ defined('KPTV_PATH') || die('Direct Access is not allowed!');
 // get the route we're in
 $current_route = \KPT\Router::getCurrentRoute();
 
-// get ther user id for the export
-$user_for_export = KPTV::encrypt((KPTV_User::get_current_user()->id) ?? 0);
-
-// get the user role
-$user_role = (KPTV_User::get_current_user()->role) ?? 0;
+// get the current user and role
+$currentUser = KPTV_User::get_current_user() ?: null;
+$user_for_export = KPTV::encrypt($currentUser?->id ?: 0);
+$user_role = $currentUser?->role ?: 0;
 
 // hold the route path
 $route_path = $current_route->path;
@@ -60,6 +59,7 @@ $route_path = $current_route->path;
         <div class="uk-width-expand">
             <main class="kptv-main">
                 <?php
+
                 // if there is a message to be shown
                 if (isset($_SESSION) && isset($_SESSION['page_msg'])) {
 

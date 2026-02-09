@@ -51,7 +51,6 @@ defined('KPTV_PATH') || die('Direct Access is not allowed!');
                                 <ul class="uk-nav uk-navbar-dropdown-nav uk-nav-parent-icon">
                                     <li><a href="/providers">Your Providers</a></li>
                                     <li><a href="/filters">Your Filters</a></li>
-                                    <li><a href="/epgs">Your EPGs</a></li>
                                     <li class="uk-parent">
                                         <a href="/streams/live/all">Live Streams</a>
                                         <ul class="uk-nav-sub">
