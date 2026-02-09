@@ -92,6 +92,11 @@ if (! class_exists('KPTV_Static')) {
                             'required' => true,
                             'class' => 'uk-width-1-2 uk-margin-bottom',
                         ],
+                        'se_name' => [
+                            'label' => 'Name',
+                            'type' => 'text',
+                            'class' => 'uk-width-1-2 uk-margin-bottom',
+                        ],
                         'se_source' => [
                             'type' => 'url',
                             'label' => 'Source',

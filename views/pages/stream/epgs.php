@@ -35,17 +35,18 @@ $dt->table('kptv_stream_epgs')
     ])
     ->columns([
         'id' => 'ID',
-        'se_active ' => ['type' => 'boolean', 'label' => 'Active'],
+        'se_active' => ['type' => 'boolean', 'label' => 'Active'],
+        'se_name' => 'Name',
         'se_source' => 'Source',
     ])
     ->columnClasses([
         'id' => 'hide-col',
+        'se_active' => 'uk-min-width',
+        'se_name' => 'uk-min-width',
     ])
-    ->sortable(['se_active', 'se_source',])
+    ->sortable(['se_active', 'se_source', 'se_name',])
     ->defaultSort('se_active', 'ASC')
-    ->inlineEditable(['se_active', 'se_source'])
-    ->perPage(25)
-    ->pageSizeOptions([25, 50, 100, 250], true)
+    ->inlineEditable(['se_active', 'se_source', 'se_name',])
     ->bulkActions(true)
     ->actions('end', true, true, [])
     ->addForm('Add an EPG', $formFields, class: 'uk-grid-small uk-grid')

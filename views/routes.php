@@ -346,6 +346,14 @@ $post_stream_routes = [
         //'handler' => 'KPTV_Stream_Providers@handleFormSubmission', // Class@Method
     ],
 
+    // EPGs form submission
+    [
+        'method' => 'POST',
+        'path' => '/epgs',
+        'handler' => 'view:pages/stream/epgs.php',
+        'should_cache' => false,
+    ],
+
     // Streams form submission with parameters
     [
         'method' => 'POST',
